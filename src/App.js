@@ -12,7 +12,7 @@ class App extends Component {
       <Layout style={{ minHeight: '100vh' }}>
         <SideBar/>
         <Layout>
-          <Header style={{ background: '#ffd', padding: 0 }}>
+          <Header style={{ background: '#fff', padding: 0 }}>
           </Header>
           <Content style={{ margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280 }}>
             Welcome to LandLord
