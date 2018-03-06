@@ -38,7 +38,7 @@ const landLord = {
     ],
     contracts: [
       {
-        unit_id: 1234,
+        unit_id: [1234,],
         renter_id: 1234,
         rent_start_date: "8/1/17",
         rent_end_date: "8/1/19",

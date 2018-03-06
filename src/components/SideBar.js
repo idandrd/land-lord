@@ -1,38 +1,22 @@
-import React, { Component } from 'react';
-import { Layout, Menu, Icon } from 'antd';
+import React, { Component } from 'react'
+import { Layout, Menu, Icon } from 'antd'
+import { NavLink, Link } from 'react-router-dom'
 
 const { Sider } = Layout;
 const SubMenu = Menu.SubMenu;
 
+const strings = {
+  tastks: 'משימות',
+  assets: 'נכסים',
+  tenants: 'שוכרים',
+  contracts: 'חוזים',
+}
+
 class SideBar extends Component {
   state = {
     collapsed: false,
-    menu: [
-      {
-        title: 'משימות',
-        icon: 'pie-chart',
-      },
-      {
-        title: 'נכסים',
-        icon: 'desktop',
-      },
-      {
-        title: 'אנשי קשר',
-        icon: '',
-        submenus: [
-          {
-            title: 'עידן',
-          },
-          {
-            title: 'אורן',
-          },
-          {
-            title: 'לרנר',
-          },
-        ],
-      },
-    ],
-  };
+  }
+
 
   onCollapse = (collapsed) => {
     console.log(collapsed);
@@ -40,32 +24,31 @@ class SideBar extends Component {
   }
 
   render() {
+    const { collapsed } = this.state
     return (
       <Sider
         collapsible
-        collapsed={this.state.collapsed}
+        collapsed={collapsed}
         onCollapse={this.onCollapse}>
         <div className="logo" />
         <Menu theme="dark" defaultSelectedKeys={['1']} mode="inline">
           <Menu.Item key="1">
             <Icon type="pie-chart" />
-            <span>משימות</span>
+            <span>{strings.tastks}</span>
           </Menu.Item>
           <Menu.Item key="2">
             <Icon type="desktop" />
-            <span>נכסים</span>
+            <span>{strings.assets}</span>
+          </Menu.Item>
+          <Menu.Item key="10">
+          <Link to='/tenants'>
+            <Icon type="team" />
+            <span>{strings.tenants}</span>
+            </Link>
           </Menu.Item>
           <SubMenu
-            key="sub1"
-            title={<span><Icon type="user" /><span>אנשי קשר</span></span>}
-          >
-            <Menu.Item key="3">Idan</Menu.Item>
-            <Menu.Item key="4">Oren</Menu.Item>
-            <Menu.Item key="5">Lerner</Menu.Item>
-          </SubMenu>
-          <SubMenu
             key="sub2"
-            title={<span><Icon type="team" /><span>Team</span></span>}
+            title={<span><Icon type="user" /><span>Team</span></span>}
           >
             <Menu.Item key="6">Team 1</Menu.Item>
             <Menu.Item key="8">Team 2</Menu.Item>
