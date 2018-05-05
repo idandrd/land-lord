@@ -1,63 +1,46 @@
-import React, {Component} from 'react';
-import { Form, Input, Icon, Button, Tooltip, Radio, TextArea } from 'antd';
-
-const FormItem = Form.Item;
-const RadioButton = Radio.Button;
-const RadioGroup = Radio.Group;
-const Textos = Input.TextArea;
+import React from "react";
+import PropTypes from "prop-types";
+import { Input, Button } from "antd";
 
 const strings = {
-  nameLabel: 'שם',
-  roleLabel: 'תפקיד',
-  phoneLabel: 'טלפון',
-  emailLabel: 'מייל',
-}
+  nameLabel: "שם",
+  roleLabel: "תפקיד",
+  phoneLabel: "טלפון",
+  emailLabel: "מייל"
+};
 
-
-class ContactForm extends Component {
-  state = {};
-
-  handleSubmit = (e) => {
-    e.preventDefault()
-  }
-
+export class ContactForm extends React.Component {
   render() {
-    const { getFieldDecorator } = this.props;
-    
+    const { fieldValues, actions } = this.props;
     return (
       <div>
-        
-        <FormItem label={strings.nameLabel}>
-          {getFieldDecorator('name', {
-            rules: [{ required: true, message: strings.missingRequiredField }],
-          })(
-            <Input/>
-          )}
-        </FormItem>
-        
-        <FormItem label={strings.roleLabel}>
-          {getFieldDecorator('role')(
-            <Input/>
-          )}
-        </FormItem>
-
-        <FormItem label={strings.phoneLabel}>
-          {getFieldDecorator('phone')(
-            <Input/>
-          )}
-        </FormItem>
-
-        <FormItem label={strings.emailLabel}>
-          {getFieldDecorator('email', {
-            rules: [{type: 'email', message: 'The input is not valid E-mail!',}]
-          })(
-            <Input/>
-          )}
-        </FormItem>
-
+        <Input
+          placeholder={strings.nameLabel}
+          value={fieldValues.name}
+          onChange={e => actions.setContactName(e.target.value)}
+        />
+        <Input
+          placeholder={strings.roleLabel}
+          value={fieldValues.role}
+          onChange={e => actions.setContactRole(e.target.value)}
+        />
+        <Input
+          placeholder={strings.phoneLabel}
+          value={fieldValues.phone}
+          onChange={e => actions.setContactPhone(e.target.value)}
+        />
+        <Input
+          placeholder={strings.emailLabel}
+          value={fieldValues.email}
+          onChange={e => actions.setContactEmail(e.target.value)}
+        />
+        <Button onClick={actions.removeContact}>X</Button>
       </div>
     );
   }
 }
 
-export default Form.create()(ContactForm);
+ContactForm.propTypes = {
+  fieldValues: PropTypes.any,
+  actions: PropTypes.any
+};

@@ -1,51 +1,63 @@
 import React from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
-import { TenantForm } from "../components/TenantForm";
-import { Actions } from "../actions/tenantForm";
+import { NewTenant } from "../components/views/NewTenant";
+import {
+  TenantActions,
+  ContactActions,
+  FormActions
+} from "../redux/actions/tenantForm";
 
 const Container = props => {
-  const fields = {
-    isBusiness: {
-      value: props.tenantIsBusiness,
-      onChange: props.setTenantIsBusiness
-    },
-    name: {
-      value: props.tenantName,
-      onChange: props.setTenantName
-    },
-    num: {
-      value: props.tenantNum,
-      onChange: props.setTenantNum
-    },
-    type: {
-      value: props.tenantType,
-      onChange: props.setTenantType
-    },
-    comments: {
-      value: props.tenantComments,
-      onChange: props.setTenantComments
-    }
+  const contacts = [
+    ...props.tenant.contacts.map((v, k) => ({ ...v, id: k })).values()
+  ];
+  const tenant = { ...props.tenant, contacts };
+
+  const actions = {
+    setTenantIsBusiness: props.setTenantIsBusiness,
+    setTenantName: props.setTenantName,
+    setTenantNum: props.setTenantNum,
+    setTenantType: props.setTenantType,
+    setTenantComments: props.setTenantComments,
+    addContact: props.addContact,
+    onSubmit: props.onSubmit
   };
-  return <TenantForm fields={fields} />;
+
+  const contactActions = {
+    setContactName: props.setContactName,
+    setContactRole: props.setContactRole,
+    setContactPhone: props.setContactPhone,
+    setContactEmail: props.setContactEmail,
+    removeContact: props.removeContact
+  };
+
+  const formProps = { tenant, actions, contactActions };
+  return <NewTenant {...formProps} />;
 };
 
 const mapStateToProps = state => ({
-  tenantIsBusiness: state.TenantForm.tenantIsBusiness,
-  tenantName: state.TenantForm.tenantName,
-  tenantNum: state.TenantForm.tenantNum,
-  tenantType: state.TenantForm.tenantType,
-  tenantComments: state.TenantForm.tenantComments
+  tenant: state.TenantForm.tenant
 });
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      setTenantIsBusiness: Actions.setTenantIsBusiness,
-      setTenantName: Actions.setTenantName,
-      setTenantNum: Actions.setTenantNum,
-      setTenantType: Actions.setTenantType,
-      setTenantComments: Actions.setTenantComments
+      setTenantIsBusiness: TenantActions.setTenantIsBusiness,
+      setTenantName: TenantActions.setTenantName,
+      setTenantNum: TenantActions.setTenantNum,
+      setTenantType: TenantActions.setTenantType,
+      setTenantComments: TenantActions.setTenantComments,
+
+      addContact: TenantActions.addContact,
+      removeContact: ContactActions.removeContact,
+
+      setContactName: ContactActions.setContactName,
+      setContactRole: ContactActions.setContactRole,
+      setContactPhone: ContactActions.setContactPhone,
+      setContactEmail: ContactActions.setContactEmail,
+
+      onSubmit: FormActions.saveTenant
     },
     dispatch
   );

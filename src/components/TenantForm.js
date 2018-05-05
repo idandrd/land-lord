@@ -1,17 +1,8 @@
 import React, { Component } from "react";
-import {
-  Form,
-  Input,
-  Icon,
-  Button,
-  Tooltip,
-  Radio,
-  TextArea,
-  Divider,
-  Row,
-  Col
-} from "antd";
-import ContactForm from "./ContactForm";
+import PropTypes from "prop-types";
+import * as _ from "lodash";
+import { Form, Input, Button, Radio, Divider } from "antd";
+import { ContactForm } from "./ContactForm";
 
 const FormItem = Form.Item;
 const RadioButton = Radio.Button;
@@ -30,21 +21,19 @@ const strings = {
   missingRequiredField: "אנא מלא שדה זה",
   submitLabel: "שמור",
   contacts: "אנשי קשר",
-  privateTypeValue: "מגורים"
+  privateTypeValue: "מגורים",
+  addContact: "איש קשר חדש"
 };
 
 export class TenantForm extends Component {
   state = { lastBusinessType: "" };
   render() {
-    const { fields } = this.props;
+    const { tenant, actions, contactActions } = this.props;
     return (
-      <Form
-        onSubmit={() => console.log("Submited!!")}
-        style={{ direction: "rtl" }}
-      >
+      <Form style={{ direction: "rtl" }}>
         <FormItem>
           <RadioGroup
-            value={fields.isBusiness.value}
+            value={tenant.isBusiness}
             onChange={this.handleIsBusinessChange}
           >
             <RadioButton value={true}>{strings.businessRadio}</RadioButton>
@@ -54,62 +43,108 @@ export class TenantForm extends Component {
 
         <FormItem label={strings.nameLabel}>
           <Input
-            value={fields.name.value}
-            onChange={e => fields.name.onChange(e.target.value)}
+            value={tenant.name}
+            onChange={e => actions.setTenantName(e.target.value)}
           />
         </FormItem>
 
         <FormItem
           label={
-            fields.isBusiness.value
-              ? strings.BusinessIdLabel
-              : strings.PrivateIdLabel
+            tenant.isBusiness ? strings.BusinessIdLabel : strings.PrivateIdLabel
           }
         >
           <Input
-            value={fields.num.value}
-            onChange={e => fields.num.onChange(e.target.value)}
+            value={tenant.idNum}
+            onChange={e => actions.setTenantNum(e.target.value)}
           />
         </FormItem>
 
         <FormItem
           label={
-            fields.isBusiness.value
-              ? strings.typeLabel
-              : strings.privateTypeLabel
+            tenant.isBusiness ? strings.typeLabel : strings.privateTypeLabel
           }
         >
           <Input
-            value={fields.type.value}
-            onChange={e => fields.type.onChange(e.target.value)}
-            disabled={!fields.isBusiness.value}
+            value={tenant.type}
+            onChange={e => actions.setTenantType(e.target.value)}
+            disabled={!tenant.isBusiness}
           />
         </FormItem>
 
         <FormItem label={strings.commentsLabel}>
           <Textos
-            value={fields.comments.value}
-            onChange={e => fields.comments.onChange(e.target.value)}
+            value={tenant.comments}
+            onChange={e => actions.setTenantComments(e.target.value)}
             autosize={{ minRows: 2, maxRows: 6 }}
           />
         </FormItem>
-        {/*
 
         <Divider>{strings.contacts}</Divider>
-        <ContactForm getFieldDecorator={getFieldDecorator} /> */}
+
+        {tenant.contacts.map(contact => {
+          const { id, ...fieldValues } = contact;
+          return (
+            <div
+              key={id}
+              style={{
+                border: "solid 1px #d8d8d8",
+                padding: "10px",
+                marginTop: "10px"
+              }}
+            >
+              <ContactForm
+                fieldValues={{ ...fieldValues }}
+                actions={wrapContactActions(contactActions, id)}
+              />
+            </div>
+          );
+        })}
+        <Button type="dashed" onClick={actions.addContact}>
+          {strings.addContact}
+        </Button>
+        <Button onClick={() => actions.onSubmit(tenant)}>Save!</Button>
       </Form>
     );
   }
 
   handleIsBusinessChange = e => {
     const { value } = e.target;
-    const { fields } = this.props;
-    fields.isBusiness.onChange(value);
+    const { tenant, actions } = this.props;
+    actions.setTenantIsBusiness(value);
     if (value) {
-      fields.type.onChange(this.state.lastBusinessType);
+      actions.setTenantType(this.state.lastBusinessType);
     } else {
-      this.setState({ lastBusinessType: fields.type.value });
-      fields.type.onChange(strings.privateTypeValue);
+      this.setState({ lastBusinessType: tenant.type });
+      actions.setTenantType(strings.privateTypeValue);
     }
   };
 }
+
+const wrapContactActions = (actions, id) =>
+  _.mapValues(actions, action => (...params) => action(id, ...params));
+
+TenantForm.propTypes = {
+  tenant: PropTypes.shape({
+    isBusiness: PropTypes.bool,
+    name: PropTypes.string,
+    idNum: PropTypes.string,
+    type: PropTypes.string,
+    comments: PropTypes.string,
+    contacts: PropTypes.array
+  }),
+  actions: PropTypes.shape({
+    setTenantIsBusiness: PropTypes.func,
+    setTenantName: PropTypes.func,
+    setTenantNum: PropTypes.func,
+    setTenantType: PropTypes.func,
+    setTenantComments: PropTypes.func,
+    addContact: PropTypes.func,
+    onSubmit: PropTypes.func
+  }),
+  contactActions: PropTypes.shape({
+    setContactName: PropTypes.func,
+    setContactRole: PropTypes.func,
+    setContactPhone: PropTypes.func,
+    setContactEmail: PropTypes.func
+  })
+};

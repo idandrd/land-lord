@@ -1,11 +1,25 @@
 import { createStore, combineReducers, applyMiddleware } from "redux";
-import thunk from "redux-thunk";
+import createSagaMiddleware from "redux-saga";
+import logger from "redux-logger";
+import { rootSaga } from "./sagas/rootSaga";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { TenantFormReducer } from "./reducers/TenantForm";
+import { AssetFormReducer } from "./reducers/AssetForm";
+import { CaseReducer } from "./reducers/Case";
 
 const rootReducer = combineReducers({
-  TenantForm: TenantFormReducer
+  Case: CaseReducer,
+  TenantForm: TenantFormReducer,
+  AssetForm: AssetFormReducer
 });
 
-export const getStore = () =>
-  createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
+const sagaMiddleware = createSagaMiddleware();
+
+export const getStore = () => {
+  const store = createStore(
+    rootReducer,
+    composeWithDevTools(applyMiddleware(sagaMiddleware, logger))
+  );
+  sagaMiddleware.run(rootSaga);
+  return store;
+};

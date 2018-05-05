@@ -5,12 +5,25 @@ import { Layout } from "antd";
 import { getStore } from "./redux/configureStore";
 import "./App.css";
 import SideBar from "./components/SideBar";
-import Tenants from "./containers/Tenants";
+
+import { TenantsContainer } from "./containers/Tenants";
+import { TenantFormContainer } from "./containers/TenantForm";
+
+import { AssetsContainer } from "./containers/Assets";
+import { AssetFormContainer } from "./containers/AssetForm";
+
+import { AppActions } from "./redux/actions/app";
+import { Routes } from "./common/constants";
 
 const store = getStore();
 const { Header, Content } = Layout;
 
 class App extends Component {
+  componentDidMount() {
+    const action = AppActions.initFirebase();
+    store.dispatch(action);
+  }
+
   render() {
     return (
       <Router>
@@ -33,7 +46,16 @@ class App extends Component {
                     path="/"
                     render={() => <h1>Welcome to LandLord!</h1>}
                   />
-                  <Route path="/tenants" component={Tenants} />
+                  <Route
+                    path={Routes.newTenant}
+                    component={TenantFormContainer}
+                  />
+                  <Route
+                    path={Routes.newAsset}
+                    component={AssetFormContainer}
+                  />
+                  <Route path={Routes.tenants} component={TenantsContainer} />
+                  <Route path={Routes.assets} component={AssetsContainer} />
                 </Switch>
               </Content>
             </Layout>
