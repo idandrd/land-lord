@@ -28,24 +28,17 @@ class SideBar extends Component {
     const { collapsed } = this.state;
     return (
       <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
-        <div
-          className="logo"
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: 24,
-            color: "white",
-            heigh: 50
-          }}
-        >
+        <div className="logo">
           <img
-            style={{ width: 30, heigh: 50 }}
+            style={{ width: 30, heigh: 50, marginLeft: 10 }}
             src="https://cdn4.iconfinder.com/data/icons/fashion-vol-2/72/84-512.png"
           />
-          <div style={{ marginLeft: 7 }}>Land Lord</div>
         </div>
-        <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
+        <Menu
+          theme="dark"
+          defaultSelectedKeys={["1"]}
+          mode="inline"
+        >
           <Menu.Item key={strings.tastks}>
             <Link to={Routes.tasks}>
               <Icon type="rocket" />
