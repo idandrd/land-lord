@@ -28,10 +28,16 @@ class SideBar extends Component {
       <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
         <div className="logo" />
         <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
-          <Menu.Item key="1">
+          <Menu.Item key={strings.tastks}>
             <Link to={Routes.tasks}>
               <Icon type="rocket" />
               <span>{strings.tastks}</span>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key={strings.contracts}>
+            <Link to={Routes.contracts}>
+              <Icon type="copy" />
+              <span>{strings.contracts}</span>
             </Link>
           </Menu.Item>
           <Menu.Item key="2">

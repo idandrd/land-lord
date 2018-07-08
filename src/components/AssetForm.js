@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Input, Button, Divider, InputNumber } from "antd";
 import { FormItem } from "./FormItem";
+import { CitySelect } from "./CitySelect";
 
 const strings = {
   assetName: "שם הנכס",

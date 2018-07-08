@@ -6,6 +6,8 @@ import { getStore } from "./redux/configureStore";
 import "./App.css";
 import SideBar from "./components/SideBar";
 
+import { TasksContainer } from "./containers/Tasks";
+
 import { TenantsContainer } from "./containers/Tenants";
 import { TenantFormContainer } from "./containers/TenantForm";
 
@@ -45,6 +47,10 @@ class App extends Component {
                     exact
                     path="/"
                     render={() => <h1>Welcome to LandLord!</h1>}
+                  />
+                  <Route
+                    path={Routes.tasks}
+                    component={TasksContainer}
                   />
                   <Route
                     path={Routes.newTenant}
