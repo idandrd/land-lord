@@ -20,7 +20,7 @@ export class Tasks extends React.Component {
         >
           <Meta
             avatar={
-              <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+              <Avatar src="https://previews.123rf.com/images/cowpland/cowpland1411/cowpland141100049/33356139-bank-check-icon-flat-design-with-long-shadows-.jpg" />
             }
             title="להפקיד צ'ק"
             description="20/08/2018"
@@ -38,7 +38,7 @@ export class Tasks extends React.Component {
         >
           <Meta
             avatar={
-              <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+              <Avatar src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPgI3HfspcXjsAA9xDHRA_T7xShb5GvbXF3OvPUXoPIhIBIjXecA" />
             }
             title="לחדש ערבות בנקאית"
             description="03/09/2018"
@@ -56,7 +56,7 @@ export class Tasks extends React.Component {
         >
           <Meta
             avatar={
-              <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
+              <Avatar src="https://previews.123rf.com/images/cowpland/cowpland1412/cowpland141200148/34904564-bank-check-icon-flat-design-.jpg" />
             }
             title="לבדוק האם צ'ק נכנס"
             description="4/09/2018"

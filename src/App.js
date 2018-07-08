@@ -14,6 +14,9 @@ import { TenantFormContainer } from "./containers/TenantForm";
 import { AssetsContainer } from "./containers/Assets";
 import { AssetFormContainer } from "./containers/AssetForm";
 
+import { ContractsContainer } from "./containers/Contracts";
+// import { AssetFormContainer } from "./containers/AssetForm";
+
 import { AppActions } from "./redux/actions/app";
 import { Routes } from "./common/constants";
 
@@ -62,6 +65,7 @@ class App extends Component {
                   />
                   <Route path={Routes.tenants} component={TenantsContainer} />
                   <Route path={Routes.assets} component={AssetsContainer} />
+                  <Route path={Routes.contracts} component={ContractsContainer} />
                 </Switch>
               </Content>
             </Layout>
