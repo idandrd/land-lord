@@ -62,7 +62,7 @@ class FirebaseService {
 const handleCollectionSnapshot = (listener, collection) => {
   const unsubscribe = collection.onSnapshot(res => {
     const outputArr = [];
-    res.forEach(doc => outputArr.push(doc.data()));
+    res.forEach(doc => outputArr.push({ id: doc.id, ...doc.data() }));
     try {
       listener(outputArr);
     } catch (e) {

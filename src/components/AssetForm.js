@@ -24,10 +24,11 @@ export class AssetForm extends React.Component {
           />
         </FormItem>
         <FormItem label={strings.assetCity}>
-          <Input
+        <CitySelect style={{width: "100%"}} />
+          {/* <Input
             value={asset.city}
             onChange={e => actions.setAssetCity(e.target.value)}
-          />
+          /> */}
         </FormItem>
         <FormItem label={strings.assetAddress}>
           <Input

@@ -30,6 +30,16 @@ export class Tasks extends React.Component {
         contractId: "12345"
       },
       {
+        id: "5432321",
+        title: "לחדש ערבות בנקאית",
+        dueDate: "03/09/2018",
+        imgPath:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPgI3HfspcXjsAA9xDHRA_T7xShb5GvbXF3OvPUXoPIhIBIjXecA",
+        tenantName: "איציק הסנדלר",
+        unitAddress: "מתכנתי הבתים 3, תל אביב",
+        contractId: "12345"
+      },
+      {
         id: "2321",
         title: "לבדוק האם צ'ק נכנס",
         dueDate: "04/09/2018",

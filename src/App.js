@@ -15,7 +15,7 @@ import { AssetsContainer } from "./containers/Assets";
 import { AssetFormContainer } from "./containers/AssetForm";
 
 import { ContractsContainer } from "./containers/Contracts";
-// import { AssetFormContainer } from "./containers/AssetForm";
+import { ContractFormContainer } from "./containers/ContractForm";
 
 import { AppActions } from "./redux/actions/app";
 import { Routes } from "./common/constants";
@@ -51,10 +51,7 @@ class App extends Component {
                     path="/"
                     render={() => <h1>Welcome to LandLord!</h1>}
                   />
-                  <Route
-                    path={Routes.tasks}
-                    component={TasksContainer}
-                  />
+                  <Route path={Routes.tasks} component={TasksContainer} />
                   <Route
                     path={Routes.newTenant}
                     component={TenantFormContainer}
@@ -63,9 +60,16 @@ class App extends Component {
                     path={Routes.newAsset}
                     component={AssetFormContainer}
                   />
+                  <Route
+                    path={Routes.newContract}
+                    component={ContractFormContainer}
+                  />
                   <Route path={Routes.tenants} component={TenantsContainer} />
                   <Route path={Routes.assets} component={AssetsContainer} />
-                  <Route path={Routes.contracts} component={ContractsContainer} />
+                  <Route
+                    path={Routes.contracts}
+                    component={ContractsContainer}
+                  />
                 </Switch>
               </Content>
             </Layout>
