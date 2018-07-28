@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Input, Button, Divider, InputNumber, DatePicker } from "antd";
+import { Button, DatePicker } from "antd";
 import { FormItem } from "./FormItem";
 import { Select } from "antd";
 const Option = Select.Option;

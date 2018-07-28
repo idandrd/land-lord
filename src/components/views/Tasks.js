@@ -1,9 +1,6 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Card, Icon, Avatar, Menu, Dropdown, message } from "antd";
 import { ContentFrame } from "../ContentFrame";
-import { Routes } from "../../common/constants";
-import moment from "moment";
 const { Meta } = Card;
 
 export class Tasks extends React.Component {

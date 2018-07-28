@@ -2,10 +2,8 @@ import React, { Component } from "react";
 import { Layout, Menu, Icon } from "antd";
 import { Link } from "react-router-dom";
 import { Routes } from "../common/constants";
-const FontAwesome = require("react-fontawesome");
 
 const { Sider } = Layout;
-const SubMenu = Menu.SubMenu;
 
 const strings = {
   tastks: "משימות",
@@ -32,6 +30,7 @@ class SideBar extends Component {
           <img
             style={{ width: 30, heigh: 50, marginLeft: 10 }}
             src="https://cdn4.iconfinder.com/data/icons/fashion-vol-2/72/84-512.png"
+            alt="landlord icon"
           />
         </div>
         <Menu
