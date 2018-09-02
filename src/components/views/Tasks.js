@@ -27,7 +27,7 @@ export class Tasks extends React.Component {
         contractId: "12345"
       },
       {
-        id: "5432321",
+        id: "5432e21",
         title: "לחדש ערבות בנקאית",
         dueDate: "03/09/2018",
         imgPath:
