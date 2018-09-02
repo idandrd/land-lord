@@ -6,6 +6,6 @@ export const ContractMockA = {
   startRentalDate: "2018-08-20",
   endRentalDate: "2020-08-20",
   amountOfChecksRecieved: 24,
-  firstChackDate: "2018-08-20",
+  firstCheckDate: "2018-08-20",
   amountOfChecksRemained: 24
 };
