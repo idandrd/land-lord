@@ -5,12 +5,14 @@ import { rootSaga } from "./sagas/rootSaga";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { TenantFormReducer } from "./reducers/TenantForm";
 import { AssetFormReducer } from "./reducers/AssetForm";
+import { ContractFormReducer } from "./reducers/ContractForm";
 import { CaseReducer } from "./reducers/Case";
 
 const rootReducer = combineReducers({
   Case: CaseReducer,
   TenantForm: TenantFormReducer,
-  AssetForm: AssetFormReducer
+  AssetForm: AssetFormReducer,
+  ContractForm: ContractFormReducer
 });
 
 const sagaMiddleware = createSagaMiddleware();
