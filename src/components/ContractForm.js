@@ -16,7 +16,7 @@ const strings = {
 
 export class ContractForm extends React.Component {
   render() {
-    const { asset, actions } = this.props;
+    const { contract, actions } = this.props;
     return (
       <div style={{ direction: "rtl" }}>
         <FormItem label={strings.signingDate}>
@@ -47,7 +47,7 @@ export class ContractForm extends React.Component {
             onChange={actions.setContractAmountOfChecksRecieved}
           />
         </FormItem>
-        <Button type="primary" onClick={() => actions.onSubmit(asset)}>
+        <Button type="primary" onClick={() => actions.onSubmit(contract)}>
           {strings.submit}
         </Button>
       </div>

@@ -16,7 +16,7 @@ const Container = props => {
   };
 
   const formProps = {
-    contract: props.contarct,
+    contract: props.contract,
     actions,
     tenants: props.tenants,
     assets: props.assets
@@ -34,7 +34,7 @@ const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
       ...ContractActions,
-      onSubmit: FormActions.saveAsset
+      onSubmit: FormActions.saveContract
     },
     dispatch
   );

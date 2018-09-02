@@ -18,7 +18,8 @@ const strings = {
   root: "root",
   cases: "cases",
   tenants: "tenants",
-  assets: "assets"
+  assets: "assets",
+  contracts: "contracts"
 };
 
 class FirebaseService {
@@ -44,6 +45,9 @@ class FirebaseService {
   };
   saveAsset = async asset => {
     await this.caseRoot.collection(strings.assets).add(asset);
+  };
+  saveContract = async contract => {
+    await this.caseRoot.collection(strings.contracts).add(contract);
   };
 
   listenForTenants = listener =>
