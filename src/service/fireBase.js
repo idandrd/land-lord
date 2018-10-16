@@ -61,6 +61,12 @@ class FirebaseService {
       listener,
       this.caseRoot.collection(strings.assets)
     );
+
+  listenForContracts = listener =>
+    handleCollectionSnapshot(
+      listener,
+      this.caseRoot.collection(strings.contracts)
+    );
 }
 
 const handleCollectionSnapshot = (listener, collection) => {

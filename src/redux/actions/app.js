@@ -1,7 +1,8 @@
 export const actionTypes = {
   initFirebase: "INIT_FIREBASE",
   tenantsSnapshotRecieved: "TENANTS_SNAPSHOT_RECEIVED",
-  assetsSnapshotRecieved: "ASSETS_SNAPSHOT_RECEIVED"
+  assetsSnapshotRecieved: "ASSETS_SNAPSHOT_RECEIVED",
+  contractsSnapshotRecieved: "CONTRACTS_SNAPSHOT_RECEIVED"
 };
 
 export const AppActions = {
@@ -14,6 +15,10 @@ export const AppActions = {
   }),
   assetsSnapshotRecieved: val => ({
     type: actionTypes.assetsSnapshotRecieved,
+    payload: val
+  }),
+  contractsSnapshotRecieved: val => ({
+    type: actionTypes.contractsSnapshotRecieved,
     payload: val
   })
 };
