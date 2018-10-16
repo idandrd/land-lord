@@ -3,52 +3,41 @@ import PropTypes from "prop-types";
 import { Table } from "antd";
 
 const strings = {
-  nameColumn: "שם",
-  typeColumn: "שימוש",
-  commentsColumn: "הערות"
+  tenantColumn: "השוכר",
+  assetColumn: "הנכס",
+  signinDateColumn: "תאריך חתימה",
+  firstCheckDateColumn: "תאריך הצ'ק הראשון"
 };
 
 const columns = [
   {
-    title: strings.nameColumn,
-    dataIndex: "name",
+    title: strings.tenantColumn,
+    dataIndex: "tenant",
+    render: tenant => tenant.name,
     sorter: (a, b) => a.name.length - b.name.length
   },
   {
-    title: strings.typeColumn,
-    dataIndex: "type",
+    title: strings.assetColumn,
+    dataIndex: "asset",
+    render: asset => asset.name,
     sorter: (a, b) => a.type.length - b.type.length
   },
   {
-    title: strings.commentsColumn,
-    dataIndex: "comments",
+    title: strings.signinDateColumn,
+    dataIndex: "signingDate",
+    sorter: (a, b) => a.comments.length - b.comments.length
+  },
+  {
+    title: strings.firstCheckDateColumn,
+    dataIndex: "firstCheckDate",
     sorter: (a, b) => a.comments.length - b.comments.length
   }
 ];
 
-const onChange = (pagination, filters, sorter) => {
-  console.log("params", pagination, filters, sorter);
-};
-
 export class ContractList extends React.Component {
   render() {
     const { contracts } = this.props;
-    return (
-      <Table
-        dataSource={
-          contracts
-            ? contracts.map((asset, i) => ({
-                key: i,
-                name: asset.name,
-                type: asset.type,
-                comments: asset.comments
-              }))
-            : [{ name: "idan", type: "man", comments: "hello", key: "1" }]
-        }
-        columns={columns}
-        onChange={onChange}
-      />
-    );
+    return <Table dataSource={contracts} columns={columns} />;
   }
 }
 

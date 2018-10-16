@@ -30,6 +30,7 @@ export class CaseSelectors {
   static getPopulatedContracts = state =>
     state.contracts.map(contract => ({
       ...contract,
+      key: contract.id,
       asset: CaseSelectors.getAsset(state, contract.assetId),
       tenant: CaseSelectors.getTenant(state, contract.tenantId)
     }));
