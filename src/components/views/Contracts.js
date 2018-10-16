@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { ContentFrame } from "../ContentFrame";
 import { Routes } from "../../common/constants";
+import { ContractList } from "../ContractList";
 
 const strings = {
   buttonTitle: "חוזה חדש",
@@ -10,17 +11,17 @@ const strings = {
 
 export class Contracts extends Component {
   render() {
+    console.log("contracts: ", this.props.contracts);
     return (
       <ContentFrame
         firstNavText={strings.allContracts}
         buttonText={strings.buttonTitle}
         buttonRoute={Routes.newContract}
       >
-      [Contract list goes here]
+        <ContractList contracts={this.props.contracts} />
       </ContentFrame>
     );
   }
 }
 
-Contracts.propTypes = {
-};
+Contracts.propTypes = {};

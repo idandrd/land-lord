@@ -27,11 +27,10 @@ export class CaseSelectors {
   static getTenant = getElementById("tenants");
   static getAsset = getElementById("assets");
   static getContract = getElementById("contracts");
-  static getPopulatedContracts = state => {
-    const populated = state.contracts.map(contract => ({
+  static getPopulatedContracts = state =>
+    state.contracts.map(contract => ({
       ...contract,
       asset: CaseSelectors.getAsset(state, contract.assetId),
       tenant: CaseSelectors.getTenant(state, contract.tenantId)
     }));
-  };
 }
