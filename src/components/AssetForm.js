@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Input, Button, Divider, InputNumber } from "antd";
 import { FormItem } from "./FormItem";
 import { CitySelect } from "./CitySelect";
-import { UnitType } from "./UnitTypeSelect";
+import { UnitTypeSelect, UnitOwnerSelect, COMBINED } from "./UnitTypeSelect";
 
 const strings = {
   assetName: "שם הנכס",
@@ -15,10 +15,12 @@ const strings = {
   assetType: "סוג",
   assetOwner: "בעלים",
   addUnit: "הוסף יחידה",
-  save: "שמור"
+  save: "שמור",
+  unitName: "שם היחידה"
 };
 
 const emptyUnit = {
+  name: "",
   type: "",
   owner: ""
 };
@@ -30,7 +32,10 @@ const initialState = {
   year: 1990,
   floors: 1,
   type: "",
-  units: [{ ...emptyUnit }]
+  units: [{ ...emptyUnit }],
+
+  showTypeInUnits: false,
+  showOwnerInUnits: false
 };
 
 export class AssetForm extends React.Component {
@@ -44,17 +49,33 @@ export class AssetForm extends React.Component {
     const newUnits = [...this.state.units];
     newUnits[unitKey] = updatedUnit;
     this.setState({ units: newUnits });
-    console.log(this.state);
   };
 
   onUnitRemove = unitKey => {
-    console.log("prev units", this.state.units);
-    console.log("removing", unitKey);
     const newUnits = this.state.units.filter((_u, i) => i !== unitKey);
-    console.log("new units", newUnits);
     this.setState({
       units: newUnits
     });
+  };
+
+  onAssetTypeChange = type => {
+    const [unitsType, showTypeInUnits] =
+      type === COMBINED ? ["", true] : [type, false];
+    const newUnits = this.state.units.map(unit => ({
+      ...unit,
+      type: unitsType
+    }));
+    this.setState({ units: newUnits, showTypeInUnits, type });
+  };
+
+  onAssetOwnerChange = owner => {
+    const [unitsOwner, showOwnerInUnits] =
+      owner === COMBINED ? ["", true] : [owner, false];
+    const newUnits = this.state.units.map(unit => ({
+      ...unit,
+      owner: unitsOwner
+    }));
+    this.setState({ units: newUnits, showOwnerInUnits, owner });
   };
 
   onSubmit = () => {
@@ -75,7 +96,21 @@ export class AssetForm extends React.Component {
         <FormItem label={strings.assetName}>
           <Input
             value={this.state.name}
-            onChange={e => this.setState({ name: e.target.value })}
+            onChange={({ target }) => this.setState({ name: target.value })}
+          />
+        </FormItem>
+        <FormItem label={strings.assetType}>
+          <UnitTypeSelect
+            value={this.state.type}
+            onChange={this.onAssetTypeChange}
+            ofAsset
+          />
+        </FormItem>
+        <FormItem label={strings.assetOwner}>
+          <UnitOwnerSelect
+            value={this.state.owner}
+            onChange={this.onAssetOwnerChange}
+            ofAsset
           />
         </FormItem>
         <FormItem label={strings.assetCity}>
@@ -113,6 +148,8 @@ export class AssetForm extends React.Component {
               this.onUnitChange(key, field, value)
             }
             onRemove={() => this.onUnitRemove(key)}
+            showType={this.state.showTypeInUnits}
+            showOwner={this.state.showOwnerInUnits}
           />
         ))}
 
@@ -127,24 +164,33 @@ export class AssetForm extends React.Component {
 
 export class UnitForm extends React.Component {
   render() {
-    const { unit, onFieldChange, onRemove } = this.props;
+    const { unit, onFieldChange, onRemove, showType, showOwner } = this.props;
     return (
       <div
         style={{ border: "1px dashed", width: "80%", padding: 9, margin: 4 }}
       >
-        <FormItem label={strings.assetType}>
-          <UnitType
-            value={unit.type}
-            onChange={type => onFieldChange("type", type)}
-          />
-        </FormItem>
-
-        <FormItem label={strings.assetOwner}>
+        <FormItem label={strings.unitName}>
           <Input
-            value={unit.owner}
-            onChange={({ target }) => onFieldChange("owner", target.value)}
+            value={unit.name}
+            onChange={({ target }) => onFieldChange("name", target.value)}
           />
         </FormItem>
+        {showType && (
+          <FormItem label={strings.assetType}>
+            <UnitTypeSelect
+              value={unit.type}
+              onChange={type => onFieldChange("type", type)}
+            />
+          </FormItem>
+        )}
+        {showOwner && (
+          <FormItem label={strings.assetOwner}>
+            <UnitOwnerSelect
+              value={unit.owner}
+              onChange={owner => onFieldChange("owner", owner)}
+            />
+          </FormItem>
+        )}
         <Button onClick={onRemove}>X</Button>
       </div>
     );
