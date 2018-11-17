@@ -21,7 +21,8 @@ const strings = {
   gardenSize: 'מ"ר גינה',
   balconySize: 'מ"ר מרפסת',
   storageSize: 'מ"ר מחסן',
-  parkings: "כמות חניות"
+  parkings: "כמות חניות",
+  parkingIndexes: "מספרי חניות"
 };
 
 const emptyUnit = {
@@ -32,7 +33,8 @@ const emptyUnit = {
   gardenSize: "",
   balconySize: "",
   storageSize: "",
-  parkings: ""
+  parkings: "",
+  parkingIndexes: ""
 };
 
 const initialState = {
@@ -44,6 +46,7 @@ const initialState = {
   type: "",
   storageSize: "",
   parkings: "",
+  parkingIndexes: "",
   units: [{ ...emptyUnit }],
 
   showTypeInUnits: false,
@@ -132,7 +135,7 @@ export class AssetForm extends React.Component {
         <FormItem label={strings.assetAddress}>
           <Input
             value={this.state.address}
-            onChange={e => this.setState({ address: e.target.value })}
+            onChange={({ target }) => this.setState({ address: target.value })}
           />
         </FormItem>
         <FormItem label={strings.assetYear}>
@@ -159,6 +162,16 @@ export class AssetForm extends React.Component {
             onChange={parkings => this.setState({ parkings })}
           />
         </FormItem>
+        {this.state.parkings && (
+          <FormItem label={strings.parkingIndexes}>
+            <Input
+              value={this.state.parkingIndexes}
+              onChange={({ target }) =>
+                this.setState({ parkingIndexes: target.value })
+              }
+            />
+          </FormItem>
+        )}
 
         <Divider>{strings.units}</Divider>
 
@@ -244,6 +257,16 @@ export class UnitForm extends React.Component {
             onChange={size => onFieldChange("parkings", size)}
           />
         </FormItem>
+        {unit.parkings && (
+          <FormItem label={strings.parkingIndexes}>
+            <Input
+              value={unit.parkingIndexes}
+              onChange={({ target }) =>
+                onFieldChange("parkingIndexes", target.value)
+              }
+            />
+          </FormItem>
+        )}
         <Button onClick={onRemove}>X</Button>
       </div>
     );
