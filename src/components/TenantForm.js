@@ -84,7 +84,15 @@ export class TenantForm extends Component {
   };
 
   onSubmit = () => {
-    console.log("yay");
+    const { name, isBusiness, idNum, type, comments, contacts } = this.state;
+    this.props.actions.onSubmit({
+      name,
+      isBusiness,
+      idNum,
+      type,
+      comments,
+      contacts
+    });
   };
 
   render() {
@@ -147,6 +155,9 @@ export class TenantForm extends Component {
             key={key}
             contact={contact}
             onRemove={() => this.onContactRemove(key)}
+            onFieldChange={(field, value) =>
+              this.onContactChange(key, field, value)
+            }
           />
         ))}
         <Button onClick={this.addContact}>{strings.addContact}</Button>
@@ -161,21 +172,23 @@ export class TenantForm extends Component {
 export class ContactForm extends React.Component {
   render() {
     const { contact, onRemove } = this.props;
+    const onChange = fieldName => e =>
+      this.props.onFieldChange(fieldName, e.target.value);
     return (
       <div
         style={{ border: "1px dashed", width: "80%", padding: 9, margin: 4 }}
       >
         <FormItem label={strings.nameLabel}>
-          <Input />
+          <Input value={contact.name} onChange={onChange("name")} />
         </FormItem>
         <FormItem label={strings.roleLabel}>
-          <Input />
+          <Input value={contact.role} onChange={onChange("role")} />
         </FormItem>
         <FormItem label={strings.phoneLabel}>
-          <Input />
+          <Input value={contact.phone} onChange={onChange("phone")} />
         </FormItem>
         <FormItem label={strings.emailLabel}>
-          <Input />
+          <Input value={contact.email} onChange={onChange("email")} />
         </FormItem>
         <Button onClick={onRemove}>X</Button>
       </div>
