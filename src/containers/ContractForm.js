@@ -2,20 +2,21 @@ import React from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { NewContract } from "../components/views/NewContract";
-import { AssetActions, FormActions } from "../redux/actions/assetForm";
+import { ContractActions, FormActions } from "../redux/actions/contractForm";
 
 const Container = props => {
   const actions = {
-    setAssetName: props.setAssetName,
-    setAssetCity: props.setAssetCity,
-    setAssetAddress: props.setAssetAddress,
-    setAssetYear: props.setAssetYear,
-    setAssetFloors: props.setAssetFloors,
+    setContractTenantId: props.setContractTenantId,
+    setContractAssetId: props.setContractAssetId,
+    setContractUnitId: props.setContractUnitId,
+    setContractSigningDate: props.setContractSigningDate,
+    setContractFirstCheckDate: props.setContractFirstCheckDate,
+    setContractAmountOfChecksRecieved: props.setContractAmountOfChecksRecieved,
     onSubmit: props.onSubmit
   };
 
   const formProps = {
-    asset: props.asset,
+    contract: props.contract,
     actions,
     tenants: props.tenants,
     assets: props.assets
@@ -24,7 +25,7 @@ const Container = props => {
 };
 
 const mapStateToProps = state => ({
-  asset: state.AssetForm.asset,
+  contract: state.ContractForm,
   tenants: state.Case.tenants,
   assets: state.Case.assets
 });
@@ -32,13 +33,8 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      setAssetName: AssetActions.setAssetName,
-      setAssetCity: AssetActions.setAssetCity,
-      setAssetAddress: AssetActions.setAssetAddress,
-      setAssetYear: AssetActions.setAssetYear,
-      setAssetFloors: AssetActions.setAssetFloors,
-
-      onSubmit: FormActions.saveAsset
+      ...ContractActions,
+      onSubmit: FormActions.saveContract
     },
     dispatch
   );

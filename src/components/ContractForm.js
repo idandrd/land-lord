@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Button, DatePicker } from "antd";
+import { Button, DatePicker, InputNumber } from "antd";
 import { FormItem } from "./FormItem";
 import { Select } from "antd";
 const Option = Select.Option;
@@ -9,24 +9,45 @@ const strings = {
   signingDate: "נחתם בתאריך",
   tenant: "השוכר",
   asset: "הנכס",
-  submit: "שמור"
+  submit: "שמור",
+  firstCheck: "תאריך הצ'ק הראשון",
+  checksAmount: "כמות צ'קים שהתקבלו"
 };
 
 export class ContractForm extends React.Component {
   render() {
-    const { asset, actions } = this.props;
+    const { contract, actions } = this.props;
     return (
       <div style={{ direction: "rtl" }}>
         <FormItem label={strings.signingDate}>
-          <DatePicker />
+          <DatePicker
+            onChange={(_, date) => actions.setContractSigningDate(date)}
+          />
         </FormItem>
         <FormItem label={strings.tenant}>
-          <CaseItemSelect options={this.props.tenants} />
+          <CaseItemSelect
+            options={this.props.tenants}
+            onChange={actions.setContractTenantId}
+          />
         </FormItem>
         <FormItem label={strings.asset}>
-          <CaseItemSelect options={this.props.assets} />
+          <CaseItemSelect
+            options={this.props.assets}
+            onChange={actions.setContractAssetId}
+          />
         </FormItem>
-        <Button type="primary" onClick={() => actions.onSubmit(asset)}>
+        <FormItem label={strings.firstCheck}>
+          <DatePicker
+            onChange={(_, date) => actions.setContractFirstCheckDate(date)}
+          />
+        </FormItem>
+        <FormItem label={strings.checksAmount}>
+          <InputNumber
+            min={1}
+            onChange={actions.setContractAmountOfChecksRecieved}
+          />
+        </FormItem>
+        <Button type="primary" onClick={() => actions.onSubmit(contract)}>
           {strings.submit}
         </Button>
       </div>
@@ -35,7 +56,7 @@ export class ContractForm extends React.Component {
 }
 
 const CaseItemSelect = props => (
-  <Select style={{ width: "100%" }}>
+  <Select {...props} style={{ width: "100%" }}>
     {props.options.map((item, index) => (
       <Option key={index} value={item.id}>
         {item.name}
