@@ -26,6 +26,8 @@ const strings = {
   nameLabel: "שם",
   roleLabel: "תפקיד",
   phoneLabel: "טלפון",
+  otherPhoneLabel: "טלפון נוסף",
+  faxLabel: "פקס",
   emailLabel: "מייל"
 };
 
@@ -33,6 +35,8 @@ const emptyContact = {
   name: "",
   role: "",
   phone: "",
+  otherPhone: "",
+  fax: "",
   email: ""
 };
 
@@ -186,6 +190,12 @@ export class ContactForm extends React.Component {
         </FormItem>
         <FormItem label={strings.phoneLabel}>
           <Input value={contact.phone} onChange={onChange("phone")} />
+        </FormItem>
+        <FormItem label={strings.otherPhoneLabel}>
+          <Input value={contact.otherPhone} onChange={onChange("otherPhone")} />
+        </FormItem>
+        <FormItem label={strings.faxLabel}>
+          <Input value={contact.fax} onChange={onChange("fax")} />
         </FormItem>
         <FormItem label={strings.emailLabel}>
           <Input value={contact.email} onChange={onChange("email")} />
