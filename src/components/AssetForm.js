@@ -16,13 +16,23 @@ const strings = {
   assetOwner: "בעלים",
   addUnit: "הוסף יחידה",
   save: "שמור",
-  unitName: "שם היחידה"
+  unitName: "שם היחידה",
+  mainSize: 'מ"ר מרכזי',
+  gardenSize: 'מ"ר גינה',
+  balconySize: 'מ"ר מרפסת',
+  storageSize: 'מ"ר מחסן',
+  parkings: "כמות חניות"
 };
 
 const emptyUnit = {
   name: "",
   type: "",
-  owner: ""
+  owner: "",
+  mainSize: "",
+  gardenSize: "",
+  balconySize: "",
+  storageSize: "",
+  parkings: ""
 };
 
 const initialState = {
@@ -32,6 +42,8 @@ const initialState = {
   year: 1990,
   floors: 1,
   type: "",
+  storageSize: "",
+  parkings: "",
   units: [{ ...emptyUnit }],
 
   showTypeInUnits: false,
@@ -135,6 +147,18 @@ export class AssetForm extends React.Component {
             onChange={floors => this.setState({ floors })}
           />
         </FormItem>
+        <FormItem label={strings.storageSize}>
+          <InputNumber
+            value={this.state.storageSize}
+            onChange={storageSize => this.setState({ storageSize })}
+          />
+        </FormItem>
+        <FormItem label={strings.parkings}>
+          <InputNumber
+            value={this.state.parkings}
+            onChange={parkings => this.setState({ parkings })}
+          />
+        </FormItem>
 
         <Divider>{strings.units}</Divider>
 
@@ -189,6 +213,36 @@ export class UnitForm extends React.Component {
             />
           </FormItem>
         )}
+        <FormItem label={strings.mainSize}>
+          <InputNumber
+            value={unit.mainSize}
+            onChange={size => onFieldChange("mainSize", size)}
+          />
+        </FormItem>
+        <FormItem label={strings.gardenSize}>
+          <InputNumber
+            value={unit.gardenSize}
+            onChange={size => onFieldChange("gardenSize", size)}
+          />
+        </FormItem>
+        <FormItem label={strings.balconySize}>
+          <InputNumber
+            value={unit.balconySize}
+            onChange={size => onFieldChange("balconySize", size)}
+          />
+        </FormItem>
+        <FormItem label={strings.storageSize}>
+          <InputNumber
+            value={unit.storageSize}
+            onChange={size => onFieldChange("storageSize", size)}
+          />
+        </FormItem>
+        <FormItem label={strings.parkings}>
+          <InputNumber
+            value={unit.parkings}
+            onChange={size => onFieldChange("parkings", size)}
+          />
+        </FormItem>
         <Button onClick={onRemove}>X</Button>
       </div>
     );
