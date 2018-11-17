@@ -16,13 +16,25 @@ const strings = {
   assetOwner: "בעלים",
   addUnit: "הוסף יחידה",
   save: "שמור",
-  unitName: "שם היחידה"
+  unitName: "שם היחידה",
+  mainSize: 'מ"ר מרכזי',
+  gardenSize: 'מ"ר גינה',
+  balconySize: 'מ"ר מרפסת',
+  storageSize: 'מ"ר מחסן',
+  parkings: "כמות חניות",
+  parkingIndexes: "מספרי חניות"
 };
 
 const emptyUnit = {
   name: "",
   type: "",
-  owner: ""
+  owner: "",
+  mainSize: "",
+  gardenSize: "",
+  balconySize: "",
+  storageSize: "",
+  parkings: "",
+  parkingIndexes: ""
 };
 
 const initialState = {
@@ -32,6 +44,9 @@ const initialState = {
   year: 1990,
   floors: 1,
   type: "",
+  storageSize: "",
+  parkings: "",
+  parkingIndexes: "",
   units: [{ ...emptyUnit }],
 
   showTypeInUnits: false,
@@ -120,7 +135,7 @@ export class AssetForm extends React.Component {
         <FormItem label={strings.assetAddress}>
           <Input
             value={this.state.address}
-            onChange={e => this.setState({ address: e.target.value })}
+            onChange={({ target }) => this.setState({ address: target.value })}
           />
         </FormItem>
         <FormItem label={strings.assetYear}>
@@ -135,6 +150,28 @@ export class AssetForm extends React.Component {
             onChange={floors => this.setState({ floors })}
           />
         </FormItem>
+        <FormItem label={strings.storageSize}>
+          <InputNumber
+            value={this.state.storageSize}
+            onChange={storageSize => this.setState({ storageSize })}
+          />
+        </FormItem>
+        <FormItem label={strings.parkings}>
+          <InputNumber
+            value={this.state.parkings}
+            onChange={parkings => this.setState({ parkings })}
+          />
+        </FormItem>
+        {this.state.parkings && (
+          <FormItem label={strings.parkingIndexes}>
+            <Input
+              value={this.state.parkingIndexes}
+              onChange={({ target }) =>
+                this.setState({ parkingIndexes: target.value })
+              }
+            />
+          </FormItem>
+        )}
 
         <Divider>{strings.units}</Divider>
 
@@ -155,6 +192,7 @@ export class AssetForm extends React.Component {
         <Button type="primary" onClick={this.onSubmit}>
           {strings.save}
         </Button>
+        <Button onClick={() => console.log(this.state)}>log</Button>
       </div>
     );
   }
@@ -186,6 +224,46 @@ export class UnitForm extends React.Component {
             <UnitOwnerSelect
               value={unit.owner}
               onChange={owner => onFieldChange("owner", owner)}
+            />
+          </FormItem>
+        )}
+        <FormItem label={strings.mainSize}>
+          <InputNumber
+            value={unit.mainSize}
+            onChange={size => onFieldChange("mainSize", size)}
+          />
+        </FormItem>
+        <FormItem label={strings.gardenSize}>
+          <InputNumber
+            value={unit.gardenSize}
+            onChange={size => onFieldChange("gardenSize", size)}
+          />
+        </FormItem>
+        <FormItem label={strings.balconySize}>
+          <InputNumber
+            value={unit.balconySize}
+            onChange={size => onFieldChange("balconySize", size)}
+          />
+        </FormItem>
+        <FormItem label={strings.storageSize}>
+          <InputNumber
+            value={unit.storageSize}
+            onChange={size => onFieldChange("storageSize", size)}
+          />
+        </FormItem>
+        <FormItem label={strings.parkings}>
+          <InputNumber
+            value={unit.parkings}
+            onChange={size => onFieldChange("parkings", size)}
+          />
+        </FormItem>
+        {unit.parkings && (
+          <FormItem label={strings.parkingIndexes}>
+            <Input
+              value={unit.parkingIndexes}
+              onChange={({ target }) =>
+                onFieldChange("parkingIndexes", target.value)
+              }
             />
           </FormItem>
         )}

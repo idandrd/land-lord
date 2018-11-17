@@ -1,8 +1,9 @@
 import React from "react";
-import { Select } from "antd";
+import { Select, Input } from "antd";
 const Option = Select.Option;
 
 export const COMBINED = "משולב";
+export const OTHER = "אחר";
 
 export const unitTypes = {
   living: "מגורים",
@@ -10,7 +11,7 @@ export const unitTypes = {
   parking: "חניון",
   industrial: "תעשייה",
   hall: "אולם",
-  other: "אחר"
+  other: OTHER
 };
 
 export const unitOwners = {
@@ -27,17 +28,53 @@ export const UnitOwnerSelect = props => (
   <UnitSelectField options={unitOwners} {...props} />
 );
 
-const UnitSelectField = props => {
-  const options = props.ofAsset
-    ? { ...props.options, combined: COMBINED }
-    : props.options;
-  return (
-    <Select style={{ width: 120 }} {...props}>
-      {Object.values(options).map(option => (
-        <Option value={option} key={option}>
-          {option}
-        </Option>
-      ))}
-    </Select>
-  );
-};
+class UnitSelectField extends React.Component {
+  state = {
+    selectValue: "",
+    inputValue: ""
+  };
+
+  onSelectChange = value => {
+    this.setState({ selectValue: value });
+    if (value === OTHER) {
+      this.props.onChange(this.state.inputValue);
+    } else {
+      this.props.onChange(value);
+    }
+  };
+
+  onInputChange = e => {
+    this.setState({ inputValue: e.target.value });
+    this.props.onChange(e.target.value);
+  };
+
+  render() {
+    const options = this.props.ofAsset
+      ? { ...this.props.options, combined: COMBINED }
+      : this.props.options;
+    const { value, onChange, ...restProps } = this.props;
+    return (
+      <div style={{ display: "flex", flexDirection: "row" }}>
+        <Select
+          style={{ width: 120 }}
+          value={this.state.selectValue}
+          onChange={this.onSelectChange}
+          {...restProps}
+        >
+          {Object.values(options).map(option => (
+            <Option value={option} key={option}>
+              {option}
+            </Option>
+          ))}
+        </Select>
+        {this.state.selectValue === OTHER && (
+          <Input
+            style={{ marginRight: 10 }}
+            value={this.state.inputValue}
+            onChange={this.onInputChange}
+          />
+        )}
+      </div>
+    );
+  }
+}
