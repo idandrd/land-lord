@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import * as _ from "lodash";
 import { Form, Input, Button, Radio, Divider } from "antd";
 import { ContactForm } from "./ContactForm";
+import { FormItem } from "./FormItem";
 
-const FormItem = Form.Item;
 const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 const Textos = Input.TextArea;
@@ -12,6 +12,7 @@ const Textos = Input.TextArea;
 const strings = {
   businessRadio: "עסק",
   privateRadio: "פרטי",
+  isBusinessLabel: "האם עסק",
   nameLabel: "שם השוכר",
   BusinessIdLabel: "ח.פ.",
   PrivateIdLabel: "ת.ז.",
@@ -25,15 +26,47 @@ const strings = {
   addContact: "איש קשר חדש"
 };
 
+const initialState = {
+  isBusiness: true,
+  name: "",
+  idNum: "",
+  type: "",
+  comments: "",
+  contacts: [],
+
+  lastBusinessType: ""
+};
+
 export class TenantForm extends Component {
-  state = { lastBusinessType: "" };
+  state = { ...initialState };
+
+  handleIsBusinessChange = e => {
+    const { value } = e.target;
+    if (value) {
+      this.setState({ isBusiness: value, type: this.state.lastBusinessType });
+    } else {
+      this.setState({
+        isBusiness: value,
+        lastBusinessType: this.state.type,
+        type: strings.privateTypeValue
+      });
+    }
+  };
+
   render() {
     const { tenant, actions, contactActions } = this.props;
     return (
-      <Form style={{ direction: "rtl" }}>
-        <FormItem>
+      <div style={{ direction: "rtl" }}>
+        <FormItem label={strings.nameLabel}>
+          <Input
+            value={this.state.name}
+            onChange={({ target }) => this.setState({ name: target.value })}
+          />
+        </FormItem>
+
+        <FormItem label={strings.isBusinessLabel}>
           <RadioGroup
-            value={tenant.isBusiness}
+            value={this.state.isBusiness}
             onChange={this.handleIsBusinessChange}
           >
             <RadioButton value={true}>{strings.businessRadio}</RadioButton>
@@ -41,33 +74,28 @@ export class TenantForm extends Component {
           </RadioGroup>
         </FormItem>
 
-        <FormItem label={strings.nameLabel}>
+        <FormItem
+          label={
+            this.state.isBusiness
+              ? strings.BusinessIdLabel
+              : strings.PrivateIdLabel
+          }
+        >
           <Input
-            value={tenant.name}
-            onChange={e => actions.setTenantName(e.target.value)}
+            value={this.state.idNum}
+            onChange={({ target }) => this.setState({ idNum: target.value })}
           />
         </FormItem>
 
         <FormItem
           label={
-            tenant.isBusiness ? strings.BusinessIdLabel : strings.PrivateIdLabel
+            this.state.isBusiness ? strings.typeLabel : strings.privateTypeLabel
           }
         >
           <Input
-            value={tenant.idNum}
-            onChange={e => actions.setTenantNum(e.target.value)}
-          />
-        </FormItem>
-
-        <FormItem
-          label={
-            tenant.isBusiness ? strings.typeLabel : strings.privateTypeLabel
-          }
-        >
-          <Input
-            value={tenant.type}
-            onChange={e => actions.setTenantType(e.target.value)}
-            disabled={!tenant.isBusiness}
+            value={this.state.type}
+            onChange={({ target }) => this.setState({ type: target.value })}
+            disabled={!this.state.isBusiness}
           />
         </FormItem>
 
@@ -103,21 +131,9 @@ export class TenantForm extends Component {
           {strings.addContact}
         </Button>
         <Button onClick={() => actions.onSubmit(tenant)}>Save!</Button>
-      </Form>
+      </div>
     );
   }
-
-  handleIsBusinessChange = e => {
-    const { value } = e.target;
-    const { tenant, actions } = this.props;
-    actions.setTenantIsBusiness(value);
-    if (value) {
-      actions.setTenantType(this.state.lastBusinessType);
-    } else {
-      this.setState({ lastBusinessType: tenant.type });
-      actions.setTenantType(strings.privateTypeValue);
-    }
-  };
 }
 
 const wrapContactActions = (actions, id) =>

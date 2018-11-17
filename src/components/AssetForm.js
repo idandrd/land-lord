@@ -39,7 +39,7 @@ const initialState = {
 };
 
 export class AssetForm extends React.Component {
-  state = initialState;
+  state = {...initialState};
 
   addUnit = () =>
     this.setState({ units: [...this.state.units, { ...emptyUnit }] });
