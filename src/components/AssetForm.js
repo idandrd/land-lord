@@ -179,6 +179,7 @@ export class AssetForm extends React.Component {
         <Button type="primary" onClick={this.onSubmit}>
           {strings.save}
         </Button>
+        <Button onClick={() => console.log(this.state)}>log</Button>
       </div>
     );
   }
