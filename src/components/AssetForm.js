@@ -39,7 +39,7 @@ const initialState = {
 };
 
 export class AssetForm extends React.Component {
-  state = {...initialState};
+  state = { ...initialState };
 
   addUnit = () =>
     this.setState({ units: [...this.state.units, { ...emptyUnit }] });
@@ -52,10 +52,8 @@ export class AssetForm extends React.Component {
   };
 
   onUnitRemove = unitKey => {
-    const newUnits = this.state.units.filter((_u, i) => i !== unitKey);
-    this.setState({
-      units: newUnits
-    });
+    const units = this.state.units.filter((_unit, i) => i !== unitKey);
+    this.setState({ units });
   };
 
   onAssetTypeChange = type => {

@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
 import * as _ from "lodash";
-import { Form, Input, Button, Radio, Divider } from "antd";
-import { ContactForm } from "./ContactForm";
+import { Input, Button, Radio, Divider } from "antd";
 import { FormItem } from "./FormItem";
 
 const RadioButton = Radio.Button;
@@ -23,7 +21,19 @@ const strings = {
   submitLabel: "שמור",
   contacts: "אנשי קשר",
   privateTypeValue: "מגורים",
-  addContact: "איש קשר חדש"
+  save: "שמור",
+  addContact: "איש קשר חדש",
+  nameLabel: "שם",
+  roleLabel: "תפקיד",
+  phoneLabel: "טלפון",
+  emailLabel: "מייל"
+};
+
+const emptyContact = {
+  name: "",
+  role: "",
+  phone: "",
+  email: ""
 };
 
 const initialState = {
@@ -32,13 +42,33 @@ const initialState = {
   idNum: "",
   type: "",
   comments: "",
-  contacts: [],
+  contacts: [{ ...emptyContact }],
 
   lastBusinessType: ""
 };
 
 export class TenantForm extends Component {
   state = { ...initialState };
+
+  onContactRemove = contactKey => {
+    const contacts = this.state.contacts.filter(
+      (_contact, i) => i !== contactKey
+    );
+    this.setState({ contacts });
+  };
+
+  addContact = () =>
+    this.setState({ contacts: [...this.state.contacts, { ...emptyContact }] });
+
+  onContactChange = (contactKey, field, value) => {
+    const updatedContact = {
+      ...this.state.contacts[contactKey],
+      [field]: value
+    };
+    const contacts = [...this.state.contacts];
+    contacts[contactKey] = updatedContact;
+    this.setState({ contacts });
+  };
 
   handleIsBusinessChange = e => {
     const { value } = e.target;
@@ -53,8 +83,11 @@ export class TenantForm extends Component {
     }
   };
 
+  onSubmit = () => {
+    console.log("yay");
+  };
+
   render() {
-    const { tenant, actions, contactActions } = this.props;
     return (
       <div style={{ direction: "rtl" }}>
         <FormItem label={strings.nameLabel}>
@@ -101,66 +134,51 @@ export class TenantForm extends Component {
 
         <FormItem label={strings.commentsLabel}>
           <Textos
-            value={tenant.comments}
-            onChange={e => actions.setTenantComments(e.target.value)}
+            value={this.state.comments}
+            onChange={({ target }) => this.setState({ comments: target.value })}
             autosize={{ minRows: 2, maxRows: 6 }}
           />
         </FormItem>
 
         <Divider>{strings.contacts}</Divider>
 
-        {tenant.contacts.map(contact => {
-          const { id, ...fieldValues } = contact;
-          return (
-            <div
-              key={id}
-              style={{
-                border: "solid 1px #d8d8d8",
-                padding: "10px",
-                marginTop: "10px"
-              }}
-            >
-              <ContactForm
-                fieldValues={{ ...fieldValues }}
-                actions={wrapContactActions(contactActions, id)}
-              />
-            </div>
-          );
-        })}
-        <Button type="dashed" onClick={actions.addContact}>
-          {strings.addContact}
+        {this.state.contacts.map((contact, key) => (
+          <ContactForm
+            key={key}
+            contact={contact}
+            onRemove={() => this.onContactRemove(key)}
+          />
+        ))}
+        <Button onClick={this.addContact}>{strings.addContact}</Button>
+        <Button type="primary" onClick={this.onSubmit}>
+          {strings.save}
         </Button>
-        <Button onClick={() => actions.onSubmit(tenant)}>Save!</Button>
       </div>
     );
   }
 }
 
-const wrapContactActions = (actions, id) =>
-  _.mapValues(actions, action => (...params) => action(id, ...params));
-
-TenantForm.propTypes = {
-  tenant: PropTypes.shape({
-    isBusiness: PropTypes.bool,
-    name: PropTypes.string,
-    idNum: PropTypes.string,
-    type: PropTypes.string,
-    comments: PropTypes.string,
-    contacts: PropTypes.array
-  }),
-  actions: PropTypes.shape({
-    setTenantIsBusiness: PropTypes.func,
-    setTenantName: PropTypes.func,
-    setTenantNum: PropTypes.func,
-    setTenantType: PropTypes.func,
-    setTenantComments: PropTypes.func,
-    addContact: PropTypes.func,
-    onSubmit: PropTypes.func
-  }),
-  contactActions: PropTypes.shape({
-    setContactName: PropTypes.func,
-    setContactRole: PropTypes.func,
-    setContactPhone: PropTypes.func,
-    setContactEmail: PropTypes.func
-  })
-};
+export class ContactForm extends React.Component {
+  render() {
+    const { contact, onRemove } = this.props;
+    return (
+      <div
+        style={{ border: "1px dashed", width: "80%", padding: 9, margin: 4 }}
+      >
+        <FormItem label={strings.nameLabel}>
+          <Input />
+        </FormItem>
+        <FormItem label={strings.roleLabel}>
+          <Input />
+        </FormItem>
+        <FormItem label={strings.phoneLabel}>
+          <Input />
+        </FormItem>
+        <FormItem label={strings.emailLabel}>
+          <Input />
+        </FormItem>
+        <Button onClick={onRemove}>X</Button>
+      </div>
+    );
+  }
+}
