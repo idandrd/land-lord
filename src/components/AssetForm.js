@@ -17,7 +17,7 @@ const strings = {
   addUnit: "הוסף יחידה",
   save: "שמור",
   unitName: "שם היחידה",
-  mainSize: 'מ"ר מרכזי',
+  mainSize: 'מ"ר עיקרי',
   gardenSize: 'מ"ר גינה',
   balconySize: 'מ"ר מרפסת',
   storageSize: 'מ"ר מחסן',
