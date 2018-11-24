@@ -29,10 +29,12 @@ class FirebaseService {
 
   initFirebase = async dispatch => {
     await fb.initializeApp(fbConfig);
-    this.db = fb
-      .firestore()
-      .collection(strings.dev)
-      .doc(strings.root);
+
+    const firestore = fb.firestore();
+    const settings = { timestampsInSnapshots: true };
+    firestore.settings(settings);
+
+    this.db = firestore.collection(strings.dev).doc(strings.root);
     this.dispatch = dispatch;
   };
 
