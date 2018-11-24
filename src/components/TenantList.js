@@ -71,7 +71,7 @@ class ContactsTable extends React.Component {
     return (
       <Table
         columns={this.columns}
-        dataSource={tenant.contacts}
+        dataSource={tenant.contacts.map((c, i) => ({...c, key: i}))}
         pagination={false}
         bordered={true}
       />

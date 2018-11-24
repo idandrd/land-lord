@@ -94,7 +94,7 @@ class UnitsTable extends React.Component {
     return (
       <Table
         columns={this.columns}
-        dataSource={asset.units}
+        dataSource={asset.units.map((u, i) => ({ ...u, key: i }))}
         pagination={false}
         bordered={true}
       />
