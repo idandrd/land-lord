@@ -1,57 +1,103 @@
 import React from "react";
-import PropTypes from "prop-types";
 import { Table } from "antd";
-
-const strings = {
-  nameColumn: "שם",
-  typeColumn: "שימוש",
-  commentsColumn: "הערות"
-};
-
-const columns = [
-  {
-    title: strings.nameColumn,
-    dataIndex: "name",
-    sorter: (a, b) => a.name.length - b.name.length
-  },
-  {
-    title: strings.typeColumn,
-    dataIndex: "type",
-    sorter: (a, b) => a.type.length - b.type.length
-  },
-  {
-    title: strings.commentsColumn,
-    dataIndex: "comments",
-    sorter: (a, b) => a.comments.length - b.comments.length
-  }
-];
-
-const onChange = (pagination, filters, sorter) => {
-  console.log("params", pagination, filters, sorter);
-};
+import { uniq } from "lodash";
+import { strings } from "./AssetForm";
 
 export class AssetList extends React.Component {
+  columns = [
+    {
+      title: strings.assetName,
+      dataIndex: "name",
+      sorter: (a, b) => a.name.length - b.name.length
+    },
+    {
+      title: strings.assetCity,
+      dataIndex: "city",
+      sorter: (a, b) => a.type.length - b.type.length
+    },
+    {
+      title: strings.assetAddress,
+      dataIndex: "address",
+      sorter: (a, b) => a.comments.length - b.comments.length
+    },
+    {
+      title: strings.assetFloors,
+      dataIndex: "floors",
+      sorter: (a, b) => a.comments.length - b.comments.length
+    },
+    {
+      title: strings.assetYear,
+      dataIndex: "year",
+      sorter: (a, b) => a.comments.length - b.comments.length
+    },
+    {
+      title: strings.assetType,
+      dataIndex: "type",
+      sorter: (a, b) => a.comments.length - b.comments.length
+    },
+    {
+      title: strings.units,
+      dataIndex: "unitsCount",
+      sorter: (a, b) => a.comments.length - b.comments.length
+    },
+    {
+      title: strings.assetOwner,
+      dataIndex: "owner",
+      sorter: (a, b) => a.comments.length - b.comments.length
+    }
+  ];
+
+  onChange = (pagination, filters, sorter) => {
+    console.log("params", pagination, filters, sorter);
+  };
+
+  mergeUnitField = (asset, fieldName) =>
+    uniq(asset.units.map(unit => unit[fieldName]).filter(a => a)).join(", ");
+
+  parseAssets = assets =>
+    assets.map((asset, i) => ({
+      ...asset,
+      key: i,
+      owner: this.mergeUnitField(asset, "owner"),
+      type: this.mergeUnitField(asset, "type"),
+      unitsCount: asset.units.length
+    }));
+
   render() {
-    const { assets } = this.props;
+    const assets = this.props.assets || [];
     return (
       <Table
-        dataSource={
-          assets
-            ? assets.map((asset, i) => ({
-                key: i,
-                name: asset.name,
-                type: asset.type,
-                comments: asset.comments
-              }))
-            : [{ name: "idan", type: "man", comments: "hello", key: "1" }]
-        }
-        columns={columns}
-        onChange={onChange}
+        columns={this.columns}
+        dataSource={this.parseAssets(assets)}
+        onChange={this.onChange}
+        expandedRowRender={asset => <UnitsTable asset={asset} />}
       />
     );
   }
 }
 
-AssetList.propTypes = {
-  assets: PropTypes.array
-};
+class UnitsTable extends React.Component {
+  columns = [
+    { title: strings.unitName, dataIndex: "name" },
+    { title: strings.assetOwner, dataIndex: "owner" },
+    { title: strings.assetType, dataIndex: "type" },
+    { title: strings.mainSize, dataIndex: "mainSize" },
+    { title: strings.gardenSize, dataIndex: "gardenSize" },
+    { title: strings.balconySize, dataIndex: "balconySize" },
+    { title: strings.storageSize, dataIndex: "storageSize" },
+    { title: strings.parkings, dataIndex: "parkings" },
+    { title: strings.parkingIndexes, dataIndex: "parkingIndexes" }
+  ];
+
+  render() {
+    const { asset } = this.props;
+    return (
+      <Table
+        columns={this.columns}
+        dataSource={asset.units}
+        pagination={false}
+        bordered={true}
+      />
+    );
+  }
+}

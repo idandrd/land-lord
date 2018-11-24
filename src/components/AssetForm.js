@@ -5,7 +5,7 @@ import { FormItem } from "./FormItem";
 import { CitySelect } from "./CitySelect";
 import { UnitTypeSelect, UnitOwnerSelect, COMBINED } from "./UnitTypeSelect";
 
-const strings = {
+export const strings = {
   assetName: "שם הנכס",
   assetCity: "עיר",
   assetAddress: "כתובת",
@@ -17,7 +17,7 @@ const strings = {
   addUnit: "הוסף יחידה",
   save: "שמור",
   unitName: "שם היחידה",
-  mainSize: 'מ"ר מרכזי',
+  mainSize: 'מ"ר עיקרי',
   gardenSize: 'מ"ר גינה',
   balconySize: 'מ"ר מרפסת',
   storageSize: 'מ"ר מחסן',
