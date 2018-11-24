@@ -1,57 +1,80 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Table } from "antd";
-
-const strings = {
-  nameColumn: "שם",
-  typeColumn: "שימוש",
-  commentsColumn: "הערות"
-};
-
-const columns = [
-  {
-    title: strings.nameColumn,
-    dataIndex: "name",
-    sorter: (a, b) => a.name.length - b.name.length
-  },
-  {
-    title: strings.typeColumn,
-    dataIndex: "type",
-    sorter: (a, b) => a.type.length - b.type.length
-  },
-  {
-    title: strings.commentsColumn,
-    dataIndex: "comments",
-    sorter: (a, b) => a.comments.length - b.comments.length
-  }
-];
-
-const onChange = (pagination, filters, sorter) => {
-  console.log("params", pagination, filters, sorter);
-};
+import { strings } from "./TenantForm";
 
 export class TenantList extends React.Component {
+  columns = [
+    {
+      title: strings.nameLabel,
+      dataIndex: "name",
+      sorter: (a, b) => a.name.length - b.name.length
+    },
+    {
+      title: strings.privateTypeLabel,
+      dataIndex: "type",
+      sorter: (a, b) => a.type.length - b.type.length
+    },
+    {
+      title: strings.isBusinessLabel,
+      dataIndex: "isBusiness"
+    },
+    {
+      title: strings.BusinessIdLabel,
+      dataIndex: "idNum"
+    },
+    {
+      title: strings.commentsLabel,
+      dataIndex: "comments",
+      sorter: (a, b) => a.comments.length - b.comments.length
+    }
+  ];
+
+  onChange = (pagination, filters, sorter) => {
+    console.log("params", pagination, filters, sorter);
+  };
+
+  parseTenants = tenants =>
+    tenants.map((tenant, i) => ({
+      ...tenant,
+      key: i,
+      isBusiness: tenant.isBusiness
+        ? strings.businessRadio
+        : strings.privateRadio
+    }));
+
   render() {
-    const { tenants } = this.props;
+    const tenants = this.props.tenants || [];
     return (
       <Table
-        dataSource={
-          tenants
-            ? tenants.map((t, i) => ({
-                key: i,
-                name: t.name,
-                type: t.type,
-                comments: t.comments
-              }))
-            : [{ name: "idan", type: "man", comments: "hello", key: "1" }]
-        }
-        columns={columns}
-        onChange={onChange}
+        dataSource={this.parseTenants(tenants)}
+        columns={this.columns}
+        onChange={this.onChange}
+        expandedRowRender={tenant => <ContactsTable tenant={tenant} />}
       />
     );
   }
 }
 
-TenantList.propTypes = {
-  tenants: PropTypes.array
-};
+class ContactsTable extends React.Component {
+  columns = [
+    { title: strings.nameLabel, dataIndex: "name" },
+    { title: strings.roleLabel, dataIndex: "role" },
+    { title: strings.phoneLabel, dataIndex: "phone" },
+    { title: strings.otherPhoneLabel, dataIndex: "otherPhone" },
+    { title: strings.emailLabel, dataIndex: "email" },
+    { title: strings.faxLabel, dataIndex: "fax" }
+  ];
+
+  render() {
+    const { tenant } = this.props;
+    return (
+      <Table
+        columns={this.columns}
+        dataSource={tenant.contacts}
+        pagination={false}
+        bordered={true}
+      />
+    );
+  }
+}

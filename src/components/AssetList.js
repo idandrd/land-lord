@@ -88,17 +88,6 @@ class UnitsTable extends React.Component {
     { title: strings.parkings, dataIndex: "parkings" },
     { title: strings.parkingIndexes, dataIndex: "parkingIndexes" }
   ];
-  x = {
-    balconySize: 10,
-    gardenSize: 20,
-    mainSize: 90,
-    name: "דירה 1",
-    owner: "אמיר",
-    parkingIndexes: "2,4",
-    parkings: 2,
-    storageSize: 10,
-    type: "מגורים"
-  };
 
   render() {
     const { asset } = this.props;

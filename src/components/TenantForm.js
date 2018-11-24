@@ -7,7 +7,7 @@ const RadioButton = Radio.Button;
 const RadioGroup = Radio.Group;
 const Textos = Input.TextArea;
 
-const strings = {
+export const strings = {
   businessRadio: "עסק",
   privateRadio: "פרטי",
   isBusinessLabel: "האם עסק",
