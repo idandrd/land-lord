@@ -5,7 +5,7 @@ import { FormItem } from "./FormItem";
 import { CitySelect } from "./CitySelect";
 import { UnitTypeSelect, UnitOwnerSelect, COMBINED } from "./UnitTypeSelect";
 
-const strings = {
+export const strings = {
   assetName: "שם הנכס",
   assetCity: "עיר",
   assetAddress: "כתובת",
