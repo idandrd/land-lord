@@ -3,7 +3,7 @@ import { Table } from "antd";
 import { uniq } from "lodash";
 import { strings } from "./AssetForm";
 
-export class AssetList extends React.Component {
+export class AssetList extends React.Component<{ assets: any[] }> {
   columns = [
     {
       title: strings.assetName,
@@ -76,7 +76,7 @@ export class AssetList extends React.Component {
   }
 }
 
-class UnitsTable extends React.Component {
+class UnitsTable extends React.Component<{ asset: any }> {
   columns = [
     { title: strings.unitName, dataIndex: "name" },
     { title: strings.assetOwner, dataIndex: "owner" },
