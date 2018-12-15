@@ -37,10 +37,6 @@ const columns = [
 export class ContractList extends React.Component {
   render() {
     const { contracts } = this.props;
-    return <Table dataSource={contracts} columns={columns} />;
+    return <div>contracts page here</div>;
   }
 }
-
-ContractList.propTypes = {
-  assets: PropTypes.array
-};
