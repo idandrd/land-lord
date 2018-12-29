@@ -29,6 +29,7 @@ export interface Asset extends BaseAsset {
 
 export interface BaseContract {
   tenantId: string;
+  assetId: string;
   unitIds: string[];
   signingDate: string;
   startLeaseDate: string;

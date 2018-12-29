@@ -25,6 +25,7 @@ interface ContractFormState extends BaseContract {}
 
 const initialState: ContractFormState = {
   tenantId: "",
+  assetId: "",
   unitIds: [],
   signingDate: "",
   startLeaseDate: "",
@@ -43,18 +44,29 @@ export class ContractForm extends React.Component<
 
   render() {
     const { tenants, assets, contract, actions } = this.props;
+    console.log(this.state);
     return (
       <div style={{ direction: "rtl" }}>
         <FormItem label={strings.tenant}>
           <CaseItemSelect
             options={tenants}
-            onChange={actions.setContractTenantId}
+            value={this.state.tenantId}
+            onChange={tenantId => this.setState({ tenantId })}
+          />
+        </FormItem>
+        <FormItem label={strings.asset}>
+          <CaseItemSelect
+            options={assets}
+            value={this.state.assetId}
+            onChange={assetId => this.setState({ assetId })}
           />
         </FormItem>
         <FormItem label={strings.asset}>
           <UnitSelect
             assets={assets}
-            // onChange={actions.setContractAssetId}
+            assetId={this.state.assetId}
+            onChange={(unitIds: string[]) => this.setState({ unitIds })}
+            value={this.state.unitIds}
           />
         </FormItem>
         <FormItem label={strings.firstCheck}>
@@ -68,11 +80,6 @@ export class ContractForm extends React.Component<
             onChange={actions.setContractAmountOfChecksRecieved}
           />
         </FormItem>
-        {/* <FormItem label={strings.signingDate}>
-          <DatePicker
-            onChange={(_, date) => actions.setContractSigningDate(date)}
-          />
-        </FormItem> */}
         <Button type="primary" onClick={() => actions.onSubmit(contract)}>
           {strings.submit}
         </Button>
@@ -93,25 +100,23 @@ const CaseItemSelect = props => (
 
 const UnitSelect = (props: {
   assets: Asset[];
-  onchange?: (val: string) => void;
-  onRemove?: () => void;
-  onNew?: () => void;
+  assetId?: string;
+  onChange: (unitIds: string[]) => void;
+  value: string[];
 }) => {
-  const units = flatten(
-    props.assets.map(asset =>
-      asset.units.map((unit, index) => ({
-        key: `${asset.id}.${index}`,
-        name: `${asset.name}, ${unit.name || ""}, ${asset.city}`
-      }))
-    )
-  );
+  const asset = props.assets.find(asset => asset.id === props.assetId);
   return (
-    <Select style={{ width: "100%" }}>
-      {units.map(unit => (
-        <Option key={unit.key} value={unit.key}>
-          {unit.name}
-        </Option>
-      ))}
+    <Select
+      mode="multiple"
+      onChange={props.onChange}
+      style={{ width: "100%" }}
+    >
+      {asset &&
+        asset.units.map((unit, index) => (
+          <Option key={index} value={index}>
+            {unit.name}
+          </Option>
+        ))}
     </Select>
   );
 };
