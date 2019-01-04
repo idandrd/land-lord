@@ -3,6 +3,7 @@ import React from "react";
 import { BaseAsset, Unit } from "../types";
 import { CitySelect } from "./CitySelect";
 import { FormItem } from "./FormItem";
+import shortid from "shortid";
 import { COMBINED, UnitOwnerSelect, UnitTypeSelect } from "./UnitTypeSelect";
 
 export const strings = {
@@ -25,7 +26,8 @@ export const strings = {
   parkingIndexes: "מספרי חניות"
 };
 
-const emptyUnit: Unit = {
+const getEmptyUnit: () => Unit = () => ({
+  id: shortid.generate(),
   name: "",
   type: "",
   owner: "",
@@ -35,10 +37,10 @@ const emptyUnit: Unit = {
   storageSize: "",
   parkings: "",
   parkingIndexes: ""
-};
+});
 
 interface AssetFormState extends BaseAsset {
-  owner?: string
+  owner?: string;
   showTypeInUnits: boolean;
   showOwnerInUnits: boolean;
 }
@@ -53,7 +55,7 @@ const initialState: AssetFormState = {
   storageSize: "",
   parkings: "",
   parkingIndexes: "",
-  units: [{ ...emptyUnit }],
+  units: [getEmptyUnit()],
 
   showTypeInUnits: false,
   showOwnerInUnits: false
@@ -63,7 +65,7 @@ export class AssetForm extends React.Component<any, AssetFormState> {
   state = { ...initialState };
 
   addUnit = () =>
-    this.setState({ units: [...this.state.units, { ...emptyUnit }] });
+    this.setState({ units: [...this.state.units, getEmptyUnit()] });
 
   onUnitChange = (unitKey, field, value) => {
     const updatedUnit = { ...this.state.units[unitKey], [field]: value };

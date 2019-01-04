@@ -1,4 +1,5 @@
 export interface Unit {
+  id: string;
   name: string;
   type: string;
   owner: string;
