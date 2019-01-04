@@ -42,6 +42,23 @@ export class ContractForm extends React.Component<
 > {
   state = { ...initialState };
 
+  unitSelectComponent = (
+    <UnitSelect onChange={(unitIds: string[]) => this.setState({ unitIds })} />
+  );
+
+  onSelectAssetChange = (assetId: string) => {
+    this.unitSelectComponent = <div />;
+    this.setState({ assetId }, () => {
+      this.unitSelectComponent = (
+        <UnitSelect
+          asset={this.props.assets.find(asset => asset.id === assetId)}
+          onChange={(unitIds: string[]) => this.setState({ unitIds })}
+        />
+      );
+      this.setState({ unitIds: [] })
+    });
+  };
+
   render() {
     const { tenants, assets, contract, actions } = this.props;
     console.log(this.state);
@@ -58,17 +75,10 @@ export class ContractForm extends React.Component<
           <CaseItemSelect
             options={assets}
             value={this.state.assetId}
-            onChange={assetId => this.setState({ assetId })}
+            onChange={this.onSelectAssetChange}
           />
         </FormItem>
-        <FormItem label={strings.asset}>
-          <UnitSelect
-            assets={assets}
-            assetId={this.state.assetId}
-            onChange={(unitIds: string[]) => this.setState({ unitIds })}
-            value={this.state.unitIds}
-          />
-        </FormItem>
+        <FormItem label={strings.asset}>{this.unitSelectComponent}</FormItem>
         <FormItem label={strings.firstCheck}>
           <DatePicker
             onChange={(_, date) => actions.setContractFirstCheckDate(date)}
@@ -99,18 +109,12 @@ const CaseItemSelect = props => (
 );
 
 const UnitSelect = (props: {
-  assets: Asset[];
-  assetId?: string;
+  asset?: Asset;
   onChange: (unitIds: string[]) => void;
-  value: string[];
 }) => {
-  const asset = props.assets.find(asset => asset.id === props.assetId);
+  const { asset } = props;
   return (
-    <Select
-      mode="multiple"
-      onChange={props.onChange}
-      style={{ width: "100%" }}
-    >
+    <Select mode="multiple" onChange={props.onChange} style={{ width: "100%" }}>
       {asset &&
         asset.units.map((unit, index) => (
           <Option key={index} value={index}>
