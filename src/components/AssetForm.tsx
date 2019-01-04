@@ -1,9 +1,10 @@
+import { Button, Divider, Input, InputNumber } from "antd";
 import React from "react";
-import PropTypes from "prop-types";
-import { Input, Button, Divider, InputNumber } from "antd";
-import { FormItem } from "./FormItem";
+import { BaseAsset, Unit } from "../types";
 import { CitySelect } from "./CitySelect";
-import { UnitTypeSelect, UnitOwnerSelect, COMBINED } from "./UnitTypeSelect";
+import { FormItem } from "./FormItem";
+import shortid from "shortid";
+import { COMBINED, UnitOwnerSelect, UnitTypeSelect } from "./UnitTypeSelect";
 
 export const strings = {
   assetName: "שם הנכס",
@@ -25,7 +26,8 @@ export const strings = {
   parkingIndexes: "מספרי חניות"
 };
 
-const emptyUnit = {
+const getEmptyUnit: () => Unit = () => ({
+  id: shortid.generate(),
   name: "",
   type: "",
   owner: "",
@@ -35,9 +37,15 @@ const emptyUnit = {
   storageSize: "",
   parkings: "",
   parkingIndexes: ""
-};
+});
 
-const initialState = {
+interface AssetFormState extends BaseAsset {
+  owner?: string;
+  showTypeInUnits: boolean;
+  showOwnerInUnits: boolean;
+}
+
+const initialState: AssetFormState = {
   name: "",
   city: "",
   address: "",
@@ -47,17 +55,17 @@ const initialState = {
   storageSize: "",
   parkings: "",
   parkingIndexes: "",
-  units: [{ ...emptyUnit }],
+  units: [getEmptyUnit()],
 
   showTypeInUnits: false,
   showOwnerInUnits: false
 };
 
-export class AssetForm extends React.Component {
+export class AssetForm extends React.Component<any, AssetFormState> {
   state = { ...initialState };
 
   addUnit = () =>
-    this.setState({ units: [...this.state.units, { ...emptyUnit }] });
+    this.setState({ units: [...this.state.units, getEmptyUnit()] });
 
   onUnitChange = (unitKey, field, value) => {
     const updatedUnit = { ...this.state.units[unitKey], [field]: value };
@@ -141,25 +149,25 @@ export class AssetForm extends React.Component {
         <FormItem label={strings.assetYear}>
           <InputNumber
             value={this.state.year}
-            onChange={year => this.setState({ year })}
+            onChange={(year: number) => this.setState({ year })}
           />
         </FormItem>
         <FormItem label={strings.assetFloors}>
           <InputNumber
             value={this.state.floors}
-            onChange={floors => this.setState({ floors })}
+            onChange={(floors: number) => this.setState({ floors })}
           />
         </FormItem>
         <FormItem label={strings.storageSize}>
           <InputNumber
-            value={this.state.storageSize}
-            onChange={storageSize => this.setState({ storageSize })}
+            value={this.state.storageSize as any}
+            onChange={(storageSize: string) => this.setState({ storageSize })}
           />
         </FormItem>
         <FormItem label={strings.parkings}>
           <InputNumber
-            value={this.state.parkings}
-            onChange={parkings => this.setState({ parkings })}
+            value={this.state.parkings as any}
+            onChange={(parkings: string) => this.setState({ parkings })}
           />
         </FormItem>
         {this.state.parkings && (
@@ -198,7 +206,7 @@ export class AssetForm extends React.Component {
   }
 }
 
-export class UnitForm extends React.Component {
+export class UnitForm extends React.Component<any> {
   render() {
     const { unit, onFieldChange, onRemove, showType, showOwner } = this.props;
     return (
@@ -272,21 +280,3 @@ export class UnitForm extends React.Component {
     );
   }
 }
-
-AssetForm.propTypes = {
-  asset: PropTypes.shape({
-    name: PropTypes.string,
-    city: PropTypes.string,
-    address: PropTypes.string,
-    year: PropTypes.string,
-    floors: PropTypes.number
-  }),
-  actions: PropTypes.shape({
-    setAssetName: PropTypes.func,
-    setAssetCity: PropTypes.func,
-    setAssetAddress: PropTypes.func,
-    setAssetYear: PropTypes.func,
-    setAssetFloors: PropTypes.func,
-    onSubmit: PropTypes.func
-  })
-};
