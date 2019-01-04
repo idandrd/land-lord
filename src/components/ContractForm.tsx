@@ -117,7 +117,7 @@ const UnitSelect = (props: {
     <Select mode="multiple" onChange={props.onChange} style={{ width: "100%" }}>
       {asset &&
         asset.units.map((unit, index) => (
-          <Option key={index} value={index}>
+          <Option key={index} value={unit.id || index}>
             {unit.name}
           </Option>
         ))}
