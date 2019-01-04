@@ -8,8 +8,10 @@ const Option = Select.Option;
 
 const strings = {
   signingDate: "נחתם בתאריך",
+  startLeaseDate: "תאריך חתימה",
   tenant: "השוכר",
   asset: "הנכס",
+  unit: "יחידות",
   submit: "שמור",
   firstCheck: "תאריך הצ'ק הראשון",
   checksAmount: "כמות צ'קים שהתקבלו"
@@ -55,7 +57,7 @@ export class ContractForm extends React.Component<
           onChange={(unitIds: string[]) => this.setState({ unitIds })}
         />
       );
-      this.setState({ unitIds: [] })
+      this.setState({ unitIds: [] });
     });
   };
 
@@ -78,10 +80,15 @@ export class ContractForm extends React.Component<
             onChange={this.onSelectAssetChange}
           />
         </FormItem>
-        <FormItem label={strings.asset}>{this.unitSelectComponent}</FormItem>
-        <FormItem label={strings.firstCheck}>
+        <FormItem label={strings.unit}>{this.unitSelectComponent}</FormItem>
+        <FormItem label={strings.signingDate}>
           <DatePicker
-            onChange={(_, date) => actions.setContractFirstCheckDate(date)}
+            onChange={(_, signingDate) => this.setState({ signingDate })}
+          />
+        </FormItem>
+        <FormItem label={strings.startLeaseDate}>
+          <DatePicker
+            onChange={(_, startLeaseDate) => this.setState({ startLeaseDate })}
           />
         </FormItem>
         <FormItem label={strings.checksAmount}>
