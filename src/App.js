@@ -33,51 +33,42 @@ class App extends Component {
     return (
       <Router>
         <Provider store={store}>
-          <Layout style={{ minHeight: "100vh" }}>
-            <SideBar />
-            <Layout>
-              <Header style={{ background: "#fff", padding: 0 }} />
-              <Content
-                style={{
-                  margin: "24px 16px",
-                  padding: 24,
-                  background: "#fff",
-                  minHeight: 280
-                }}
-              >
-                <Switch>
-                  <Route
-                    exact
-                    path="/"
-                    render={() => <h1>Welcome to LandLord!</h1>}
-                  />
-                  <Route path={Routes.tasks} component={TasksContainer} />
-                  <Route
-                    path={Routes.newTenant}
-                    component={TenantFormContainer}
-                  />
-                  <Route
-                    path={Routes.newAsset}
-                    component={AssetFormContainer}
-                  />
-                  <Route
-                    path={Routes.newContract}
-                    component={ContractFormContainer}
-                  />
-                  <Route path={Routes.tenants} component={TenantsContainer} />
-                  <Route path={Routes.assets} component={AssetsContainer} />
-                  <Route
-                    path={Routes.contracts}
-                    component={ContractsContainer}
-                  />
-                </Switch>
-              </Content>
-            </Layout>
-          </Layout>
+          <Switch>
+            <Route path="/auth" render={() => <h1>this is auth!!</h1>} />
+            <Route path="/" component={AppMain} />
+          </Switch>
         </Provider>
       </Router>
     );
   }
 }
+
+const AppMain = () => (
+  <Layout style={{ minHeight: "100vh" }}>
+    <SideBar />
+    <Layout>
+      <Header style={{ background: "#fff", padding: 0 }} />
+      <Content
+        style={{
+          margin: "24px 16px",
+          padding: 24,
+          background: "#fff",
+          minHeight: 280
+        }}
+      >
+        <Switch>
+          <Route exact path="/" render={() => <h1>Welcome to LandLord!</h1>} />
+          <Route path={Routes.tasks} component={TasksContainer} />
+          <Route path={Routes.newTenant} component={TenantFormContainer} />
+          <Route path={Routes.newAsset} component={AssetFormContainer} />
+          <Route path={Routes.newContract} component={ContractFormContainer} />
+          <Route path={Routes.tenants} component={TenantsContainer} />
+          <Route path={Routes.assets} component={AssetsContainer} />
+          <Route path={Routes.contracts} component={ContractsContainer} />
+        </Switch>
+      </Content>
+    </Layout>
+  </Layout>
+);
 
 export default App;
