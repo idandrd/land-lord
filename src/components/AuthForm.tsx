@@ -1,9 +1,15 @@
 import React from "react";
 import { FormItem } from "./FormItem";
 import { Input, Button } from "antd";
+import { firebaseService } from "../service/fireBase";
 
 export class AuthForm extends React.Component {
   state = { email: "", password: "" };
+
+  handleSubmit = () => {
+    firebaseService.signup(this.state.email, this.state.password);
+  };
+
   render() {
     return (
       <div>
@@ -21,7 +27,7 @@ export class AuthForm extends React.Component {
             type="password"
           />
         </FormItem>
-        <Button>Signup</Button>
+        <Button onClick={this.handleSubmit}>Signup</Button>
       </div>
     );
   }

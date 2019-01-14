@@ -69,7 +69,12 @@ class FirebaseService {
       listener,
       this.caseRoot.collection(strings.contracts)
     );
+    
+    signup = (email, password) => {
+      fb.auth().createUserWithEmailAndPassword(email, password)
+    }
 }
+
 
 const handleCollectionSnapshot = (listener, collection) => {
   const unsubscribe = collection.onSnapshot(res => {
