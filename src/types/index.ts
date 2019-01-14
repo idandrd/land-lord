@@ -38,13 +38,30 @@ export interface BaseContract {
   gracePeriodLength: number;
   optionPeriods: Option[];
   paymentEveryMonths: number;
-  paymentAmount: number;
+  monthDayOfPayment: number;
+  paymentMethod: "check" | "cash" | "bankTransfer" | "other";
+  paymentIndexLink: "madad" | "madadUps" | "dolar" | "other";
+  checkBundles: CheckBundle[];
+  paymentPeriods: PaymentPeriod[];
   
-  // firstCheckDate: string;
-  // amountOfChecksRecieved: string;
+  // assetProperties: "parking" | "storage"
+  // guarantees: "bankGuarantee" | "bankCheck"
+
+  comments: string;
 }
 
 export interface Option {
   leaseLength: number;
   noticeAhead: number;
+}
+
+export interface PaymentPeriod {
+  lengthInMonths: number;
+  amountPerMonth: number;
+}
+
+export interface CheckBundle {
+  amountOfChecks: number;
+  dateOfFirstCheck: number;
+  checkForHowManyMonths: number;
 }
