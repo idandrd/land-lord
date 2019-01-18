@@ -5,6 +5,7 @@ import { Layout } from "antd";
 import { getStore } from "./redux/configureStore";
 import "./App.css";
 import SideBar from "./components/SideBar";
+import { Spin } from "antd";
 
 import { TasksContainer } from "./containers/Tasks";
 
@@ -21,25 +22,33 @@ import { AuthForm } from "./components/AuthForm";
 
 import { AppActions } from "./redux/actions/app";
 import { Routes } from "./common/constants";
+import { firebaseService } from "./service/fireBase";
 
 const store = getStore();
 const { Header, Content } = Layout;
 
 class App extends Component {
+  state = { loggedIn: false, loadingAuth: true };
+
   componentDidMount() {
     const action = AppActions.initFirebase();
     store.dispatch(action);
+    firebaseService.onAuthStateChanged(user =>
+      this.setState({ loggedIn: user != null, loadingAuth: false })
+    );
   }
 
   render() {
+    console.log("********", firebaseService.isLoggedIn());
     return (
       <Router>
-        <Provider store={store}>
-          <Switch>
-            <Route path="/auth" component={AuthForm} />
-            <Route path="/" component={AppMain} />
-          </Switch>
-        </Provider>
+        {this.state.loadingAuth ? (
+          <Spin size="large" />
+        ) : (
+          <Provider store={store}>
+            <div>{this.state.loggedIn ? <AppMain /> : <AuthForm />}</div>
+          </Provider>
+        )}
       </Router>
     );
   }

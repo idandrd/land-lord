@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Layout, Menu, Icon } from "antd";
 import { Link } from "react-router-dom";
 import { Routes } from "../common/constants";
+import { firebaseService } from "../service/fireBase";
 
 const { Sider } = Layout;
 
@@ -10,7 +11,8 @@ const strings = {
   assets: "נכסים",
   tenants: "שוכרים",
   contracts: "חוזים",
-  settings: "הגדרות"
+  settings: "הגדרות",
+  logout: "התנתק"
 };
 
 class SideBar extends Component {
@@ -28,16 +30,12 @@ class SideBar extends Component {
       <Sider collapsible collapsed={collapsed} onCollapse={this.onCollapse}>
         <div className="logo">
           <img
-            style={{ width: 30, heigh: 50, marginLeft: 10 }}
+            style={{ width: 30, marginLeft: 10 }}
             src="https://cdn4.iconfinder.com/data/icons/fashion-vol-2/72/84-512.png"
             alt="landlord icon"
           />
         </div>
-        <Menu
-          theme="dark"
-          defaultSelectedKeys={["1"]}
-          mode="inline"
-        >
+        <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
           <Menu.Item key={strings.tastks}>
             <Link to={Routes.tasks}>
               <Icon type="rocket" />
@@ -67,6 +65,16 @@ class SideBar extends Component {
               <Icon type="setting" />
               <span>{strings.settings}</span>
             </Link>
+          </Menu.Item>
+          <Menu.Item>
+            <div
+              onClick={() => {
+                firebaseService.logout();
+              }}
+            >
+              <Icon type="logout" />
+              <span>{strings.logout}</span>
+            </div>
           </Menu.Item>
         </Menu>
       </Sider>

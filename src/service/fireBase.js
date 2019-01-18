@@ -27,14 +27,17 @@ class FirebaseService {
   caseRoot = null;
   dispatch = () => {};
 
-  initFirebase = async dispatch => {
-    await fb.initializeApp(fbConfig);
+  constructor() {
+    fb.initializeApp(fbConfig);
 
     const firestore = fb.firestore();
     const settings = { timestampsInSnapshots: true };
     firestore.settings(settings);
 
     this.db = firestore.collection(strings.dev).doc(strings.root);
+  }
+
+  initFirebase = async dispatch => {
     this.dispatch = dispatch;
   };
 
@@ -69,12 +72,15 @@ class FirebaseService {
       listener,
       this.caseRoot.collection(strings.contracts)
     );
-    
-    signup = (email, password) => {
-      fb.auth().createUserWithEmailAndPassword(email, password)
-    }
-}
 
+  getInstance = () => fb;
+
+  logout = () => fb.auth().signOut();
+
+  isLoggedIn = () => fb.auth().currentUser != null;
+  
+  onAuthStateChanged = func => fb.auth().onAuthStateChanged(func);
+}
 
 const handleCollectionSnapshot = (listener, collection) => {
   const unsubscribe = collection.onSnapshot(res => {
