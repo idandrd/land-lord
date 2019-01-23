@@ -25,6 +25,7 @@ interface ContractFormProps {
 }
 interface ContractFormState extends BaseContract {}
 
+// @ts-ignore
 const initialState: ContractFormState = {
   tenantId: "",
   assetId: "",
@@ -35,7 +36,7 @@ const initialState: ContractFormState = {
   gracePeriodLength: 0,
   optionPeriods: [],
   paymentEveryMonths: 1,
-  paymentAmount: 0
+  // paymentAmount: 0
 };
 
 export class ContractForm extends React.Component<
