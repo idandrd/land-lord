@@ -45,9 +45,11 @@ const initialState: ContractFormState = {
   startLeaseDate: "",
   leaseLength: 12,
   gracePeriodLength: 0,
-
   optionPeriods: [],
-  paymentEveryMonths: 1
+  paymentEveryMonths: 1,
+  monthDayOfPayment: 1,
+  paymentMethod: "check",
+  paymentIndexLink: "madad"
 };
 
 export class ContractForm extends React.Component<
@@ -120,6 +122,57 @@ export class ContractForm extends React.Component<
               this.setState({ gracePeriodLength: parseInt(val.toString()) })
             }
           />
+        </FormItem>
+        <FormItem label={strings.paymentEveryMonths}>
+          <InputNumber
+            min={1}
+            value={this.state.paymentEveryMonths}
+            onChange={val =>
+              this.setState({ paymentEveryMonths: parseInt(val.toString()) })
+            }
+          />
+        </FormItem>
+        <FormItem label={strings.monthDayOfPayment}>
+          <InputNumber
+            min={1}
+            max={28}
+            value={this.state.monthDayOfPayment}
+            onChange={val =>
+              this.setState({ monthDayOfPayment: parseInt(val.toString()) })
+            }
+          />
+        </FormItem>
+        <FormItem label={strings.paymentMethod}>
+          <Select
+            style={{ width: "100%" }}
+            defaultValue={this.state.paymentMethod}
+            onChange={val =>
+              this.setState({ paymentMethod: val.toString() as any })
+            }
+          >
+            <Option value="check">צ'קים</Option>
+            <Option value="cash">מזומן</Option>
+            <Option value="bankTransfer">העברה בנקאית</Option>
+            <Option value="other">אחר</Option>
+          </Select>
+        </FormItem>
+        <FormItem label={strings.paymentIndexLink}>
+          <Select
+            style={{ width: "100%" }}
+            defaultValue={this.state.paymentIndexLink}
+            onChange={val =>
+              this.setState({ paymentIndexLink: val.toString() as any })
+            }
+          >
+            <Option value="madad">הצמדה למדד</Option>
+            <Option value="madadUps">הצמדה לעליות המדד</Option>
+            <Option value="dolar">הצמדה לדולר</Option>
+            <Option value="other">אחר</Option>
+          </Select>
+        </FormItem>
+
+        <FormItem label={strings.optionPeriods}>
+          <div>to be added...</div>
         </FormItem>
 
         <Button type="primary" onClick={() => actions.onSubmit(contract)}>
