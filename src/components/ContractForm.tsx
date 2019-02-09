@@ -14,7 +14,18 @@ const strings = {
   unit: "יחידות",
   submit: "שמור",
   firstCheck: "תאריך הצ'ק הראשון",
-  checksAmount: "כמות צ'קים שהתקבלו"
+  checksAmount: "כמות צ'קים שהתקבלו",
+  leaseLength: "משך חוזה בסיס (בחודשים)",
+  gracePeriodLength: "גרייס (בחודשים)",
+  optionPeriods: "אופציות",
+  paymentEveryMonths: "תשלום כל כמה חודשים",
+  monthDayOfPayment: "יום בחודש לתשלום",
+  paymentMethod: "אמצעי תשלום",
+  paymentIndexLink: "הצמדת תשלום",
+  checkBundles: "צ'קים שהתקבלו",
+  paymentPeriods: "תקופות תשלום",
+  assetProperties: "תוספות לנכס",
+  guarantees: "ערבויות"
 };
 
 interface ContractFormProps {
@@ -34,9 +45,9 @@ const initialState: ContractFormState = {
   startLeaseDate: "",
   leaseLength: 12,
   gracePeriodLength: 0,
+
   optionPeriods: [],
-  paymentEveryMonths: 1,
-  // paymentAmount: 0
+  paymentEveryMonths: 1
 };
 
 export class ContractForm extends React.Component<
@@ -92,12 +103,25 @@ export class ContractForm extends React.Component<
             onChange={(_, startLeaseDate) => this.setState({ startLeaseDate })}
           />
         </FormItem>
-        <FormItem label={strings.checksAmount}>
+        <FormItem label={strings.leaseLength}>
           <InputNumber
             min={1}
-            onChange={actions.setContractAmountOfChecksRecieved}
+            value={this.state.leaseLength}
+            onChange={val =>
+              this.setState({ leaseLength: parseInt(val.toString()) })
+            }
           />
         </FormItem>
+        <FormItem label={strings.gracePeriodLength}>
+          <InputNumber
+            min={0}
+            value={this.state.gracePeriodLength}
+            onChange={val =>
+              this.setState({ gracePeriodLength: parseInt(val.toString()) })
+            }
+          />
+        </FormItem>
+
         <Button type="primary" onClick={() => actions.onSubmit(contract)}>
           {strings.submit}
         </Button>
