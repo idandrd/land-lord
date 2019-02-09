@@ -1,10 +1,11 @@
 import React from "react";
-import { Button, DatePicker, InputNumber } from "antd";
+import { Button, DatePicker, Input, InputNumber } from "antd";
 import { FormItem } from "./FormItem";
 import { BaseContract, Asset } from "../types";
 import { Select } from "antd";
 import { flatten } from "lodash";
 const Option = Select.Option;
+const TextArea = Input.TextArea;
 
 const strings = {
   signingDate: "נחתם בתאריך",
@@ -25,7 +26,8 @@ const strings = {
   checkBundles: "צ'קים שהתקבלו",
   paymentPeriods: "תקופות תשלום",
   assetProperties: "תוספות לנכס",
-  guarantees: "ערבויות"
+  guarantees: "ערבויות",
+  comments: "הערות"
 };
 
 interface ContractFormProps {
@@ -36,7 +38,6 @@ interface ContractFormProps {
 }
 interface ContractFormState extends BaseContract {}
 
-// @ts-ignore
 const initialState: ContractFormState = {
   tenantId: "",
   assetId: "",
@@ -49,7 +50,10 @@ const initialState: ContractFormState = {
   paymentEveryMonths: 1,
   monthDayOfPayment: 1,
   paymentMethod: "check",
-  paymentIndexLink: "madad"
+  paymentIndexLink: "madad",
+  checkBundles: [],
+  paymentPeriods: [],
+  comments: ""
 };
 
 export class ContractForm extends React.Component<
@@ -173,6 +177,20 @@ export class ContractForm extends React.Component<
 
         <FormItem label={strings.optionPeriods}>
           <div>to be added...</div>
+        </FormItem>
+        <FormItem label={strings.checkBundles}>
+          <div>to be added...</div>
+        </FormItem>
+        <FormItem label={strings.paymentPeriods}>
+          <div>to be added...</div>
+        </FormItem>
+
+        <FormItem label={strings.comments}>
+          <TextArea
+            value={this.state.comments}
+            onChange={({ target }) => this.setState({ comments: target.value })}
+            autosize={{ minRows: 2, maxRows: 6 }}
+          />
         </FormItem>
 
         <Button type="primary" onClick={() => actions.onSubmit(contract)}>
