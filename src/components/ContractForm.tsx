@@ -30,7 +30,10 @@ const strings = {
   comments: "הערות",
 
   optionLeaseLength: "משך האופציה (בחודשים)",
-  optionNoticeAhead: "זמן התראה מראש (בחודשים)"
+  optionNoticeAhead: "זמן התראה מראש (בחודשים)",
+
+  paymentPeriodLengthInMonths: "אורך תקופת תשלום (בחודשים)",
+  paymentPeriodAmountPerMonth: "תשלום חודשי",
 };
 
 interface ContractFormProps {
@@ -197,7 +200,12 @@ export class ContractForm extends React.Component<
 
         <Divider>{strings.paymentPeriods}</Divider>
         <FormItem label={strings.paymentPeriods}>
-          <div>to be added...</div>
+        <PaymentPeriodForm 
+        lengthInMonthsValue={12}
+        lengthInMonthsOnChange={val => console.log(val)}
+        amountPerMonthValue={1200}
+        amountPerMonthOnChange={val => console.log(val)}
+        />
         </FormItem>
         <Button>+</Button>
 
@@ -265,5 +273,31 @@ export const OptionForm = (props: {
         onChange={props.noticeAheadOnChange}
       />
     </FormItem>
+    <Button>X</Button>
+  </div>
+);
+
+export const PaymentPeriodForm = (props: {
+  lengthInMonthsValue: number;
+  lengthInMonthsOnChange: (val: number) => void;
+  amountPerMonthValue: number;
+  amountPerMonthOnChange: (val: number) => void;
+}) => (
+  <div style={{ border: "1px dashed", width: "80%", padding: 9, margin: 4 }}>
+    <FormItem label={strings.paymentPeriodLengthInMonths}>
+      <InputNumber
+        min={1}
+        value={props.lengthInMonthsValue}
+        onChange={props.lengthInMonthsOnChange}
+      />
+    </FormItem>
+    <FormItem label={strings.paymentPeriodAmountPerMonth}>
+      <InputNumber
+        min={1}
+        value={props.amountPerMonthValue}
+        onChange={props.amountPerMonthOnChange}
+      />
+    </FormItem>
+    <Button>X</Button>
   </div>
 );
