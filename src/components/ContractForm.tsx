@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, DatePicker, Input, InputNumber } from "antd";
+import { Button, DatePicker, Input, InputNumber, Divider } from "antd";
 import { FormItem } from "./FormItem";
 import { BaseContract, Asset } from "../types";
 import { Select } from "antd";
@@ -27,7 +27,10 @@ const strings = {
   paymentPeriods: "תקופות תשלום",
   assetProperties: "תוספות לנכס",
   guarantees: "ערבויות",
-  comments: "הערות"
+  comments: "הערות",
+
+  optionLeaseLength: "משך האופציה (בחודשים)",
+  optionNoticeAhead: "זמן התראה מראש (בחודשים)"
 };
 
 interface ContractFormProps {
@@ -175,15 +178,28 @@ export class ContractForm extends React.Component<
           </Select>
         </FormItem>
 
+        <Divider>{strings.optionPeriods}</Divider>
         <FormItem label={strings.optionPeriods}>
-          <div>to be added...</div>
+          <OptionForm
+            leaseLengthValue={12}
+            leaseLengthOnChange={val => console.log(val)}
+            noticeAheadValue={3}
+            noticeAheadOnChange={val => console.log(val)}
+          />
         </FormItem>
+        <Button>+</Button>
+
+        <Divider>{strings.checkBundles}</Divider>
         <FormItem label={strings.checkBundles}>
           <div>to be added...</div>
         </FormItem>
+        <Button>+</Button>
+
+        <Divider>{strings.paymentPeriods}</Divider>
         <FormItem label={strings.paymentPeriods}>
           <div>to be added...</div>
         </FormItem>
+        <Button>+</Button>
 
         <FormItem label={strings.comments}>
           <TextArea
@@ -227,3 +243,27 @@ const UnitSelect = (props: {
     </Select>
   );
 };
+
+export const OptionForm = (props: {
+  leaseLengthValue: number;
+  leaseLengthOnChange: (val: number) => void;
+  noticeAheadValue: number;
+  noticeAheadOnChange: (val: number) => void;
+}) => (
+  <div style={{ border: "1px dashed", width: "80%", padding: 9, margin: 4 }}>
+    <FormItem label={strings.optionLeaseLength}>
+      <InputNumber
+        min={1}
+        value={props.leaseLengthValue}
+        onChange={props.leaseLengthOnChange}
+      />
+    </FormItem>
+    <FormItem label={strings.optionNoticeAhead}>
+      <InputNumber
+        min={1}
+        value={props.noticeAheadValue}
+        onChange={props.noticeAheadOnChange}
+      />
+    </FormItem>
+  </div>
+);
