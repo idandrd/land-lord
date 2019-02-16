@@ -32,8 +32,12 @@ const strings = {
   optionLeaseLength: "משך האופציה (בחודשים)",
   optionNoticeAhead: "זמן התראה מראש (בחודשים)",
 
+  amountOfChecks: "כמות צ'קים שהתקבלה",
+  dateOfFirstCheck: "תאריך הצ'ק הראשון",
+  checkForHowManyMonths: "כמה חודשים בין צ'ק לצ'ק",
+
   paymentPeriodLengthInMonths: "אורך תקופת תשלום (בחודשים)",
-  paymentPeriodAmountPerMonth: "תשלום חודשי",
+  paymentPeriodAmountPerMonth: "תשלום חודשי"
 };
 
 interface ContractFormProps {
@@ -182,31 +186,32 @@ export class ContractForm extends React.Component<
         </FormItem>
 
         <Divider>{strings.optionPeriods}</Divider>
-        <FormItem label={strings.optionPeriods}>
-          <OptionForm
-            leaseLengthValue={12}
-            leaseLengthOnChange={val => console.log(val)}
-            noticeAheadValue={3}
-            noticeAheadOnChange={val => console.log(val)}
-          />
-        </FormItem>
+        <OptionForm
+          leaseLengthValue={12}
+          leaseLengthOnChange={val => console.log(val)}
+          noticeAheadValue={3}
+          noticeAheadOnChange={val => console.log(val)}
+        />
         <Button>+</Button>
 
         <Divider>{strings.checkBundles}</Divider>
-        <FormItem label={strings.checkBundles}>
-          <div>to be added...</div>
-        </FormItem>
+        <CheckBundleForm
+          amountOfChecksValue={12}
+          amountOfChecksOnChange={val => console.log(val)}
+          dateOfFirstCheckValue={1200}
+          dateOfFirstCheckOnChange={val => console.log(val)}
+          checkForHowManyMonthsValue={12}
+          checkForHowManyMonthsOnChange={val => console.log(val)}
+        />
         <Button>+</Button>
 
         <Divider>{strings.paymentPeriods}</Divider>
-        <FormItem label={strings.paymentPeriods}>
-        <PaymentPeriodForm 
-        lengthInMonthsValue={12}
-        lengthInMonthsOnChange={val => console.log(val)}
-        amountPerMonthValue={1200}
-        amountPerMonthOnChange={val => console.log(val)}
+        <PaymentPeriodForm
+          lengthInMonthsValue={12}
+          lengthInMonthsOnChange={val => console.log(val)}
+          amountPerMonthValue={1200}
+          amountPerMonthOnChange={val => console.log(val)}
         />
-        </FormItem>
         <Button>+</Button>
 
         <FormItem label={strings.comments}>
@@ -296,6 +301,38 @@ export const PaymentPeriodForm = (props: {
         min={1}
         value={props.amountPerMonthValue}
         onChange={props.amountPerMonthOnChange}
+      />
+    </FormItem>
+    <Button>X</Button>
+  </div>
+);
+
+export const CheckBundleForm = (props: {
+  amountOfChecksValue: number;
+  amountOfChecksOnChange: (val: number) => void;
+  dateOfFirstCheckValue: number;
+  dateOfFirstCheckOnChange: (val: number) => void;
+  checkForHowManyMonthsValue: number;
+  checkForHowManyMonthsOnChange: (val: number) => void;
+}) => (
+  <div style={{ border: "1px dashed", width: "80%", padding: 9, margin: 4 }}>
+    <FormItem label={strings.amountOfChecks}>
+      <InputNumber
+        min={1}
+        value={props.amountOfChecksValue}
+        onChange={props.amountOfChecksOnChange}
+      />
+    </FormItem>
+    <FormItem label={strings.dateOfFirstCheck}>
+      <DatePicker
+        onChange={(_, startLeaseDate) => this.setState({ startLeaseDate })}
+      />
+    </FormItem>
+    <FormItem label={strings.checkForHowManyMonths}>
+      <InputNumber
+        min={1}
+        value={props.checkForHowManyMonthsValue}
+        onChange={props.checkForHowManyMonthsOnChange}
       />
     </FormItem>
     <Button>X</Button>
