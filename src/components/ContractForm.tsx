@@ -9,7 +9,7 @@ const TextArea = Input.TextArea;
 
 const strings = {
   signingDate: "נחתם בתאריך",
-  startLeaseDate: "תאריך חתימה",
+  startLeaseDate: "תאריך תחילת השכרה",
   tenant: "השוכר",
   asset: "הנכס",
   unit: "יחידות",
@@ -61,7 +61,13 @@ const initialState: ContractFormState = {
   monthDayOfPayment: 1,
   paymentMethod: "check",
   paymentIndexLink: "madad",
-  checkBundles: [],
+  checkBundles: [
+    {
+      amountOfChecks: 12,
+      dateOfFirstCheck: "2019-03-20",
+      checkForHowManyMonths: 1
+    }
+  ],
   paymentPeriods: [],
   comments: ""
 };
@@ -87,6 +93,11 @@ export class ContractForm extends React.Component<
       );
       this.setState({ unitIds: [] });
     });
+  };
+
+  onSubmit = () => {
+    const contract = { ...this.state };
+    this.props.actions.onSubmit(contract);
   };
 
   render() {
@@ -196,8 +207,14 @@ export class ContractForm extends React.Component<
 
         <Divider>{strings.checkBundles}</Divider>
         <CheckBundleForm
-          amountOfChecksValue={12}
-          amountOfChecksOnChange={val => console.log(val)}
+          amountOfChecksValue={this.state.checkBundles[0].amountOfChecks}
+          amountOfChecksOnChange={val =>
+            this.setState({
+              checkBundles: [
+                { ...this.state.checkBundles[0], amountOfChecks: val }
+              ]
+            })
+          }
           dateOfFirstCheckValue={1200}
           dateOfFirstCheckOnChange={val => console.log(val)}
           checkForHowManyMonthsValue={12}
@@ -222,7 +239,7 @@ export class ContractForm extends React.Component<
           />
         </FormItem>
 
-        <Button type="primary" onClick={() => actions.onSubmit(contract)}>
+        <Button type="primary" onClick={this.onSubmit}>
           {strings.submit}
         </Button>
       </div>
@@ -311,7 +328,7 @@ export const CheckBundleForm = (props: {
   amountOfChecksValue: number;
   amountOfChecksOnChange: (val: number) => void;
   dateOfFirstCheckValue: number;
-  dateOfFirstCheckOnChange: (val: number) => void;
+  dateOfFirstCheckOnChange: (val: string) => void;
   checkForHowManyMonthsValue: number;
   checkForHowManyMonthsOnChange: (val: number) => void;
 }) => (
@@ -325,7 +342,9 @@ export const CheckBundleForm = (props: {
     </FormItem>
     <FormItem label={strings.dateOfFirstCheck}>
       <DatePicker
-        onChange={(_, startLeaseDate) => this.setState({ startLeaseDate })}
+        onChange={(_, startLeaseDate) =>
+          props.dateOfFirstCheckOnChange(startLeaseDate)
+        }
       />
     </FormItem>
     <FormItem label={strings.checkForHowManyMonths}>
