@@ -9,7 +9,7 @@ const strings = {
   assetColumn: "הנכס",
   signinDateColumn: "תאריך חתימה",
   startLeaseDateColumn: "תאריך תחילת השכרה",
-  leaseLengthColumn: "תאריך הצ'ק הראשון"
+  leaseLengthColumn: "משך החוזה"
 };
 
 const columns = [
