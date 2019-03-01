@@ -28,6 +28,36 @@ export interface Asset extends BaseAsset {
   id: string;
 }
 
+export interface Tenant extends BaseTenant {
+  id: string;
+}
+
+export interface BaseTenant {
+  name: string;
+  type: string;
+  isBusiness: boolean;
+  idNum: string;
+  comments: string;
+  contacts: Contact[];
+}
+
+export interface Contact {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  role: string;
+}
+
+export interface PopulatedContract extends Contract {
+  tenant: Tenant;
+  asset: Asset;
+}
+
+export interface Contract extends BaseContract {
+  id: string;
+}
+
 export interface BaseContract {
   tenantId: string;
   assetId: string;
@@ -43,7 +73,7 @@ export interface BaseContract {
   paymentIndexLink: "madad" | "madadUps" | "dolar" | "other";
   checkBundles: CheckBundle[];
   paymentPeriods: PaymentPeriod[];
-  
+
   // assetProperties: "parking" | "storage"
   // guarantees: "bankGuarantee" | "bankCheck"
 
@@ -62,6 +92,6 @@ export interface PaymentPeriod {
 
 export interface CheckBundle {
   amountOfChecks: number;
-  dateOfFirstCheck: number;
+  dateOfFirstCheck: string;
   checkForHowManyMonths: number;
 }

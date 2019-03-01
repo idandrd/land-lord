@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { ContentFrame } from "../ContentFrame";
 import { Routes } from "../../common/constants";
 import { ContractList } from "../ContractList";
+import { PopulatedContract } from "../../types";
 
 const strings = {
   buttonTitle: "חוזה חדש",
@@ -9,9 +10,10 @@ const strings = {
   allContracts: "כל החוזים"
 };
 
-export class Contracts extends Component {
+export class Contracts extends Component<{
+  contracts: PopulatedContract[];
+}> {
   render() {
-    console.log("contracts: ", this.props.contracts);
     return (
       <ContentFrame
         firstNavText={strings.allContracts}
@@ -23,5 +25,3 @@ export class Contracts extends Component {
     );
   }
 }
-
-Contracts.propTypes = {};
