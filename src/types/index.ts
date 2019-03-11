@@ -95,3 +95,13 @@ export interface CheckBundle {
   dateOfFirstCheck: string;
   checkForHowManyMonths: number;
 }
+
+type TaskType = "depositCheck";
+type TaskStatus = "active" | "done" | "snoozed" | "deleted";
+
+export interface Task {
+  contractId: string;
+  taskType: TaskType;
+  deadLine: Date;
+  status: TaskStatus;
+}
