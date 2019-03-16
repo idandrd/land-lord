@@ -1,8 +1,6 @@
 const fb = require("firebase");
 require("firebase/firestore");
 
-console.log(fb);
-
 const fbConfig = {
   apiKey: "AIzaSyACiIVanKhOVCWeX4QygHuUxbgkzxd6XCI",
   authDomain: "landlord-df429.firebaseapp.com",
@@ -19,7 +17,8 @@ const strings = {
   cases: "cases",
   tenants: "tenants",
   assets: "assets",
-  contracts: "contracts"
+  contracts: "contracts",
+  tasks: "tasks"
 };
 
 class FirebaseService {
@@ -52,8 +51,20 @@ class FirebaseService {
     await this.caseRoot.collection(strings.assets).add(asset);
   };
   saveContract = async contract => {
-    await this.caseRoot.collection(strings.contracts).add(contract);
+    await this.caseRoot
+      .collection(strings.contracts)
+      .doc(contract.id)
+      .set(contract);
   };
+  saveTasks = tasks => {
+    tasks.map(task => this.caseRoot.collection(strings.tasks).add(task));
+  };
+
+  updateTask = (id, task) =>
+    this.caseRoot
+      .collection(strings.tasks)
+      .doc(id)
+      .set(task);
 
   listenForTenants = listener =>
     handleCollectionSnapshot(
@@ -73,12 +84,15 @@ class FirebaseService {
       this.caseRoot.collection(strings.contracts)
     );
 
+  listenForTasks = listener =>
+    handleCollectionSnapshot(listener, this.caseRoot.collection(strings.tasks));
+
   getInstance = () => fb;
 
   logout = () => fb.auth().signOut();
 
   isLoggedIn = () => fb.auth().currentUser != null;
-  
+
   onAuthStateChanged = func => fb.auth().onAuthStateChanged(func);
 }
 

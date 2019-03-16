@@ -54,11 +54,8 @@ export interface PopulatedContract extends Contract {
   asset: Asset;
 }
 
-export interface Contract extends BaseContract {
+export interface Contract {
   id: string;
-}
-
-export interface BaseContract {
   tenantId: string;
   assetId: string;
   unitIds: string[];
@@ -94,4 +91,20 @@ export interface CheckBundle {
   amountOfChecks: number;
   dateOfFirstCheck: string;
   checkForHowManyMonths: number;
+}
+
+type TaskType = "depositCheck";
+type TaskStatus = "active" | "done" | "snoozed" | "deleted";
+
+export interface PopulatedTask extends Task {
+  contract: PopulatedContract;
+}
+export interface Task extends BaseTask {
+  id: string;
+}
+export interface BaseTask {
+  contractId: string;
+  taskType: TaskType;
+  deadline: string;
+  status: TaskStatus;
 }

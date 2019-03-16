@@ -3,7 +3,8 @@ import { actionTypes } from "../actions/app";
 const initialState = {
   tenants: [],
   assets: [],
-  contracts: []
+  contracts: [],
+  tasks: []
 };
 
 export function CaseReducer(state = initialState, action) {
@@ -15,6 +16,8 @@ export function CaseReducer(state = initialState, action) {
       return { ...state, assets: payload };
     case actionTypes.contractsSnapshotRecieved:
       return { ...state, contracts: payload };
+    case actionTypes.tasksSnapshotRecieved:
+      return { ...state, tasks: payload };
     default:
       return state;
   }
@@ -28,10 +31,21 @@ export class CaseSelectors {
   static getAsset = getElementById("assets");
   static getContract = getElementById("contracts");
   static getPopulatedContracts = state =>
-    state.contracts.map(contract => ({
-      ...contract,
-      key: contract.id,
-      asset: CaseSelectors.getAsset(state, contract.assetId),
-      tenant: CaseSelectors.getTenant(state, contract.tenantId)
-    }));
+    state.contracts.map(populateContract(state));
+  static getPopulatedTasks = state => state.tasks.map(populateTask(state));
 }
+
+const populateTask = state => task => ({
+  ...task,
+  key: task.id,
+  contract: populateContract(state)(
+    CaseSelectors.getContract(state, task.contractId)
+  )
+});
+
+const populateContract = state => contract => ({
+  ...contract,
+  key: contract.id,
+  asset: CaseSelectors.getAsset(state, contract.assetId),
+  tenant: CaseSelectors.getTenant(state, contract.tenantId)
+});
