@@ -1,7 +1,7 @@
 import React from "react";
 import { Card, Icon, Avatar, Menu, Dropdown, message } from "antd";
 
-import { PopulatedTask, BaseTask } from "../../types";
+import { PopulatedTask, BaseTask, TaskType } from "../../types";
 import { firebaseService } from "../../service";
 import { ContentFrame } from "../ContentFrame";
 const { Meta } = Card;
@@ -47,7 +47,7 @@ export class Tasks extends React.Component<{ tasks: PopulatedTask[] }> {
               >
                 <Meta
                   avatar={<Avatar src={imgPath} />}
-                  title={task.taskType}
+                  title={getTaskTitle(task.taskType)}
                   description={task.deadline}
                 />
                 <div>{task.contract.tenant.name}</div>
@@ -73,6 +73,13 @@ const SnoozeMenu = (
     <Menu.Item key="3">הזכר לי בעוד שבוע</Menu.Item>
   </Menu>
 );
+
+const getTaskTitle = (taskType: TaskType) => {
+  switch (taskType) {
+    case "depositCheck":
+      return "להפקיד צ'ק";
+  }
+};
 
 const imgPath =
   "https://previews.123rf.com/images/cowpland/cowpland1411/cowpland141100049/33356139-bank-check-icon-flat-design-with-long-shadows-.jpg";

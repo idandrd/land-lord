@@ -66,7 +66,7 @@ const initialState: ContractFormState = {
   paymentIndexLink: "madad",
   checkBundles: [
     {
-      amountOfChecks: 2,
+      amountOfChecks: 12,
       dateOfFirstCheck: "2019-03-20",
       checkForHowManyMonths: 1
     }
