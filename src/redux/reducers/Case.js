@@ -31,10 +31,26 @@ export class CaseSelectors {
   static getAsset = getElementById("assets");
   static getContract = getElementById("contracts");
   static getPopulatedContracts = state =>
-    state.contracts.map(contract => ({
-      ...contract,
-      key: contract.id,
-      asset: CaseSelectors.getAsset(state, contract.assetId),
-      tenant: CaseSelectors.getTenant(state, contract.tenantId)
-    }));
+    state.contracts.map(populateContract(state));
+  static getPopulatedTasks = state => state.tasks.map(populateTask(state));
 }
+
+const populateTask = state => task => {
+  console.log("$$$$$$$$$$ STATE", state);
+  console.log("$$$$$$$$$$ TASK", task);
+  console.log("$$$$$$$$$$", CaseSelectors.getContract(state, task.contractId));
+  return {
+    ...task,
+    key: task.id,
+    contract: populateContract(state)(
+      CaseSelectors.getContract(state, task.contractId)
+    )
+  };
+};
+
+const populateContract = state => contract => ({
+  ...contract,
+  key: contract.id,
+  asset: CaseSelectors.getAsset(state, contract.assetId),
+  tenant: CaseSelectors.getTenant(state, contract.tenantId)
+});

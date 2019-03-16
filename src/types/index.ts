@@ -96,7 +96,13 @@ export interface CheckBundle {
 type TaskType = "depositCheck";
 type TaskStatus = "active" | "done" | "snoozed" | "deleted";
 
-export interface Task {
+export interface PopulatedTask extends Task {
+  contract: PopulatedContract;
+}
+export interface Task extends BaseTask {
+  id: string;
+}
+export interface BaseTask {
   contractId: string;
   taskType: TaskType;
   deadline: string;

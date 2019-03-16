@@ -86,7 +86,7 @@ function contractsListener() {
 
 function tasksListener() {
   return eventChannel(emitter => {
-    const unsubscribe = firebaseService.listenForContracts(emitter);
+    const unsubscribe = firebaseService.listenForTasks(emitter);
     return () => unsubscribe();
   });
 }

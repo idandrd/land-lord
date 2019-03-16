@@ -1,11 +1,11 @@
-import { Contract, Task, CheckBundle } from "../types";
+import { Contract, BaseTask, CheckBundle } from "../types";
 
-export function generateTasks(contract: Contract): Task[] {
+export function generateTasks(contract: Contract): BaseTask[] {
   const depositCheckTasks = generateDepositCheckTasks(contract);
   return [...depositCheckTasks];
 }
 
-function generateDepositCheckTasks(contract: Contract): Task[] {
+function generateDepositCheckTasks(contract: Contract): BaseTask[] {
   const tasks = contract.checkBundles.map(checkBundle =>
     parseCheckBundle(checkBundle, contract.id)
   );
@@ -15,8 +15,8 @@ function generateDepositCheckTasks(contract: Contract): Task[] {
 function parseCheckBundle(
   checkBundle: CheckBundle,
   contractId: string
-): Task[] {
-  const tasks: Task[] = [];
+): BaseTask[] {
+  const tasks: BaseTask[] = [];
   for (
     let i = 0;
     i < checkBundle.amountOfChecks;
@@ -25,7 +25,7 @@ function parseCheckBundle(
     const deadLineDate = new Date(checkBundle.dateOfFirstCheck);
     deadLineDate.setMonth(deadLineDate.getMonth() + i);
     const deadline = dateToString(deadLineDate);
-    const task: Task = {
+    const task: BaseTask = {
       contractId,
       deadline,
       taskType: "depositCheck",
