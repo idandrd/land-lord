@@ -102,6 +102,6 @@ type TaskStatus = "active" | "done" | "snoozed" | "deleted";
 export interface Task {
   contractId: string;
   taskType: TaskType;
-  deadLine: Date;
+  deadline: string;
   status: TaskStatus;
 }

@@ -1,8 +1,6 @@
 const fb = require("firebase");
 require("firebase/firestore");
 
-console.log(fb);
-
 const fbConfig = {
   apiKey: "AIzaSyACiIVanKhOVCWeX4QygHuUxbgkzxd6XCI",
   authDomain: "landlord-df429.firebaseapp.com",
@@ -19,7 +17,8 @@ const strings = {
   cases: "cases",
   tenants: "tenants",
   assets: "assets",
-  contracts: "contracts"
+  contracts: "contracts",
+  tasks: "tasks"
 };
 
 class FirebaseService {
@@ -78,7 +77,7 @@ class FirebaseService {
   logout = () => fb.auth().signOut();
 
   isLoggedIn = () => fb.auth().currentUser != null;
-  
+
   onAuthStateChanged = func => fb.auth().onAuthStateChanged(func);
 }
 
