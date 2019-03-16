@@ -1,16 +1,20 @@
 import React from "react";
 import { Card, Icon, Avatar, Menu, Dropdown, message } from "antd";
 
-import { PopulatedTask } from "../../types";
+import { PopulatedTask, BaseTask } from "../../types";
+import { firebaseService } from "../../service";
 import { ContentFrame } from "../ContentFrame";
 const { Meta } = Card;
 
 export class Tasks extends React.Component<{ tasks: PopulatedTask[] }> {
-  state = { tasks: [] };
-
-  handleTaskDone(taskId) {
-    const newTasks = this.state.tasks.filter(task => task.id !== taskId);
-    this.setState({ tasks: newTasks });
+  handleTaskDone(task: PopulatedTask) {
+    const baseTask: BaseTask = {
+      contractId: task.contractId,
+      taskType: task.taskType,
+      deadline: task.deadline,
+      status: "done"
+    };
+    firebaseService.updateTask(task.id, baseTask);
     message.success("המשימה הושלמה בהצלחה!");
   }
 
@@ -24,32 +28,34 @@ export class Tasks extends React.Component<{ tasks: PopulatedTask[] }> {
             flexDirection: "column"
           }}
         >
-          {this.props.tasks.map(task => (
-            <Card
-              key={task.id}
-              style={{ direction: "rtl", width: 400, marginBottom: 10 }}
-              hoverable
-              actions={[
-                <Dropdown overlay={SnoozeMenu} trigger={["click"]}>
-                  <Icon type="clock-circle-o" />
-                </Dropdown>,
-                <Icon
-                  type="check"
-                  onClick={() => this.handleTaskDone(task.id)}
+          {this.props.tasks
+            .filter(task => task.status === "active")
+            .map(task => (
+              <Card
+                key={task.id}
+                style={{ direction: "rtl", width: 400, marginBottom: 10 }}
+                hoverable
+                actions={[
+                  <Dropdown overlay={SnoozeMenu} trigger={["click"]}>
+                    <Icon type="clock-circle-o" />
+                  </Dropdown>,
+                  <Icon
+                    type="check"
+                    onClick={() => this.handleTaskDone(task)}
+                  />
+                ]}
+              >
+                <Meta
+                  avatar={<Avatar src={imgPath} />}
+                  title={task.taskType}
+                  description={task.deadline}
                 />
-              ]}
-            >
-              <Meta
-                avatar={<Avatar src={imgPath} />}
-                title={task.taskType}
-                description={task.deadline}
-              />
-              <div>{task.contract.tenant.name}</div>
-              <div>{`${task.contract.asset.city} ${
-                task.contract.asset.address
-              }`}</div>
-            </Card>
-          ))}
+                <div>{task.contract.tenant.name}</div>
+                <div>{`${task.contract.asset.city} ${
+                  task.contract.asset.address
+                }`}</div>
+              </Card>
+            ))}
         </div>
       </ContentFrame>
     );

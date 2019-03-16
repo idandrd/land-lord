@@ -35,18 +35,13 @@ export class CaseSelectors {
   static getPopulatedTasks = state => state.tasks.map(populateTask(state));
 }
 
-const populateTask = state => task => {
-  console.log("$$$$$$$$$$ STATE", state);
-  console.log("$$$$$$$$$$ TASK", task);
-  console.log("$$$$$$$$$$", CaseSelectors.getContract(state, task.contractId));
-  return {
-    ...task,
-    key: task.id,
-    contract: populateContract(state)(
-      CaseSelectors.getContract(state, task.contractId)
-    )
-  };
-};
+const populateTask = state => task => ({
+  ...task,
+  key: task.id,
+  contract: populateContract(state)(
+    CaseSelectors.getContract(state, task.contractId)
+  )
+});
 
 const populateContract = state => contract => ({
   ...contract,
