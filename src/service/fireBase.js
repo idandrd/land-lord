@@ -56,6 +56,9 @@ class FirebaseService {
       .doc(contract.id)
       .set(contract);
   };
+  saveTasks = async tasks => {
+    tasks.map(task => this.caseRoot.collection(strings.tasks).add(task));
+  };
 
   listenForTenants = listener =>
     handleCollectionSnapshot(

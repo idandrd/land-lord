@@ -1,9 +1,10 @@
 import React from "react";
-import { Button, DatePicker, Input, InputNumber, Divider } from "antd";
-import { FormItem } from "./FormItem";
-import { BaseContract, Asset } from "../types";
-import { Select } from "antd";
 import shortid from "shortid";
+import { Button, DatePicker, Input, InputNumber, Divider, Select } from "antd";
+
+import { Contract, Asset } from "../types";
+import { generateTasks, firebaseService } from "../service";
+import { FormItem } from "./FormItem";
 
 const Option = Select.Option;
 const TextArea = Input.TextArea;
@@ -47,9 +48,10 @@ interface ContractFormProps {
   contract: any;
   actions: any;
 }
-interface ContractFormState extends BaseContract {}
+interface ContractFormState extends Contract {}
 
 const initialState: ContractFormState = {
+  id: "",
   tenantId: "",
   assetId: "",
   unitIds: [],
@@ -64,7 +66,7 @@ const initialState: ContractFormState = {
   paymentIndexLink: "madad",
   checkBundles: [
     {
-      amountOfChecks: 12,
+      amountOfChecks: 2,
       dateOfFirstCheck: "2019-03-20",
       checkForHowManyMonths: 1
     }
@@ -99,6 +101,8 @@ export class ContractForm extends React.Component<
   onSubmit = () => {
     const contractId = shortid.generate();
     const contract = { ...this.state, id: contractId };
+    const contractTasks = generateTasks(contract);
+    firebaseService.saveTasks(contractTasks);
     this.props.actions.onSubmit(contract);
   };
 
