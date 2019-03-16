@@ -78,6 +78,9 @@ class FirebaseService {
       this.caseRoot.collection(strings.contracts)
     );
 
+  listenForTasks = listener =>
+    handleCollectionSnapshot(listener, this.caseRoot.collection(strings.tasks));
+
   getInstance = () => fb;
 
   logout = () => fb.auth().signOut();

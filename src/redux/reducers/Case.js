@@ -3,7 +3,8 @@ import { actionTypes } from "../actions/app";
 const initialState = {
   tenants: [],
   assets: [],
-  contracts: []
+  contracts: [],
+  tasks: []
 };
 
 export function CaseReducer(state = initialState, action) {
@@ -15,6 +16,8 @@ export function CaseReducer(state = initialState, action) {
       return { ...state, assets: payload };
     case actionTypes.contractsSnapshotRecieved:
       return { ...state, contracts: payload };
+    case actionTypes.tasksSnapshotRecieved:
+      return { ...state, tasks: payload };
     default:
       return state;
   }

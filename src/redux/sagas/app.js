@@ -11,6 +11,7 @@ export function* appSaga() {
     yield fork(tenantsListenerSaga);
     yield fork(assetsListenerSaga);
     yield fork(contractsListenerSaga);
+    yield fork(tasksListenerSaga);
   }
 }
 
@@ -50,6 +51,18 @@ function* contractsListenerSaga() {
   }
 }
 
+function* tasksListenerSaga() {
+  const chan = yield call(tasksListener);
+  try {
+    while (true) {
+      const msg = yield take(chan);
+      yield put(AppActions.tasksSnapshotRecieved(msg));
+    }
+  } finally {
+    console.log("unsubscribed from tasks channel");
+  }
+}
+
 function tenantsListener() {
   return eventChannel(emitter => {
     const unsubscribe = firebaseService.listenForTenants(emitter);
@@ -65,6 +78,13 @@ function assetsListener() {
 }
 
 function contractsListener() {
+  return eventChannel(emitter => {
+    const unsubscribe = firebaseService.listenForContracts(emitter);
+    return () => unsubscribe();
+  });
+}
+
+function tasksListener() {
   return eventChannel(emitter => {
     const unsubscribe = firebaseService.listenForContracts(emitter);
     return () => unsubscribe();
