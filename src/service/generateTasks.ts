@@ -1,13 +1,13 @@
-import { BaseContract, Task, CheckBundle } from "../types";
+import { Contract, Task, CheckBundle } from "../types";
 
-export function generateTasks(contract: BaseContract): Task[] {
+export function generateTasks(contract: Contract): Task[] {
   const depositCheckTasks = generateDepositCheckTasks(contract);
   return [...depositCheckTasks];
 }
 
-function generateDepositCheckTasks(contract: BaseContract): Task[] {
+function generateDepositCheckTasks(contract: Contract): Task[] {
   const tasks = contract.checkBundles.map(checkBundle =>
-    parseCheckBundle(checkBundle, "contract.id")
+    parseCheckBundle(checkBundle, contract.id)
   );
   return [].concat(...tasks);
 }

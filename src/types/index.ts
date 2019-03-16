@@ -54,11 +54,12 @@ export interface PopulatedContract extends Contract {
   asset: Asset;
 }
 
-export interface Contract extends BaseContract {
+export interface Contract extends Contract {
   id: string;
 }
 
-export interface BaseContract {
+export interface Contract {
+  id: string;
   tenantId: string;
   assetId: string;
   unitIds: string[];

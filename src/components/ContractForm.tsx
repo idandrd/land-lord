@@ -3,7 +3,8 @@ import { Button, DatePicker, Input, InputNumber, Divider } from "antd";
 import { FormItem } from "./FormItem";
 import { BaseContract, Asset } from "../types";
 import { Select } from "antd";
-import { flatten } from "lodash";
+import shortid from "shortid";
+
 const Option = Select.Option;
 const TextArea = Input.TextArea;
 
@@ -96,7 +97,8 @@ export class ContractForm extends React.Component<
   };
 
   onSubmit = () => {
-    const contract = { ...this.state };
+    const contractId = shortid.generate();
+    const contract = { ...this.state, id: contractId };
     this.props.actions.onSubmit(contract);
   };
 

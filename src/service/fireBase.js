@@ -51,7 +51,10 @@ class FirebaseService {
     await this.caseRoot.collection(strings.assets).add(asset);
   };
   saveContract = async contract => {
-    await this.caseRoot.collection(strings.contracts).add(contract);
+    await this.caseRoot
+      .collection(strings.contracts)
+      .doc(contract.id)
+      .set(contract);
   };
 
   listenForTenants = listener =>
