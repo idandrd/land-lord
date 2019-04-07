@@ -1,8 +1,11 @@
+import { last } from "lodash";
 import { Contract, BaseTask, CheckBundle } from "../types";
 
 export function generateTasks(contract: Contract): BaseTask[] {
-  const depositCheckTasks = generateDepositCheckTasks(contract);
-  return [...depositCheckTasks];
+  return [
+    ...generateDepositCheckTasks(contract),
+    ...generateOutOfChecksTasks(contract)
+  ];
 }
 
 function generateDepositCheckTasks(contract: Contract): BaseTask[] {
@@ -10,6 +13,24 @@ function generateDepositCheckTasks(contract: Contract): BaseTask[] {
     parseCheckBundle(checkBundle, contract.id)
   );
   return [].concat(...tasks);
+}
+
+function generateOutOfChecksTasks(contract: Contract): BaseTask[] {
+  if (contract.checkBundles.length === 0) {
+    return [];
+  }
+  const lastBundle = last(contract.checkBundles);
+  const endDate = new Date(lastBundle.dateOfFirstCheck);
+  const monthsToAdd =
+    lastBundle.amountOfChecks * lastBundle.checkForHowManyMonths - 1;
+  endDate.setMonth(endDate.getMonth() + monthsToAdd);
+  const task: BaseTask = {
+    contractId: contract.id,
+    deadline: dateToString(endDate),
+    taskType: "outOfChecks",
+    status: "active"
+  };
+  return [task];
 }
 
 function parseCheckBundle(

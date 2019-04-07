@@ -11,17 +11,6 @@ interface PopulatedDateTask extends PopulatedTask {
 }
 
 export class Tasks extends React.Component<{ tasks: PopulatedTask[] }> {
-  handleTaskDone(task: PopulatedTask) {
-    const baseTask: BaseTask = {
-      contractId: task.contractId,
-      taskType: task.taskType,
-      deadline: task.deadline,
-      status: "done"
-    };
-    firebaseService.updateTask(task.id, baseTask);
-    message.success("המשימה הושלמה בהצלחה!");
-  }
-
   render() {
     const tasks: PopulatedDateTask[] = [...this.props.tasks]
       .filter(task => task.status === "active")
@@ -45,40 +34,55 @@ export class Tasks extends React.Component<{ tasks: PopulatedTask[] }> {
           <TasksList tasks={tasks.filter(isNextMonthTask)} />
           <Divider>משימות לעתיד</Divider>
           <TasksList tasks={tasks.filter(isFutureTask)} />
-          {/* <TasksList tasks={tasks.filter(task => task.status === "active")} /> */}
         </div>
       </ContentFrame>
     );
   }
 }
 
-const TasksList = (props: { tasks: PopulatedDateTask[] }) => (
-  <div>
-    {props.tasks.map(task => (
-      <Card
-        key={task.id}
-        style={{ direction: "rtl", width: 400, marginBottom: 10 }}
-        hoverable
-        actions={[
-          <Dropdown overlay={SnoozeMenu} trigger={["click"]}>
-            <Icon type="clock-circle-o" />
-          </Dropdown>,
-          <Icon type="check" onClick={() => this.handleTaskDone(task)} />
-        ]}
-      >
-        <Meta
-          avatar={<Avatar src={imgPath} />}
-          title={getTaskTitle(task.taskType)}
-          description={task.deadline}
-        />
-        <div>{task.contract.tenant.name}</div>
-        <div>{`${task.contract.asset.city} ${
-          task.contract.asset.address
-        }`}</div>
-      </Card>
-    ))}
-  </div>
-);
+const TasksList = (props: { tasks: PopulatedDateTask[] }) => {
+  function onTaskDone(task: PopulatedDateTask) {
+    const baseTask: BaseTask = {
+      contractId: task.contractId,
+      taskType: task.taskType,
+      deadline: task.deadline,
+      status: "done"
+    };
+    firebaseService.updateTask(task.id, baseTask);
+    message.success("המשימה הושלמה בהצלחה!");
+  }
+
+  return (
+    <div>
+      {props.tasks.map(task => {
+        const { title, image } = getTaskTitleAndImg(task.taskType);
+        return (
+          <Card
+            key={task.id}
+            style={{ direction: "rtl", width: 400, marginBottom: 10 }}
+            hoverable
+            actions={[
+              <Dropdown overlay={SnoozeMenu} trigger={["click"]}>
+                <Icon type="clock-circle-o" />
+              </Dropdown>,
+              <Icon type="check" onClick={() => onTaskDone(task)} />
+            ]}
+          >
+            <Meta
+              avatar={<Avatar src={image} />}
+              title={title}
+              description={task.deadline}
+            />
+            <div>{task.contract.tenant.name}</div>
+            <div>{`${task.contract.asset.city} ${
+              task.contract.asset.address
+            }`}</div>
+          </Card>
+        );
+      })}
+    </div>
+  );
+};
 
 const SnoozeMenu = (
   <Menu>
@@ -104,12 +108,24 @@ const tasksSortCompare = (taskA: PopulatedTask, taskB: PopulatedTask) => {
   return 0;
 };
 
-const getTaskTitle = (taskType: TaskType) => {
+function getTaskTitleAndImg(
+  taskType: TaskType
+): { title: string; image: string } {
   switch (taskType) {
     case "depositCheck":
-      return "להפקיד צ'ק";
+      return {
+        title: "להפקיד צ'ק",
+        image:
+          "https://previews.123rf.com/images/cowpland/cowpland1411/cowpland141100049/33356139-bank-check-icon-flat-design-with-long-shadows-.jpg"
+      };
+    case "outOfChecks":
+      return {
+        title: "הצ'קים עומדים להיגמר! צריך לבקש חדשים",
+        image:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPgI3HfspcXjsAA9xDHRA_T7xShb5GvbXF3OvPUXoPIhIBIjXecA"
+      };
   }
-};
+}
 
 const isPastTask = (task: PopulatedDateTask) => task.deadlineDate < new Date();
 const isNextWeekTask = (task: PopulatedDateTask) => {
@@ -121,7 +137,7 @@ const isNextWeekTask = (task: PopulatedDateTask) => {
   return task.deadlineDate < nextWeekDate;
 };
 const isNextMonthTask = (task: PopulatedDateTask) => {
-  if (isNextWeekTask(task)) {
+  if (isNextWeekTask(task) || isPastTask(task)) {
     return false;
   }
   console.log(task);
@@ -130,7 +146,8 @@ const isNextMonthTask = (task: PopulatedDateTask) => {
   console.log("nextMonthDate", nextMonthDate);
   return task.deadlineDate < nextMonthDate;
 };
-const isFutureTask = (task: PopulatedDateTask) => !isNextMonthTask(task);
+const isFutureTask = (task: PopulatedDateTask) =>
+  !isNextMonthTask(task) && !isNextWeekTask(task) && !isPastTask(task);
 
 const imgPath =
   "https://previews.123rf.com/images/cowpland/cowpland1411/cowpland141100049/33356139-bank-check-icon-flat-design-with-long-shadows-.jpg";
