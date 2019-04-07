@@ -4,7 +4,8 @@ import { Contract, BaseTask, CheckBundle } from "../types";
 export function generateTasks(contract: Contract): BaseTask[] {
   return [
     ...generateDepositCheckTasks(contract),
-    ...generateOutOfChecksTasks(contract)
+    ...generateOutOfChecksTasks(contract),
+    ...generateEndOfContractTasks(contract)
   ];
 }
 
@@ -28,6 +29,25 @@ function generateOutOfChecksTasks(contract: Contract): BaseTask[] {
     contractId: contract.id,
     deadline: dateToString(endDate),
     taskType: "outOfChecks",
+    status: "active"
+  };
+  return [task];
+}
+
+function generateEndOfContractTasks(contract: Contract): BaseTask[] {
+  const endOfContractDate = new Date(contract.startLeaseDate);
+  endOfContractDate.setMonth(
+    endOfContractDate.getMonth() + contract.leaseLength - 3
+  );
+  contract.optionPeriods.forEach(optionPeriod =>
+    endOfContractDate.setMonth(
+      endOfContractDate.getMonth() + optionPeriod.leaseLength
+    )
+  );
+  const task: BaseTask = {
+    contractId: contract.id,
+    deadline: dateToString(endOfContractDate),
+    taskType: "endOfContract",
     status: "active"
   };
   return [task];
