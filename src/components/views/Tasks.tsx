@@ -54,29 +54,32 @@ const TasksList = (props: { tasks: PopulatedDateTask[] }) => {
 
   return (
     <div>
-      {props.tasks.map(task => (
-        <Card
-          key={task.id}
-          style={{ direction: "rtl", width: 400, marginBottom: 10 }}
-          hoverable
-          actions={[
-            <Dropdown overlay={SnoozeMenu} trigger={["click"]}>
-              <Icon type="clock-circle-o" />
-            </Dropdown>,
-            <Icon type="check" onClick={() => onTaskDone(task)} />
-          ]}
-        >
-          <Meta
-            avatar={<Avatar src={imgPath} />}
-            title={getTaskTitle(task.taskType)}
-            description={task.deadline}
-          />
-          <div>{task.contract.tenant.name}</div>
-          <div>{`${task.contract.asset.city} ${
-            task.contract.asset.address
-          }`}</div>
-        </Card>
-      ))}
+      {props.tasks.map(task => {
+        const { title, image } = getTaskTitleAndImg(task.taskType);
+        return (
+          <Card
+            key={task.id}
+            style={{ direction: "rtl", width: 400, marginBottom: 10 }}
+            hoverable
+            actions={[
+              <Dropdown overlay={SnoozeMenu} trigger={["click"]}>
+                <Icon type="clock-circle-o" />
+              </Dropdown>,
+              <Icon type="check" onClick={() => onTaskDone(task)} />
+            ]}
+          >
+            <Meta
+              avatar={<Avatar src={image} />}
+              title={title}
+              description={task.deadline}
+            />
+            <div>{task.contract.tenant.name}</div>
+            <div>{`${task.contract.asset.city} ${
+              task.contract.asset.address
+            }`}</div>
+          </Card>
+        );
+      })}
     </div>
   );
 };
@@ -105,12 +108,24 @@ const tasksSortCompare = (taskA: PopulatedTask, taskB: PopulatedTask) => {
   return 0;
 };
 
-const getTaskTitle = (taskType: TaskType) => {
+function getTaskTitleAndImg(
+  taskType: TaskType
+): { title: string; image: string } {
   switch (taskType) {
     case "depositCheck":
-      return "להפקיד צ'ק";
+      return {
+        title: "להפקיד צ'ק",
+        image:
+          "https://previews.123rf.com/images/cowpland/cowpland1411/cowpland141100049/33356139-bank-check-icon-flat-design-with-long-shadows-.jpg"
+      };
+    case "outOfChecks":
+      return {
+        title: "הצ'קים עומדים להיגמר! צריך לבקש חדשים",
+        image:
+          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPgI3HfspcXjsAA9xDHRA_T7xShb5GvbXF3OvPUXoPIhIBIjXecA"
+      };
   }
-};
+}
 
 const isPastTask = (task: PopulatedDateTask) => task.deadlineDate < new Date();
 const isNextWeekTask = (task: PopulatedDateTask) => {

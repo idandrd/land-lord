@@ -93,7 +93,7 @@ export interface CheckBundle {
   checkForHowManyMonths: number;
 }
 
-export type TaskType = "depositCheck";
+export type TaskType = "depositCheck" | "outOfChecks"
 type TaskStatus = "active" | "done" | "snoozed" | "deleted";
 
 export interface PopulatedTask extends Task {
