@@ -124,6 +124,12 @@ function getTaskTitleAndImg(
         image:
           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSPgI3HfspcXjsAA9xDHRA_T7xShb5GvbXF3OvPUXoPIhIBIjXecA"
       };
+    case "endOfContract":
+      return {
+        title: "החוזה יסתיים בעוד 3 חודשים",
+        image:
+          "https://previews.123rf.com/images/cowpland/cowpland1412/cowpland141200148/34904564-bank-check-icon-flat-design-.jpg"
+      };
   }
 }
 
