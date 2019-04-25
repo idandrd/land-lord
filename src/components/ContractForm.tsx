@@ -2,7 +2,7 @@ import React from "react";
 import shortid from "shortid";
 import { Button, DatePicker, Input, InputNumber, Divider, Select } from "antd";
 
-import { Contract, Asset } from "../types";
+import { Contract, Asset, CheckBundle } from "../types";
 import { generateTasks, firebaseService } from "../service";
 import { FormItem } from "./FormItem";
 
@@ -49,6 +49,12 @@ interface ContractFormProps {
   actions: any;
 }
 interface ContractFormState extends Contract {}
+
+const emptyCheckBundle: CheckBundle = {
+  amountOfChecks: 0,
+  dateOfFirstCheck: "",
+  checkForHowManyMonths: 1
+};
 
 const initialState: ContractFormState = {
   id: "",
