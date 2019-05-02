@@ -24,3 +24,6 @@ yarn-error.log*
 /functions/node_modules
 /functions/**/*.js
 /functions/**/*.js.map
+
+# sendgrid
+sendgrid.env
