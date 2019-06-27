@@ -1,0 +1,59 @@
+[debug] [2019-06-27T11:31:19.962Z] ----------------------------------------------------------------------
+[debug] [2019-06-27T11:31:19.963Z] Command:       /usr/local/Cellar/node/11.9.0/bin/node /usr/local/bin/firebase deploy --only functions
+[debug] [2019-06-27T11:31:19.964Z] CLI Version:   7.0.1
+[debug] [2019-06-27T11:31:19.964Z] Platform:      darwin
+[debug] [2019-06-27T11:31:19.964Z] Node Version:  v11.9.0
+[debug] [2019-06-27T11:31:19.965Z] Time:          Thu Jun 27 2019 14:31:19 GMT+0300 (Israel Daylight Time)
+[debug] [2019-06-27T11:31:19.965Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-06-27T11:31:19.972Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-06-27T11:31:19.972Z] > authorizing via signed-in user
+[debug] [2019-06-27T11:31:19.972Z] [iam] checking project landlord-df429 for permissions ["cloudfunctions.functions.create","cloudfunctions.functions.delete","cloudfunctions.functions.get","cloudfunctions.functions.list","cloudfunctions.functions.update","cloudfunctions.operations.get","firebase.projects.get"]
+[debug] [2019-06-27T11:31:19.973Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/landlord-df429:testIamPermissions  
+
+[debug] [2019-06-27T11:31:24.464Z] <<< HTTP RESPONSE 200
+[warn] ⚠  functions: package.json indicates an outdated version of firebase-functions.
+ Please upgrade using npm install --save firebase-functions@latest in your functions directory.
+[info] 
+[info] === Deploying to 'landlord-df429'...
+[info] 
+[info] i  deploying functions
+[info] Running command: npm --prefix "$RESOURCE_DIR" run lint
+[info] Running command: npm --prefix "$RESOURCE_DIR" run build
+[info] ✔  functions: Finished running predeploy script.
+[debug] [2019-06-27T11:31:32.371Z] > [functions] package.json contents: {
+  "name": "functions",
+  "scripts": {
+    "lint": "tslint --project tsconfig.json",
+    "build": "tsc",
+    "serve": "npm run build && firebase serve --only functions",
+    "shell": "npm run build && firebase functions:shell",
+    "start": "npm run shell",
+    "deploy": "firebase deploy --only functions",
+    "logs": "firebase functions:log"
+  },
+  "main": "lib/index.js",
+  "dependencies": {
+    "@sendgrid/mail": "^6.3.1",
+    "firebase-admin": "~6.0.0",
+    "firebase-functions": "^2.1.0"
+  },
+  "devDependencies": {
+    "tslint": "~5.8.0",
+    "typescript": "3.3.1"
+  },
+  "private": true,
+  "engines": {
+    "node": "8"
+  }
+}
+[info] i  functions: ensuring necessary APIs are enabled...
+[debug] [2019-06-27T11:31:32.371Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/cloudfunctions.googleapis.com/projectSettings/landlord-df429?view=CONSUMER_VIEW  
+ 
+[debug] [2019-06-27T11:31:32.372Z] >>> HTTP REQUEST GET https://servicemanagement.googleapis.com/v1/services/runtimeconfig.googleapis.com/projectSettings/landlord-df429?view=CONSUMER_VIEW  
+ 
+[debug] [2019-06-27T11:31:35.382Z] <<< HTTP RESPONSE 200
+[debug] [2019-06-27T11:31:36.156Z] <<< HTTP RESPONSE 200
+[info] ✔  functions: all necessary APIs are enabled
+[debug] [2019-06-27T11:31:36.157Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/landlord-df429  
+ 
