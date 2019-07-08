@@ -41,19 +41,21 @@ async function sendEmail(title: string) {
   const sendGridApiKey = functions.config().sendgrid.key;
   sgMail.setApiKey(sendGridApiKey);
   const tasks = await getTasks();
-  const msg = {
-    to: "idandrd@gmail.com",
-    from: "LandLord@landlord.com",
-    subject: `${title} LandLord Daily Tasks`,
-    text: "and easy to do anywhere, even with Node.js",
-    html: `<strong>You have some tasks you need to do today!</strong>${getTasksHtml(
-      tasks
-    )}`
-  };
-  await sgMail.send(msg);
+  if (tasks.length > 0) {
+    const msg = {
+      to: ["idandrd@gmail.com", "Amir@novustreet.com"],
+      from: "LandLord@landlord.com",
+      subject: `${title} LandLord Daily Tasks`,
+      text: "and easy to do anywhere, even with Node.js",
+      html: `<strong>You have some tasks you need to do today!</strong>${getTasksHtml(
+        tasks
+      )}`
+    };
+    await sgMail.send(msg);
+  }
 }
 
-async function getTasks(): Promise<BaseTask[]> {
+async function getTasks(): Promise<FullTask[]> {
   const allTasks: BaseTask[] = [];
   const snapshot = await admin
     .firestore()
@@ -67,14 +69,63 @@ async function getTasks(): Promise<BaseTask[]> {
   const filteredTasks = allTasks.filter(
     task => isToday(new Date(task.deadline)) && task.status === "active"
   );
-  return filteredTasks;
+  const tasks = await Promise.all(filteredTasks.map(getFullTask));
+  return tasks;
 }
 
-function getTasksHtml(tasks: BaseTask[]): string {
+async function getFullTask(task: BaseTask): Promise<FullTask> {
+  const contract = await getContract(task.contractId);
+  const tenantName = await getTenantName(contract.tenantId);
+  const assetName = await getAssetName(contract.assetId);
+  return { ...task, tenantName, assetName };
+}
+
+async function getContract(contractId: string) {
+  const snapshot = await admin
+    .firestore()
+    .collection("dev")
+    .doc("root")
+    .collection("cases")
+    .doc("amir123")
+    .collection("contracts")
+    .doc(contractId)
+    .get();
+  return snapshot.data();
+}
+
+async function getTenantName(tenantId: string) {
+  const snapshot = await admin
+    .firestore()
+    .collection("dev")
+    .doc("root")
+    .collection("cases")
+    .doc("amir123")
+    .collection("tenants")
+    .doc(tenantId)
+    .get();
+  return snapshot.data().name;
+}
+
+async function getAssetName(assetId: string) {
+  const snapshot = await admin
+    .firestore()
+    .collection("dev")
+    .doc("root")
+    .collection("cases")
+    .doc("amir123")
+    .collection("assets")
+    .doc(assetId)
+    .get();
+  return snapshot.data().name;
+}
+
+function getTasksHtml(tasks: FullTask[]): string {
   const htmlTasks = tasks.map(task => {
     const title = `<h2>${getTaskTitle(task)}</h2>`;
     const deadline = `<p><strong>Date: </strong>${task.deadline}</p>`;
-    return title + deadline;
+    const tenant = `<p><strong>Tenant: </strong>${task.tenantName}</p>`;
+    const asset = `<p><strong>Asset: </strong>${task.assetName}</p>`;
+    return title + deadline + tenant + asset;
   });
   return `<div>${htmlTasks.join("")}</div>`;
 }
@@ -104,4 +155,9 @@ interface BaseTask {
   taskType: "depositCheck" | "outOfChecks" | "endOfContract";
   deadline: string;
   status: "active" | "done" | "snoozed" | "deleted";
+}
+
+interface FullTask extends BaseTask {
+  tenantName: string;
+  assetName: string;
 }
