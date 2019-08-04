@@ -2,7 +2,7 @@ import React from "react";
 import shortid from "shortid";
 import { Button, DatePicker, Input, InputNumber, Divider, Select } from "antd";
 
-import { Contract, Asset, CheckBundle } from "../types";
+import { Contract, Asset, CheckBundle, Option as OptionPeriod } from "../types";
 import { generateTasks, firebaseService } from "../service";
 import { FormItem } from "./FormItem";
 
@@ -56,6 +56,8 @@ const emptyCheckBundle: CheckBundle = {
   checkForHowManyMonths: 1
 };
 
+const emptyOption: OptionPeriod = { leaseLength: 12, noticeAhead: 3 };
+
 const initialState: ContractFormState = {
   id: "",
   tenantId: "",
@@ -65,7 +67,7 @@ const initialState: ContractFormState = {
   startLeaseDate: "",
   leaseLength: 12,
   gracePeriodLength: 0,
-  optionPeriods: [],
+  optionPeriods: [{ ...emptyOption }],
   paymentEveryMonths: 1,
   monthDayOfPayment: 1,
   paymentMethod: "check",
@@ -114,7 +116,6 @@ export class ContractForm extends React.Component<
 
   render() {
     const { tenants, assets, contract, actions } = this.props;
-    console.log(this.state);
     return (
       <div style={{ direction: "rtl" }}>
         <FormItem label={strings.tenant}>
@@ -210,10 +211,14 @@ export class ContractForm extends React.Component<
 
         <Divider>{strings.optionPeriods}</Divider>
         <OptionForm
-          leaseLengthValue={12}
+          leaseLengthValue={this.state.optionPeriods[0].leaseLength}
           leaseLengthOnChange={val => console.log(val)}
-          noticeAheadValue={3}
-          noticeAheadOnChange={val => console.log(val)}
+          noticeAheadValue={this.state.optionPeriods[0].noticeAhead}
+          noticeAheadOnChange={noticeAhead =>
+            this.setState({
+              optionPeriods: [{ ...this.state.optionPeriods[0], noticeAhead }]
+            })
+          }
         />
         <Button>+</Button>
 
