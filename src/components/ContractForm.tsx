@@ -212,7 +212,11 @@ export class ContractForm extends React.Component<
         <Divider>{strings.optionPeriods}</Divider>
         <OptionForm
           leaseLengthValue={this.state.optionPeriods[0].leaseLength}
-          leaseLengthOnChange={val => console.log(val)}
+          leaseLengthOnChange={leaseLength =>
+            this.setState({
+              optionPeriods: [{ ...this.state.optionPeriods[0], leaseLength }]
+            })
+          }
           noticeAheadValue={this.state.optionPeriods[0].noticeAhead}
           noticeAheadOnChange={noticeAhead =>
             this.setState({
