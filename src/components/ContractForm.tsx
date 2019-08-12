@@ -6,6 +6,7 @@ import { Contract, Asset, CheckBundle } from "../types";
 import { generateTasks, firebaseService } from "../service";
 import { FormItem } from "./FormItem";
 import { OptionForm } from "./OptionForm";
+import { PaymentPeriodForm } from "./PaymentPeriodForm";
 
 const Option = Select.Option;
 const TextArea = Input.TextArea;
@@ -34,10 +35,7 @@ const strings = {
 
   amountOfChecks: "כמות צ'קים שהתקבלה",
   dateOfFirstCheck: "תאריך הצ'ק הראשון",
-  checkForHowManyMonths: "כמה חודשים בין צ'ק לצ'ק",
-
-  paymentPeriodLengthInMonths: "אורך תקופת תשלום (בחודשים)",
-  paymentPeriodAmountPerMonth: "תשלום חודשי"
+  checkForHowManyMonths: "כמה חודשים בין צ'ק לצ'ק"
 };
 
 interface ContractFormProps {
@@ -230,12 +228,9 @@ export class ContractForm extends React.Component<
 
         <Divider>{strings.paymentPeriods}</Divider>
         <PaymentPeriodForm
-          lengthInMonthsValue={12}
-          lengthInMonthsOnChange={val => console.log(val)}
-          amountPerMonthValue={1200}
-          amountPerMonthOnChange={val => console.log(val)}
+          paymentPeriods={this.state.paymentPeriods}
+          onChange={paymentPeriods => this.setState({ paymentPeriods })}
         />
-        <Button>+</Button>
 
         <FormItem label={strings.comments}>
           <TextArea
@@ -279,31 +274,6 @@ const UnitSelect = (props: {
     </Select>
   );
 };
-
-export const PaymentPeriodForm = (props: {
-  lengthInMonthsValue: number;
-  lengthInMonthsOnChange: (val: number) => void;
-  amountPerMonthValue: number;
-  amountPerMonthOnChange: (val: number) => void;
-}) => (
-  <div style={{ border: "1px dashed", width: "80%", padding: 9, margin: 4 }}>
-    <FormItem label={strings.paymentPeriodLengthInMonths}>
-      <InputNumber
-        min={1}
-        value={props.lengthInMonthsValue}
-        onChange={props.lengthInMonthsOnChange}
-      />
-    </FormItem>
-    <FormItem label={strings.paymentPeriodAmountPerMonth}>
-      <InputNumber
-        min={1}
-        value={props.amountPerMonthValue}
-        onChange={props.amountPerMonthOnChange}
-      />
-    </FormItem>
-    <Button>X</Button>
-  </div>
-);
 
 export const CheckBundleForm = (props: {
   amountOfChecksValue: number;
