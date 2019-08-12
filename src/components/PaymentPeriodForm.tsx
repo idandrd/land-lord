@@ -23,7 +23,7 @@ export interface PaymentPeriodFormProps {
 type PaymentPeriodKey = keyof PaymentPeriod;
 
 export interface SinglePaymentPeriodProps {
-  paymentPeriods: PaymentPeriod;
+  paymentPeriod: PaymentPeriod;
   onChange: (fieldName: PaymentPeriodKey, fieldValue: number) => void;
   onRemove: () => void;
 }
@@ -60,10 +60,10 @@ export function PaymentPeriodForm(props: PaymentPeriodFormProps) {
 
   return (
     <div>
-      {props.paymentPeriods.map((paymentPeriods, i) => (
+      {props.paymentPeriods.map((paymentPeriod, i) => (
         <SinglePaymentPeriod
           key={i}
-          paymentPeriods={paymentPeriods}
+          paymentPeriod={paymentPeriod}
           onChange={updateField(i)}
           onRemove={removePaymentPeriod(i)}
         />
@@ -79,14 +79,14 @@ function SinglePaymentPeriod(props: SinglePaymentPeriodProps) {
       <FormItem label={strings.lengthInMonths}>
         <InputNumber
           min={1}
-          value={props.paymentPeriods.lengthInMonths}
+          value={props.paymentPeriod.lengthInMonths}
           onChange={val => props.onChange("lengthInMonths", Number(val))}
         />
       </FormItem>
       <FormItem label={strings.amountPerMonth}>
         <InputNumber
           min={1}
-          value={props.paymentPeriods.amountPerMonth}
+          value={props.paymentPeriod.amountPerMonth}
           onChange={val => props.onChange("amountPerMonth", Number(val))}
         />
       </FormItem>
