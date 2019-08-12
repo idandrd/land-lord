@@ -5,6 +5,7 @@ import { Button, DatePicker, Input, InputNumber, Divider, Select } from "antd";
 import { Contract, Asset, CheckBundle } from "../types";
 import { generateTasks, firebaseService } from "../service";
 import { FormItem } from "./FormItem";
+import { OptionForm } from "./OptionForm";
 
 const Option = Select.Option;
 const TextArea = Input.TextArea;
@@ -30,9 +31,6 @@ const strings = {
   assetProperties: "תוספות לנכס",
   guarantees: "ערבויות",
   comments: "הערות",
-
-  optionLeaseLength: "משך האופציה (בחודשים)",
-  optionNoticeAhead: "זמן התראה מראש (בחודשים)",
 
   amountOfChecks: "כמות צ'קים שהתקבלה",
   dateOfFirstCheck: "תאריך הצ'ק הראשון",
@@ -114,7 +112,6 @@ export class ContractForm extends React.Component<
 
   render() {
     const { tenants, assets, contract, actions } = this.props;
-    console.log(this.state);
     return (
       <div style={{ direction: "rtl" }}>
         <FormItem label={strings.tenant}>
@@ -210,12 +207,9 @@ export class ContractForm extends React.Component<
 
         <Divider>{strings.optionPeriods}</Divider>
         <OptionForm
-          leaseLengthValue={12}
-          leaseLengthOnChange={val => console.log(val)}
-          noticeAheadValue={3}
-          noticeAheadOnChange={val => console.log(val)}
+          optionPeriods={this.state.optionPeriods}
+          onChange={optionPeriods => this.setState({ optionPeriods })}
         />
-        <Button>+</Button>
 
         <Divider>{strings.checkBundles}</Divider>
         <CheckBundleForm
@@ -285,31 +279,6 @@ const UnitSelect = (props: {
     </Select>
   );
 };
-
-export const OptionForm = (props: {
-  leaseLengthValue: number;
-  leaseLengthOnChange: (val: number) => void;
-  noticeAheadValue: number;
-  noticeAheadOnChange: (val: number) => void;
-}) => (
-  <div style={{ border: "1px dashed", width: "80%", padding: 9, margin: 4 }}>
-    <FormItem label={strings.optionLeaseLength}>
-      <InputNumber
-        min={1}
-        value={props.leaseLengthValue}
-        onChange={props.leaseLengthOnChange}
-      />
-    </FormItem>
-    <FormItem label={strings.optionNoticeAhead}>
-      <InputNumber
-        min={1}
-        value={props.noticeAheadValue}
-        onChange={props.noticeAheadOnChange}
-      />
-    </FormItem>
-    <Button>X</Button>
-  </div>
-);
 
 export const PaymentPeriodForm = (props: {
   lengthInMonthsValue: number;
