@@ -2,11 +2,13 @@ import React from "react";
 import shortid from "shortid";
 import { Button, DatePicker, Input, InputNumber, Divider, Select } from "antd";
 
-import { Contract, Asset, CheckBundle } from "../types";
+import { Contract, Asset } from "../types";
 import { generateTasks, firebaseService } from "../service";
 import { FormItem } from "./FormItem";
+
 import { OptionForm } from "./OptionForm";
 import { PaymentPeriodForm } from "./PaymentPeriodForm";
+import { CheckBundleForm } from "./CheckBundleForm";
 
 const Option = Select.Option;
 const TextArea = Input.TextArea;
@@ -31,11 +33,7 @@ const strings = {
   paymentPeriods: "תקופות תשלום",
   assetProperties: "תוספות לנכס",
   guarantees: "ערבויות",
-  comments: "הערות",
-
-  amountOfChecks: "כמות צ'קים שהתקבלה",
-  dateOfFirstCheck: "תאריך הצ'ק הראשון",
-  checkForHowManyMonths: "כמה חודשים בין צ'ק לצ'ק"
+  comments: "הערות"
 };
 
 interface ContractFormProps {
@@ -45,12 +43,6 @@ interface ContractFormProps {
   actions: any;
 }
 interface ContractFormState extends Contract {}
-
-const emptyCheckBundle: CheckBundle = {
-  amountOfChecks: 0,
-  dateOfFirstCheck: "",
-  checkForHowManyMonths: 1
-};
 
 const initialState: ContractFormState = {
   id: "",
@@ -66,13 +58,7 @@ const initialState: ContractFormState = {
   monthDayOfPayment: 1,
   paymentMethod: "check",
   paymentIndexLink: "madad",
-  checkBundles: [
-    {
-      amountOfChecks: 12,
-      dateOfFirstCheck: "2019-03-20",
-      checkForHowManyMonths: 1
-    }
-  ],
+  checkBundles: [],
   paymentPeriods: [],
   comments: ""
 };
@@ -211,20 +197,9 @@ export class ContractForm extends React.Component<
 
         <Divider>{strings.checkBundles}</Divider>
         <CheckBundleForm
-          amountOfChecksValue={this.state.checkBundles[0].amountOfChecks}
-          amountOfChecksOnChange={val =>
-            this.setState({
-              checkBundles: [
-                { ...this.state.checkBundles[0], amountOfChecks: val }
-              ]
-            })
-          }
-          dateOfFirstCheckValue={1200}
-          dateOfFirstCheckOnChange={val => console.log(val)}
-          checkForHowManyMonthsValue={12}
-          checkForHowManyMonthsOnChange={val => console.log(val)}
+          checkBundles={this.state.checkBundles}
+          onChange={checkBundles => this.setState({ checkBundles })}
         />
-        <Button>+</Button>
 
         <Divider>{strings.paymentPeriods}</Divider>
         <PaymentPeriodForm
@@ -274,37 +249,3 @@ const UnitSelect = (props: {
     </Select>
   );
 };
-
-export const CheckBundleForm = (props: {
-  amountOfChecksValue: number;
-  amountOfChecksOnChange: (val: number) => void;
-  dateOfFirstCheckValue: number;
-  dateOfFirstCheckOnChange: (val: string) => void;
-  checkForHowManyMonthsValue: number;
-  checkForHowManyMonthsOnChange: (val: number) => void;
-}) => (
-  <div style={{ border: "1px dashed", width: "80%", padding: 9, margin: 4 }}>
-    <FormItem label={strings.amountOfChecks}>
-      <InputNumber
-        min={1}
-        value={props.amountOfChecksValue}
-        onChange={props.amountOfChecksOnChange}
-      />
-    </FormItem>
-    <FormItem label={strings.dateOfFirstCheck}>
-      <DatePicker
-        onChange={(_, startLeaseDate) =>
-          props.dateOfFirstCheckOnChange(startLeaseDate)
-        }
-      />
-    </FormItem>
-    <FormItem label={strings.checkForHowManyMonths}>
-      <InputNumber
-        min={1}
-        value={props.checkForHowManyMonthsValue}
-        onChange={props.checkForHowManyMonthsOnChange}
-      />
-    </FormItem>
-    <Button>X</Button>
-  </div>
-);
