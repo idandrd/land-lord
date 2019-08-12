@@ -5,6 +5,7 @@ import { Button, DatePicker, Input, InputNumber, Divider, Select } from "antd";
 import { Contract, Asset, CheckBundle, Option as OptionPeriod } from "../types";
 import { generateTasks, firebaseService } from "../service";
 import { FormItem } from "./FormItem";
+import { OptionForm } from "./OptionForm";
 
 const Option = Select.Option;
 const TextArea = Input.TextArea;
@@ -31,9 +32,6 @@ const strings = {
   guarantees: "ערבויות",
   comments: "הערות",
 
-  optionLeaseLength: "משך האופציה (בחודשים)",
-  optionNoticeAhead: "זמן התראה מראש (בחודשים)",
-
   amountOfChecks: "כמות צ'קים שהתקבלה",
   dateOfFirstCheck: "תאריך הצ'ק הראשון",
   checkForHowManyMonths: "כמה חודשים בין צ'ק לצ'ק",
@@ -56,8 +54,6 @@ const emptyCheckBundle: CheckBundle = {
   checkForHowManyMonths: 1
 };
 
-const emptyOption: OptionPeriod = { leaseLength: 12, noticeAhead: 3 };
-
 const initialState: ContractFormState = {
   id: "",
   tenantId: "",
@@ -67,7 +63,7 @@ const initialState: ContractFormState = {
   startLeaseDate: "",
   leaseLength: 12,
   gracePeriodLength: 0,
-  optionPeriods: [{ ...emptyOption }],
+  optionPeriods: [],
   paymentEveryMonths: 1,
   monthDayOfPayment: 1,
   paymentMethod: "check",
@@ -211,20 +207,9 @@ export class ContractForm extends React.Component<
 
         <Divider>{strings.optionPeriods}</Divider>
         <OptionForm
-          leaseLengthValue={this.state.optionPeriods[0].leaseLength}
-          leaseLengthOnChange={leaseLength =>
-            this.setState({
-              optionPeriods: [{ ...this.state.optionPeriods[0], leaseLength }]
-            })
-          }
-          noticeAheadValue={this.state.optionPeriods[0].noticeAhead}
-          noticeAheadOnChange={noticeAhead =>
-            this.setState({
-              optionPeriods: [{ ...this.state.optionPeriods[0], noticeAhead }]
-            })
-          }
+          optionPeriods={this.state.optionPeriods}
+          onChange={optionPeriods => this.setState({ optionPeriods })}
         />
-        <Button>+</Button>
 
         <Divider>{strings.checkBundles}</Divider>
         <CheckBundleForm
@@ -294,31 +279,6 @@ const UnitSelect = (props: {
     </Select>
   );
 };
-
-export const OptionForm = (props: {
-  leaseLengthValue: number;
-  leaseLengthOnChange: (val: number) => void;
-  noticeAheadValue: number;
-  noticeAheadOnChange: (val: number) => void;
-}) => (
-  <div style={{ border: "1px dashed", width: "80%", padding: 9, margin: 4 }}>
-    <FormItem label={strings.optionLeaseLength}>
-      <InputNumber
-        min={1}
-        value={props.leaseLengthValue}
-        onChange={props.leaseLengthOnChange}
-      />
-    </FormItem>
-    <FormItem label={strings.optionNoticeAhead}>
-      <InputNumber
-        min={1}
-        value={props.noticeAheadValue}
-        onChange={props.noticeAheadOnChange}
-      />
-    </FormItem>
-    <Button>X</Button>
-  </div>
-);
 
 export const PaymentPeriodForm = (props: {
   lengthInMonthsValue: number;
