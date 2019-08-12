@@ -2,7 +2,7 @@ import React from "react";
 import shortid from "shortid";
 import { Button, DatePicker, Input, InputNumber, Divider, Select } from "antd";
 
-import { Contract, Asset, CheckBundle, Option as OptionPeriod } from "../types";
+import { Contract, Asset, CheckBundle } from "../types";
 import { generateTasks, firebaseService } from "../service";
 import { FormItem } from "./FormItem";
 import { OptionForm } from "./OptionForm";
