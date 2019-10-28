@@ -1,7 +1,7 @@
 export const Routes = {
   tasks: "/tasks",
   contracts: "/contracts",
-  editContract: "/contracts/edit",
+  editContract: "/contracts/edit/:id",
   newContract: "/contracts/new",
   tenants: "/tenants",
   newTenant: "/tenants/new",

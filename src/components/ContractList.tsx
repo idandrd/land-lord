@@ -15,9 +15,14 @@ const strings = {
 
 const columns = [
   {
+    title: "ID",
+    dataIndex: "id",
+    render: contractId => <Link to={Routes.editContract.replace(":id", contractId)}>{contractId}</Link>
+  },
+  {
     title: strings.tenantColumn,
     dataIndex: "tenant",
-    render: tenant => <Link to={Routes.editContract}>{tenant.name}</Link>
+    render: tenant => tenant.name
   },
   {
     title: strings.assetColumn,
@@ -49,6 +54,7 @@ export class ContractList extends React.Component<{
     const { contracts } = this.props;
     return contracts.map(contract => {
       return {
+        id: contract.id,
         tenant: contract.tenant,
         asset: contract.asset,
         signingDate: contract.signingDate,
