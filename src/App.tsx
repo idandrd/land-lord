@@ -45,7 +45,7 @@ class App extends Component {
         {this.state.loadingAuth ? (
           <Spin size="large" />
         ) : (
-          <Provider store={store}>
+          <Provider store={store as any}>
             <div>{this.state.loggedIn ? <AppMain /> : <AuthForm />}</div>
           </Provider>
         )}
@@ -73,6 +73,9 @@ const AppMain = () => (
           <Route path={Routes.newTenant} component={TenantFormContainer} />
           <Route path={Routes.newAsset} component={AssetFormContainer} />
           <Route path={Routes.newContract} component={ContractFormContainer} />
+
+          <Route path={Routes.editContract} component={ContractFormContainer} />
+
           <Route path={Routes.tenants} component={TenantsContainer} />
           <Route path={Routes.assets} component={AssetsContainer} />
           <Route path={Routes.contracts} component={ContractsContainer} />

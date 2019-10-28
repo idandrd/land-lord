@@ -1,6 +1,8 @@
 import React from "react";
 import { Table } from "antd";
+import { Link } from "react-router-dom";
 
+import { Routes } from "../common/constants";
 import { PopulatedContract } from "../types";
 
 const strings = {
@@ -15,7 +17,7 @@ const columns = [
   {
     title: strings.tenantColumn,
     dataIndex: "tenant",
-    render: tenant => tenant.name
+    render: tenant => <Link to={Routes.editContract}>{tenant.name}</Link>
   },
   {
     title: strings.assetColumn,
