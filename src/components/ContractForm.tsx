@@ -41,6 +41,7 @@ interface ContractFormProps {
   assets: Asset[];
   contract: any;
   actions: any;
+  editContract: Contract;
 }
 interface ContractFormState extends Contract {}
 
@@ -67,7 +68,7 @@ export class ContractForm extends React.Component<
   ContractFormProps,
   ContractFormState
 > {
-  state = { ...initialState };
+  state = this.props.editContract || { ...initialState };
 
   unitSelectComponent = (
     <UnitSelect onChange={(unitIds: string[]) => this.setState({ unitIds })} />

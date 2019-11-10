@@ -17,7 +17,11 @@ const columns = [
   {
     title: "ID",
     dataIndex: "id",
-    render: contractId => <Link to={Routes.editContract.replace(":id", contractId)}>{contractId}</Link>
+    render: contractId => (
+      <Link to={Routes.editContract.replace(":id", contractId)}>
+        {contractId}
+      </Link>
+    )
   },
   {
     title: strings.tenantColumn,

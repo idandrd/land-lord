@@ -39,7 +39,6 @@ class App extends Component {
   }
 
   render() {
-    console.log("********", firebaseService.isLoggedIn());
     return (
       <Router>
         {this.state.loadingAuth ? (
