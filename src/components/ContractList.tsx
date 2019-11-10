@@ -1,5 +1,5 @@
 import React from "react";
-import { Table } from "antd";
+import { Table, Icon } from "antd";
 import { Link } from "react-router-dom";
 
 import { Routes } from "../common/constants";
@@ -15,11 +15,10 @@ const strings = {
 
 const columns = [
   {
-    title: "ID",
     dataIndex: "id",
     render: contractId => (
       <Link to={Routes.editContract.replace(":id", contractId)}>
-        {contractId}
+        <Icon type="edit" />
       </Link>
     )
   },
