@@ -1,7 +1,10 @@
 import React from "react";
-import { Table } from "antd";
+import { Table, Icon } from "antd";
 import { uniq } from "lodash";
 import { strings } from "./AssetForm";
+import { Link } from "react-router-dom";
+
+import { Routes } from "../common/constants";
 
 export class AssetList extends React.Component<{ assets: any[] }> {
   columns = [
@@ -44,6 +47,14 @@ export class AssetList extends React.Component<{ assets: any[] }> {
       title: strings.assetOwner,
       dataIndex: "owner",
       sorter: (a, b) => a.comments.length - b.comments.length
+    },
+    {
+      dataIndex: "id",
+      render: assetId => (
+        <Link to={Routes.editAsset.replace(":id", assetId)}>
+          <Icon type="edit" />
+        </Link>
+      )
     }
   ];
 

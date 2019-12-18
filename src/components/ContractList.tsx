@@ -15,14 +15,6 @@ const strings = {
 
 const columns = [
   {
-    dataIndex: "id",
-    render: contractId => (
-      <Link to={Routes.editContract.replace(":id", contractId)}>
-        <Icon type="edit" />
-      </Link>
-    )
-  },
-  {
     title: strings.tenantColumn,
     dataIndex: "tenant",
     render: tenant => tenant.name
@@ -44,6 +36,14 @@ const columns = [
     title: strings.leaseLengthColumn,
     dataIndex: "leaseLength",
     render: (leaseLength: number) => `${leaseLength} חודשים`
+  },
+  {
+    dataIndex: "id",
+    render: contractId => (
+      <Link to={Routes.editContract.replace(":id", contractId)}>
+        <Icon type="edit" />
+      </Link>
+    )
   }
 ];
 
