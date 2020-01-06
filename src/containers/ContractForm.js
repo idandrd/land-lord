@@ -28,7 +28,6 @@ const Container = props => {
 };
 
 const mapStateToProps = (state, ownProps) => {
-  const what = CaseSelectors.getContract(state.Case, ownProps.match.params.id)
   return {
     contract: state.ContractForm,
     tenants: state.Case.tenants,

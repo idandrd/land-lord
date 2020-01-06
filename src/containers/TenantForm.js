@@ -36,9 +36,9 @@ const Container = props => {
   return <NewTenant {...formProps} />;
 };
 
-const mapStateToProps = state => ({
-  tenant: state.TenantForm.tenant
-});
+const mapStateToProps = (state, ownProps) => {
+  return { tenant: state.TenantForm.tenant };
+};
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
@@ -63,6 +63,7 @@ const mapDispatchToProps = dispatch => {
   );
 };
 
-export const TenantFormContainer = connect(mapStateToProps, mapDispatchToProps)(
-  Container
-);
+export const TenantFormContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Container);
