@@ -2,6 +2,7 @@ import React from "react";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { NewAsset } from "../components/views/NewAsset";
+import { CaseSelectors } from "../redux/reducers/Case";
 import { AssetActions, FormActions } from "../redux/actions/assetForm";
 
 const Container = props => {
@@ -14,12 +15,13 @@ const Container = props => {
     onSubmit: props.onSubmit
   };
 
-  const formProps = { asset: props.asset, actions };
+  const formProps = { asset: props.asset, editAsset: props.editAsset, actions };
   return <NewAsset {...formProps} />;
 };
 
-const mapStateToProps = state => ({
-  asset: state.AssetForm.asset
+const mapStateToProps = (state, ownProps) => ({
+  asset: state.AssetForm.asset,
+  editAsset: CaseSelectors.getAsset(state.Case, ownProps.match.params.id)
 });
 
 const mapDispatchToProps = dispatch => {
@@ -37,6 +39,7 @@ const mapDispatchToProps = dispatch => {
   );
 };
 
-export const AssetFormContainer = connect(mapStateToProps, mapDispatchToProps)(
-  Container
-);
+export const AssetFormContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Container);

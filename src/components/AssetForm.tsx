@@ -111,6 +111,17 @@ export class AssetForm extends React.Component<any, AssetFormState> {
     this.props.actions.onSubmit(asset);
   };
 
+  componentDidMount() {
+    const { editAsset } = this.props;
+    if (editAsset) {
+      this.setState({
+        ...editAsset,
+        showTypeInUnits: true,
+        showOwnerInUnits: true
+      });
+    }
+  }
+
   render() {
     return (
       <div style={{ direction: "rtl" }}>
