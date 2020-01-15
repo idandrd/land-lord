@@ -5,7 +5,8 @@ import { Routes } from "../../common/constants";
 
 const strings = {
   allTenantas: "כל השוכרים",
-  newTenant: "שוכר חדש"
+  newTenant: "שוכר חדש",
+  editTenant: "ערוך שוכר"
 };
 
 export class NewTenant extends Component {
@@ -15,7 +16,9 @@ export class NewTenant extends Component {
         <ContentFrame
           firstNavText={strings.allTenantas}
           firstNavRoute={Routes.tenants}
-          secondNavText={strings.newTenant}
+          secondNavText={
+            this.props.editTenant ? strings.editTenant : strings.newTenant
+          }
         >
           <TenantForm {...this.props} />
         </ContentFrame>

@@ -99,6 +99,13 @@ export class TenantForm extends Component {
     });
   };
 
+  componentDidMount() {
+    const { editTenant } = this.props;
+    if (editTenant) {
+      this.setState({ ...editTenant });
+    }
+  }
+
   render() {
     return (
       <div style={{ direction: "rtl" }}>
