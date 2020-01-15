@@ -44,25 +44,23 @@ class FirebaseService {
     this.caseRoot = this.db.collection(strings.cases).doc(caseId);
   };
 
-  saveTenant = async tenant => {
-    if (tenant.id) {
-      await this.caseRoot
-        .collection(strings.tenants)
-        .doc(tenant.id)
-        .set(tenant);
+  saveTenant = tenant => this.saveItem(tenant, strings.tenants);
+
+  saveAsset = asset => this.saveItem(asset, strings.assets);
+
+  saveContract = contract => this.saveItem(contract, strings.contracts);
+
+  saveItem = (item, itemType) => {
+    if (item.id) {
+      this.caseRoot
+        .collection(itemType)
+        .doc(item.id)
+        .set(item);
     } else {
-      await this.caseRoot.collection(strings.tenants).add(tenant);
+      this.caseRoot.collection(itemType).add(item);
     }
   };
-  saveAsset = async asset => {
-    await this.caseRoot.collection(strings.assets).add(asset);
-  };
-  saveContract = async contract => {
-    await this.caseRoot
-      .collection(strings.contracts)
-      .doc(contract.id)
-      .set(contract);
-  };
+
   saveTasks = tasks => {
     tasks.map(task => this.caseRoot.collection(strings.tasks).add(task));
   };
