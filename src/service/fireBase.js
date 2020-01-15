@@ -45,7 +45,14 @@ class FirebaseService {
   };
 
   saveTenant = async tenant => {
-    await this.caseRoot.collection(strings.tenants).add(tenant);
+    if (tenant.id) {
+      await this.caseRoot
+        .collection(strings.tenants)
+        .doc(tenant.id)
+        .set(tenant);
+    } else {
+      await this.caseRoot.collection(strings.tenants).add(tenant);
+    }
   };
   saveAsset = async asset => {
     await this.caseRoot.collection(strings.assets).add(asset);
