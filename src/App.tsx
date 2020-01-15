@@ -39,13 +39,12 @@ class App extends Component {
   }
 
   render() {
-    console.log("********", firebaseService.isLoggedIn());
     return (
       <Router>
         {this.state.loadingAuth ? (
           <Spin size="large" />
         ) : (
-          <Provider store={store}>
+          <Provider store={store as any}>
             <div>{this.state.loggedIn ? <AppMain /> : <AuthForm />}</div>
           </Provider>
         )}
@@ -70,9 +69,15 @@ const AppMain = () => (
         <Switch>
           <Route exact path="/" render={() => <h1>Welcome to LandLord!</h1>} />
           <Route path={Routes.tasks} component={TasksContainer} />
+
           <Route path={Routes.newTenant} component={TenantFormContainer} />
           <Route path={Routes.newAsset} component={AssetFormContainer} />
           <Route path={Routes.newContract} component={ContractFormContainer} />
+
+          <Route path={Routes.editTenant} component={TenantFormContainer} />
+          <Route path={Routes.editAsset} component={AssetFormContainer} />
+          <Route path={Routes.editContract} component={ContractFormContainer} />
+
           <Route path={Routes.tenants} component={TenantsContainer} />
           <Route path={Routes.assets} component={AssetsContainer} />
           <Route path={Routes.contracts} component={ContractsContainer} />

@@ -5,7 +5,8 @@ import { Routes } from "../../common/constants";
 
 const strings = {
   allAssets: "כל הנכסים",
-  newAsset: "נכס חדש"
+  newAsset: "נכס חדש",
+  editAsset: "ערוך נכס"
 };
 
 export class NewAsset extends Component {
@@ -15,7 +16,9 @@ export class NewAsset extends Component {
         <ContentFrame
           firstNavText={strings.allAssets}
           firstNavRoute={Routes.assets}
-          secondNavText={strings.newAsset}
+          secondNavText={
+            this.props.editAsset ? strings.editAsset : strings.newAsset
+          }
         >
           <AssetForm {...this.props} />
         </ContentFrame>

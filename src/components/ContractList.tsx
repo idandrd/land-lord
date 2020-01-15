@@ -1,6 +1,8 @@
 import React from "react";
-import { Table } from "antd";
+import { Table, Icon } from "antd";
+import { Link } from "react-router-dom";
 
+import { Routes } from "../common/constants";
 import { PopulatedContract } from "../types";
 
 const strings = {
@@ -34,6 +36,14 @@ const columns = [
     title: strings.leaseLengthColumn,
     dataIndex: "leaseLength",
     render: (leaseLength: number) => `${leaseLength} חודשים`
+  },
+  {
+    dataIndex: "id",
+    render: contractId => (
+      <Link to={Routes.editContract.replace(":id", contractId)}>
+        <Icon type="edit" />
+      </Link>
+    )
   }
 ];
 
@@ -47,6 +57,7 @@ export class ContractList extends React.Component<{
     const { contracts } = this.props;
     return contracts.map(contract => {
       return {
+        id: contract.id,
         tenant: contract.tenant,
         asset: contract.asset,
         signingDate: contract.signingDate,

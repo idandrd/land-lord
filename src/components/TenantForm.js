@@ -88,16 +88,32 @@ export class TenantForm extends Component {
   };
 
   onSubmit = () => {
-    const { name, isBusiness, idNum, type, comments, contacts } = this.state;
+    const {
+      name,
+      isBusiness,
+      idNum,
+      type,
+      comments,
+      contacts,
+      id
+    } = this.state;
     this.props.actions.onSubmit({
       name,
       isBusiness,
       idNum,
       type,
       comments,
-      contacts
+      contacts,
+      id
     });
   };
+
+  componentDidMount() {
+    const { editTenant } = this.props;
+    if (editTenant) {
+      this.setState({ ...editTenant });
+    }
+  }
 
   render() {
     return (

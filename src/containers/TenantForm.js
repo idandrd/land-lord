@@ -7,6 +7,7 @@ import {
   ContactActions,
   FormActions
 } from "../redux/actions/tenantForm";
+import { CaseSelectors } from "../redux/reducers/Case";
 
 const Container = props => {
   const contacts = [
@@ -32,13 +33,21 @@ const Container = props => {
     removeContact: props.removeContact
   };
 
-  const formProps = { tenant, actions, contactActions };
+  const formProps = {
+    tenant,
+    actions,
+    contactActions,
+    editTenant: props.editTenant
+  };
   return <NewTenant {...formProps} />;
 };
 
-const mapStateToProps = state => ({
-  tenant: state.TenantForm.tenant
-});
+const mapStateToProps = (state, ownProps) => {
+  return {
+    tenant: state.TenantForm.tenant,
+    editTenant: CaseSelectors.getTenant(state.Case, ownProps.match.params.id)
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
@@ -63,6 +72,7 @@ const mapDispatchToProps = dispatch => {
   );
 };
 
-export const TenantFormContainer = connect(mapStateToProps, mapDispatchToProps)(
-  Container
-);
+export const TenantFormContainer = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Container);

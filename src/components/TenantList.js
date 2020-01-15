@@ -1,7 +1,9 @@
 import React from "react";
-import PropTypes from "prop-types";
-import { Table } from "antd";
+import { Table, Icon } from "antd";
 import { strings } from "./TenantForm";
+import { Link } from "react-router-dom";
+
+import { Routes } from "../common/constants";
 
 export class TenantList extends React.Component {
   columns = [
@@ -27,6 +29,14 @@ export class TenantList extends React.Component {
       title: strings.commentsLabel,
       dataIndex: "comments",
       sorter: (a, b) => a.comments.length - b.comments.length
+    },
+    {
+      dataIndex: "id",
+      render: tenantId => (
+        <Link to={Routes.editTenant.replace(":id", tenantId)}>
+          <Icon type="edit" />
+        </Link>
+      )
     }
   ];
 
@@ -71,7 +81,7 @@ class ContactsTable extends React.Component {
     return (
       <Table
         columns={this.columns}
-        dataSource={tenant.contacts.map((c, i) => ({...c, key: i}))}
+        dataSource={tenant.contacts.map((c, i) => ({ ...c, key: i }))}
         pagination={false}
         bordered={true}
       />

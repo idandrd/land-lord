@@ -43,6 +43,7 @@ interface AssetFormState extends BaseAsset {
   owner?: string;
   showTypeInUnits: boolean;
   showOwnerInUnits: boolean;
+  id?: string;
 }
 
 const initialState: AssetFormState = {
@@ -106,10 +107,22 @@ export class AssetForm extends React.Component<any, AssetFormState> {
       address: this.state.address,
       year: this.state.year,
       floors: this.state.floors,
-      units: this.state.units
+      units: this.state.units,
+      id: this.state.id
     };
     this.props.actions.onSubmit(asset);
   };
+
+  componentDidMount() {
+    const { editAsset } = this.props;
+    if (editAsset) {
+      this.setState({
+        ...editAsset,
+        showTypeInUnits: true,
+        showOwnerInUnits: true
+      });
+    }
+  }
 
   render() {
     return (
