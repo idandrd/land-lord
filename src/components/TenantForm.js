@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import shortid from "shortid";
 import * as _ from "lodash";
 import { Input, Button, Radio, Divider } from "antd";
 import { FormItem } from "./FormItem";
@@ -110,6 +111,7 @@ export class TenantForm extends Component {
 
   componentDidMount() {
     const { editTenant } = this.props;
+    this.setState({ id: shortid.generate() });
     if (editTenant) {
       this.setState({ ...editTenant });
     }
