@@ -114,6 +114,7 @@ export class AssetForm extends React.Component<any, AssetFormState> {
   };
 
   componentDidMount() {
+    this.setState({ id: shortid.generate() });
     const { editAsset } = this.props;
     if (editAsset) {
       this.setState({
