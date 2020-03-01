@@ -110,8 +110,8 @@ export class TenantForm extends Component {
   };
 
   componentDidMount() {
-    const { editTenant } = this.props;
     this.setState({ id: shortid.generate() });
+    const { editTenant } = this.props;
     if (editTenant) {
       this.setState({ ...editTenant });
     }
