@@ -3,11 +3,13 @@ import { take, put, call, fork } from "redux-saga/effects";
 import { firebaseService } from "../../service/fireBase";
 import { actionTypes, AppActions } from "../actions/app";
 
+const CASE_NAME = "amir-prod"
+
 export function* appSaga() {
   while (true) {
     yield take(actionTypes.initFirebase);
     yield call(firebaseService.initFirebase);
-    yield call(firebaseService.initCase, "amir123");
+    yield call(firebaseService.initCase, CASE_NAME);
     yield fork(tenantsListenerSaga);
     yield fork(assetsListenerSaga);
     yield fork(contractsListenerSaga);
