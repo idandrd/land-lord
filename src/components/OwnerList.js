@@ -40,20 +40,17 @@ export class OwnerList extends React.Component {
     console.log("params", pagination, filters, sorter);
   };
 
-  parseTenants = tenants =>
-    tenants.map((tenant, i) => ({
-      ...tenant,
-      key: i,
-      isBusiness: tenant.isBusiness
-        ? strings.businessRadio
-        : strings.privateRadio
+  parseOwners = owners =>
+    owners.map((owner, i) => ({
+      ...owner,
+      key: i
     }));
 
   render() {
-    const tenants = this.props.tenants || [];
+    const owners = this.props.owners || [];
     return (
       <Table
-        dataSource={this.parseTenants(tenants)}
+        dataSource={this.parseOwners(owners)}
         columns={this.columns}
         onChange={this.onChange}
       />
