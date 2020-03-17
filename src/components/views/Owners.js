@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { TenantList } from "../TenantList";
+import { OwnerList } from "../OwnerList";
 import { ContentFrame } from "../ContentFrame";
 import { Routes } from "../../common/constants";
 
@@ -20,7 +20,7 @@ export class Owners extends Component {
         buttonText={strings.modalTitle}
         buttonRoute={Routes.newTenant}
       >
-        <TenantList tenants={owners} />
+        <OwnerList tenants={owners} />
       </ContentFrame>
     );
   }
