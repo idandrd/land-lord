@@ -8,7 +8,9 @@ export const Routes = {
   newTenant: "/tenants/new",
   assets: "/assets",
   editAsset: "/assets/edit/:id",
-  newAsset: "/assets/new"
+  newAsset: "/assets/new",
+  owners: "/owners",
+  newOwner: "/owners/new"
 };
 
 export const TaskType = {

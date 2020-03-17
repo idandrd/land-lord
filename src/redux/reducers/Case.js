@@ -4,6 +4,7 @@ const initialState = {
   tenants: [],
   assets: [],
   contracts: [],
+  owners: [],
   tasks: []
 };
 

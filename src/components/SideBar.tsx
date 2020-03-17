@@ -11,6 +11,7 @@ const strings = {
   assets: "נכסים",
   tenants: "שוכרים",
   contracts: "חוזים",
+  owners: "בעלים",
   settings: "הגדרות",
   logout: "התנתק"
 };
@@ -61,6 +62,12 @@ class SideBar extends Component {
             </Link>
           </Menu.Item>
           <Menu.Item key="11">
+            <Link to={Routes.owners}>
+              <Icon type="idcard" />
+              <span>{strings.owners}</span>
+            </Link>
+          </Menu.Item>
+          <Menu.Item key="12">
             <Link to={Routes.tenants}>
               <Icon type="setting" />
               <span>{strings.settings}</span>

@@ -18,6 +18,8 @@ import { AssetFormContainer } from "./containers/AssetForm";
 import { ContractsContainer } from "./containers/Contracts";
 import { ContractFormContainer } from "./containers/ContractForm";
 
+import { OwnersContainer } from "./containers/Owners";
+
 import { AuthForm } from "./components/AuthForm";
 
 import { AppActions } from "./redux/actions/app";
@@ -81,6 +83,8 @@ const AppMain = () => (
           <Route path={Routes.tenants} component={TenantsContainer} />
           <Route path={Routes.assets} component={AssetsContainer} />
           <Route path={Routes.contracts} component={ContractsContainer} />
+          <Route path={Routes.owners} component={OwnersContainer} />
+
         </Switch>
       </Content>
     </Layout>
