@@ -20,7 +20,7 @@ export class NewOwner extends Component {
             this.props.editOwner ? strings.editOwner : strings.NewOwner
           }
         >
-          <ContractForm {...this.props} />
+          {/* <ContractForm {...this.props} /> */}
         </ContentFrame>
       </div>
     );

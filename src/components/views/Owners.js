@@ -18,7 +18,7 @@ export class Owners extends Component {
       <ContentFrame
         firstNavText={strings.allOwners}
         buttonText={strings.modalTitle}
-        buttonRoute={Routes.newTenant}
+        buttonRoute={Routes.newOwner}
       >
         <OwnerList tenants={owners} />
       </ContentFrame>

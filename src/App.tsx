@@ -19,6 +19,7 @@ import { ContractsContainer } from "./containers/Contracts";
 import { ContractFormContainer } from "./containers/ContractForm";
 
 import { OwnersContainer } from "./containers/Owners";
+import { OwnerFormContainer } from "./containers/OwnerForm";
 
 import { AuthForm } from "./components/AuthForm";
 
@@ -75,7 +76,7 @@ const AppMain = () => (
           <Route path={Routes.newTenant} component={TenantFormContainer} />
           <Route path={Routes.newAsset} component={AssetFormContainer} />
           <Route path={Routes.newContract} component={ContractFormContainer} />
-          <Route path={Routes.newOwner} component={ContractFormContainer} />
+          <Route path={Routes.newOwner} component={OwnerFormContainer} />
 
           <Route path={Routes.editTenant} component={TenantFormContainer} />
           <Route path={Routes.editAsset} component={AssetFormContainer} />
@@ -85,7 +86,6 @@ const AppMain = () => (
           <Route path={Routes.assets} component={AssetsContainer} />
           <Route path={Routes.contracts} component={ContractsContainer} />
           <Route path={Routes.owners} component={OwnersContainer} />
-
         </Switch>
       </Content>
     </Layout>
