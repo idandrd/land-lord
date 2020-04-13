@@ -3,6 +3,7 @@ export const actionTypes = {
   tenantsSnapshotRecieved: "TENANTS_SNAPSHOT_RECEIVED",
   assetsSnapshotRecieved: "ASSETS_SNAPSHOT_RECEIVED",
   contractsSnapshotRecieved: "CONTRACTS_SNAPSHOT_RECEIVED",
+  ownersSnapshotRecieved: "OWNERS_SNAPSHOT_RECEIVED",
   tasksSnapshotRecieved: "TASKS_SNAPSHOT_RECEIVED"
 };
 
@@ -20,6 +21,10 @@ export const AppActions = {
   }),
   contractsSnapshotRecieved: val => ({
     type: actionTypes.contractsSnapshotRecieved,
+    payload: val
+  }),
+  ownersSnapshotRecieved: val => ({
+    type: actionTypes.ownersSnapshotRecieved,
     payload: val
   }),
   tasksSnapshotRecieved: val => ({

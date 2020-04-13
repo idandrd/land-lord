@@ -92,6 +92,12 @@ class FirebaseService {
       this.caseRoot.collection(strings.contracts)
     );
 
+  listenForOwners = listener =>
+    handleCollectionSnapshot(
+      listener,
+      this.caseRoot.collection(strings.owners)
+    );
+
   listenForTasks = listener =>
     handleCollectionSnapshot(listener, this.caseRoot.collection(strings.tasks));
 
