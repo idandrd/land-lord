@@ -3,11 +3,11 @@ import { connect } from "react-redux";
 import { Owners } from "../components/views/Owners";
 
 const Container = props => {
-  return <Owners owners={props.tenants} />;
+  return <Owners owners={props.owners} />;
 };
 
 const mapStateToProps = state => ({
-  tenants: state.Case.owners
+  owners: state.Case.owners
 });
 
 export const OwnersContainer = connect(mapStateToProps)(Container);

@@ -29,9 +29,10 @@ export class OwnerList extends React.Component {
     {
       dataIndex: "id",
       render: ownerId => (
-        <Link to={Routes.newOwner.replace(":id", ownerId)}>
-          <Icon type="edit" />
-        </Link>
+        <div />
+        // <Link to={Routes.newOwner.replace(":id", ownerId)}>
+        //   <Icon type="edit" />
+        // </Link>
       )
     }
   ];
@@ -47,6 +48,7 @@ export class OwnerList extends React.Component {
     }));
 
   render() {
+    console.log("*********************", this.props);
     const owners = this.props.owners || [];
     return (
       <Table

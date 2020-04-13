@@ -20,7 +20,7 @@ export class Owners extends Component {
         buttonText={strings.modalTitle}
         buttonRoute={Routes.newOwner}
       >
-        <OwnerList tenants={owners} />
+        <OwnerList owners={owners} />
       </ContentFrame>
     );
   }
