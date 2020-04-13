@@ -75,6 +75,7 @@ const AppMain = () => (
           <Route path={Routes.newTenant} component={TenantFormContainer} />
           <Route path={Routes.newAsset} component={AssetFormContainer} />
           <Route path={Routes.newContract} component={ContractFormContainer} />
+          <Route path={Routes.newOwner} component={ContractFormContainer} />
 
           <Route path={Routes.editTenant} component={TenantFormContainer} />
           <Route path={Routes.editAsset} component={AssetFormContainer} />

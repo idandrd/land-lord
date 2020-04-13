@@ -28,8 +28,8 @@ export class OwnerList extends React.Component {
     },
     {
       dataIndex: "id",
-      render: tenantId => (
-        <Link to={Routes.editTenant.replace(":id", tenantId)}>
+      render: ownerId => (
+        <Link to={Routes.newOwner.replace(":id", ownerId)}>
           <Icon type="edit" />
         </Link>
       )
