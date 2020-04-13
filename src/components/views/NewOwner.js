@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { ContractForm } from "../ContractForm";
+import { OwnerForm } from "../OwnerForm";
 import { ContentFrame } from "../ContentFrame";
 import { Routes } from "../../common/constants";
 
@@ -20,7 +20,7 @@ export class NewOwner extends Component {
             this.props.editOwner ? strings.editOwner : strings.NewOwner
           }
         >
-          {/* <ContractForm {...this.props} /> */}
+          <OwnerForm {...this.props} />
         </ContentFrame>
       </div>
     );

@@ -28,7 +28,7 @@ const Container = props => {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  editOwner: {}
+  editOwner: undefined
 });
 
 const mapDispatchToProps = dispatch => {

@@ -54,6 +54,13 @@ export interface PopulatedContract extends Contract {
   asset: Asset;
 }
 
+export interface BaseOwner {
+  name: string;
+  type: string;
+  idNum: string;
+  comments: string;
+}
+
 export interface Contract {
   id: string;
   tenantId: string;
