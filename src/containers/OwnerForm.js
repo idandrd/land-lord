@@ -3,29 +3,9 @@ import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import { NewOwner } from "../components/views/NewOwner";
 // import { CaseSelectors } from "../redux/reducers/Case";
-// import { ContractActions, FormActions } from "../redux/actions/contractForm";
+import { FormActions } from "../redux/actions/ownerForm";
 
-const Container = props => {
-  // const actions = {
-  //   setContractTenantId: props.setContractTenantId,
-  //   setContractAssetId: props.setContractAssetId,
-  //   setContractUnitId: props.setContractUnitId,
-  //   setContractSigningDate: props.setContractSigningDate,
-  //   setContractFirstCheckDate: props.setContractFirstCheckDate,
-  //   setContractAmountOfChecksRecieved: props.setContractAmountOfChecksRecieved,
-  //   onSubmit: props.onSubmit
-  // };
-
-  // const formProps = {
-  //   contract: props.contract,
-  //   actions,
-  //   tenants: props.tenants,
-  //   assets: props.assets,
-  //   editContract: props.editContract
-  // };
-
-  return <NewOwner />;
-};
+const Container = props => <NewOwner {...props} />;
 
 const mapStateToProps = (state, ownProps) => ({
   editOwner: undefined
@@ -34,7 +14,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = dispatch => {
   return bindActionCreators(
     {
-      onSubmit: () => {}
+      onSubmit: FormActions.saveOwner
     },
     dispatch
   );
