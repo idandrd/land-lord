@@ -48,7 +48,6 @@ export class OwnerList extends React.Component {
     }));
 
   render() {
-    console.log("*********************", this.props);
     const owners = this.props.owners || [];
     return (
       <Table

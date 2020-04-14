@@ -43,7 +43,6 @@ export class OwnerForm extends React.Component<any, OwnerFormState> {
   };
 
   componentDidMount() {
-    console.log("$$$$$$$$$$$$$$PROPS", this.props);
     this.setState({ id: shortid.generate() });
     const { editOwner } = this.props;
     if (editOwner) {
