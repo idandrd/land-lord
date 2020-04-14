@@ -1,17 +1,19 @@
-import { Button, Divider, Input, InputNumber } from "antd";
+import { Button, Input, Select } from "antd";
 import React from "react";
 import { BaseOwner } from "../types";
-import { CitySelect } from "./CitySelect";
 import { FormItem } from "./FormItem";
 import shortid from "shortid";
-import { COMBINED, UnitOwnerSelect, UnitTypeSelect } from "./UnitTypeSelect";
+const Option = Select.Option;
 
 export const strings = {
   ownerName: "שם",
   ownerType: "סוג הבעלים",
   IdNum: "ת.ז./ח.פ.",
   comments: "הערות",
-  save: "שמור"
+  save: "שמור",
+  partnership: "שותפות",
+  company: "חברה",
+  private: "פרטי"
 };
 
 interface OwnerFormState extends BaseOwner {
@@ -41,7 +43,7 @@ export class OwnerForm extends React.Component<any, OwnerFormState> {
   };
 
   componentDidMount() {
-    console.log("$$$$$$$$$$$$$$PROPS", this.props)
+    console.log("$$$$$$$$$$$$$$PROPS", this.props);
     this.setState({ id: shortid.generate() });
     const { editOwner } = this.props;
     if (editOwner) {
@@ -63,10 +65,14 @@ export class OwnerForm extends React.Component<any, OwnerFormState> {
           />
         </FormItem>
         <FormItem label={strings.ownerType}>
-          <Input
-            value={this.state.type}
-            onChange={({ target }) => this.setState({ type: target.value })}
-          />
+          <Select
+            onChange={(type: string) => this.setState({type})}
+            style={{ width: "100%" }}
+          >
+            <Option value={strings.company}>{strings.company}</Option>
+            <Option value={strings.partnership}>{strings.partnership}</Option>
+            <Option value={strings.private}>{strings.private}</Option>
+          </Select>
         </FormItem>
         <FormItem label={strings.IdNum}>
           <Input
@@ -80,7 +86,7 @@ export class OwnerForm extends React.Component<any, OwnerFormState> {
             onChange={({ target }) => this.setState({ comments: target.value })}
           />
         </FormItem>
-        
+
         <Button type="primary" onClick={this.onSubmit}>
           {strings.save}
         </Button>
