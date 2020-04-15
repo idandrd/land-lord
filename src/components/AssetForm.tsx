@@ -143,6 +143,7 @@ export class AssetForm extends React.Component<any, AssetFormState> {
         </FormItem>
         <FormItem label={strings.assetOwner}>
           <UnitOwnerSelect
+            owners={this.props.owners}
             value={this.state.owner}
             onChange={this.onAssetOwnerChange}
             ofAsset
@@ -207,6 +208,7 @@ export class AssetForm extends React.Component<any, AssetFormState> {
             onRemove={() => this.onUnitRemove(key)}
             showType={this.state.showTypeInUnits}
             showOwner={this.state.showOwnerInUnits}
+            owners={this.props.owners}
           />
         ))}
 
@@ -222,7 +224,7 @@ export class AssetForm extends React.Component<any, AssetFormState> {
 
 export class UnitForm extends React.Component<any> {
   render() {
-    const { unit, onFieldChange, onRemove, showType, showOwner } = this.props;
+    const { unit, onFieldChange, onRemove, showType, showOwner, owners } = this.props;
     return (
       <div
         style={{ border: "1px dashed", width: "80%", padding: 9, margin: 4 }}
@@ -244,6 +246,7 @@ export class UnitForm extends React.Component<any> {
         {showOwner && (
           <FormItem label={strings.assetOwner}>
             <UnitOwnerSelect
+              owners={this.props.owners}
               value={unit.owner}
               onChange={owner => onFieldChange("owner", owner)}
             />
@@ -294,3 +297,4 @@ export class UnitForm extends React.Component<any> {
     );
   }
 }
+

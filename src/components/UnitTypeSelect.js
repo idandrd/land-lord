@@ -11,30 +11,35 @@ export const unitTypes = {
   parking: "חניון",
   industrial: "תעשייה",
   hall: "אולם",
-  other: OTHER
+  other: OTHER,
 };
 
 export const unitOwners = {
   amir: "אמיר",
   amirsDad: "אבא של אמיר",
-  amirsBro: "אח של אמיר"
+  amirsBro: "אח של אמיר",
 };
 
-export const UnitTypeSelect = props => (
+export const UnitTypeSelect = (props) => (
   <UnitSelectField options={unitTypes} {...props} />
 );
 
-export const UnitOwnerSelect = props => (
-  <UnitSelectField options={unitOwners} {...props} />
-);
+export const UnitOwnerSelect = (props) => {
+  const { owners } = props;
+  console.log("PROPS ********************", props);
+  console.log("PROPS ********************", owners);
+  console.log("PROPS ********************", owners.map);
+  const options = owners.map((owner) => `${owner.name}, ${owner.idNum}`);
+  return <UnitSelectField options={options} {...props} />;
+};
 
 class UnitSelectField extends React.Component {
   state = {
     selectValue: "",
-    inputValue: ""
+    inputValue: "",
   };
 
-  onSelectChange = value => {
+  onSelectChange = (value) => {
     this.setState({ selectValue: value });
     if (value === OTHER) {
       this.props.onChange(this.state.inputValue);
@@ -43,7 +48,7 @@ class UnitSelectField extends React.Component {
     }
   };
 
-  onInputChange = e => {
+  onInputChange = (e) => {
     this.setState({ inputValue: e.target.value });
     this.props.onChange(e.target.value);
   };
@@ -61,7 +66,7 @@ class UnitSelectField extends React.Component {
           onChange={this.onSelectChange}
           {...restProps}
         >
-          {Object.values(options).map(option => (
+          {Object.values(options).map((option) => (
             <Option value={option} key={option}>
               {option}
             </Option>

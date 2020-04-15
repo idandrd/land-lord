@@ -15,12 +15,18 @@ const Container = props => {
     onSubmit: props.onSubmit
   };
 
-  const formProps = { asset: props.asset, editAsset: props.editAsset, actions };
+  const formProps = {
+    asset: props.asset,
+    owners: props.owners,
+    editAsset: props.editAsset,
+    actions
+  };
   return <NewAsset {...formProps} />;
 };
 
 const mapStateToProps = (state, ownProps) => ({
   asset: state.AssetForm.asset,
+  owners: state.Case.owners,
   editAsset: CaseSelectors.getAsset(state.Case, ownProps.match.params.id)
 });
 

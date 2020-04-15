@@ -3,7 +3,7 @@ import { take, put, call, fork } from "redux-saga/effects";
 import { firebaseService } from "../../service/fireBase";
 import { actionTypes, AppActions } from "../actions/app";
 
-const CASE_NAME = "amir-prod"
+const CASE_NAME = "amir123";
 
 export function* appSaga() {
   while (true) {
@@ -13,6 +13,7 @@ export function* appSaga() {
     yield fork(tenantsListenerSaga);
     yield fork(assetsListenerSaga);
     yield fork(contractsListenerSaga);
+    yield fork(ownersListenerSaga);
     yield fork(tasksListenerSaga);
   }
 }
@@ -53,6 +54,18 @@ function* contractsListenerSaga() {
   }
 }
 
+function* ownersListenerSaga() {
+  const chan = yield call(ownersListener);
+  try {
+    while (true) {
+      const msg = yield take(chan);
+      yield put(AppActions.ownersSnapshotRecieved(msg));
+    }
+  } finally {
+    console.log("unsubscribed from owners channel");
+  }
+}
+
 function* tasksListenerSaga() {
   const chan = yield call(tasksListener);
   try {
@@ -82,6 +95,13 @@ function assetsListener() {
 function contractsListener() {
   return eventChannel(emitter => {
     const unsubscribe = firebaseService.listenForContracts(emitter);
+    return () => unsubscribe();
+  });
+}
+
+function ownersListener() {
+  return eventChannel(emitter => {
+    const unsubscribe = firebaseService.listenForOwners(emitter);
     return () => unsubscribe();
   });
 }

@@ -18,6 +18,7 @@ const strings = {
   tenants: "tenants",
   assets: "assets",
   contracts: "contracts",
+  owners: "owners",
   tasks: "tasks"
 };
 
@@ -49,7 +50,9 @@ class FirebaseService {
   saveAsset = asset => this.saveItem(asset, strings.assets);
 
   saveContract = contract => this.saveItem(contract, strings.contracts);
-
+  
+  saveOwner = owner => this.saveItem(owner, strings.owners);
+  
   saveItem = (item, itemType) => {
     if (item.id) {
       this.caseRoot
@@ -87,6 +90,12 @@ class FirebaseService {
     handleCollectionSnapshot(
       listener,
       this.caseRoot.collection(strings.contracts)
+    );
+
+  listenForOwners = listener =>
+    handleCollectionSnapshot(
+      listener,
+      this.caseRoot.collection(strings.owners)
     );
 
   listenForTasks = listener =>

@@ -4,6 +4,7 @@ const initialState = {
   tenants: [],
   assets: [],
   contracts: [],
+  owners: [],
   tasks: []
 };
 
@@ -16,6 +17,8 @@ export function CaseReducer(state = initialState, action) {
       return { ...state, assets: payload };
     case actionTypes.contractsSnapshotRecieved:
       return { ...state, contracts: payload };
+    case actionTypes.ownersSnapshotRecieved:
+      return { ...state, owners: payload };
     case actionTypes.tasksSnapshotRecieved:
       return { ...state, tasks: payload };
     default:
