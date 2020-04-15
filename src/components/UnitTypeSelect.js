@@ -26,9 +26,6 @@ export const UnitTypeSelect = (props) => (
 
 export const UnitOwnerSelect = (props) => {
   const { owners } = props;
-  console.log("PROPS ********************", props);
-  console.log("PROPS ********************", owners);
-  console.log("PROPS ********************", owners.map);
   const options = owners.map((owner) => `${owner.name}, ${owner.idNum}`);
   return <UnitSelectField options={options} {...props} />;
 };
@@ -61,7 +58,7 @@ class UnitSelectField extends React.Component {
     return (
       <div style={{ display: "flex", flexDirection: "row" }}>
         <Select
-          style={{ width: 120 }}
+          style={{ width: "100%" }}
           value={this.state.selectValue}
           onChange={this.onSelectChange}
           {...restProps}
