@@ -64,7 +64,7 @@ export function GuaranteeForm(props: GuaranteeFormProps) {
   );
 }
 
-function SingleOption(props: SingleOptionProps) {
+function SingleGuarantee(props: SingleGuaranteeProps) {
   return (
     <div style={{ border: "1px dashed", width: "80%", padding: 9, margin: 4 }}>
       <FormItem label={strings.optionLeaseLength}>
