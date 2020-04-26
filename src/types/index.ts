@@ -115,3 +115,35 @@ export interface BaseTask {
   deadline: string;
   status: TaskStatus;
 }
+
+type GuaranteeType =
+  | "bankGuarantee"
+  | "bankCheck"
+  | "personalCheck"
+  | "deposit"
+  | "other";
+
+export interface BaseGuarantee {
+  type: GuaranteeType;
+  amount: number;
+}
+
+export interface BankGuarantee extends BaseGuarantee {
+  type: "bankGuarantee";
+  expirationDate: string;
+}
+
+export interface OtherGuarantee extends BaseGuarantee {
+  type: "other";
+  description: string;
+}
+
+export interface personalCheck {
+  type: "personalCheck";
+}
+
+export type Guarantee =
+  | BaseGuarantee
+  | BankGuarantee
+  | OtherGuarantee
+  | personalCheck;
