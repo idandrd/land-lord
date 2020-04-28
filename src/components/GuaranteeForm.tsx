@@ -90,6 +90,27 @@ class SingleGuarantee extends React.Component<SingleGuaranteeProps> {
     this.setState({ ...this.props.guarantee });
   }
 
+  componentDidUpdate(_, prevState) {
+    if (this.state !== prevState) {
+      const guarantee = this.getGuarantee();
+      this.props.onChange(guarantee as Guarantee);
+    }
+  }
+
+  getGuarantee() {
+    const { type, amount, expirationDate, description } = this.state;
+    switch (type) {
+      case GuaranteeType.bankGuarantee:
+        return { type, amount, expirationDate };
+      case GuaranteeType.personalCheck:
+        return { type };
+      case GuaranteeType.other:
+        return { type, description };
+      default:
+        return { type, amount };
+    }
+  }
+
   render() {
     return (
       <div>
@@ -106,7 +127,7 @@ class SingleGuarantee extends React.Component<SingleGuaranteeProps> {
             ))}
           </Select>
         </FormItem>
-        {this.state.type != GuaranteeType.personalCheck && (
+        {this.state.type !== GuaranteeType.personalCheck && (
           <FormItem label={strings.amount}>
             <InputNumber
               value={(this.state as any).amount}
