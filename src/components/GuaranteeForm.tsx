@@ -57,7 +57,7 @@ export function GuaranteeForm(props: GuaranteeFormProps) {
   //   };
   // }
 
-  // function addOption() {
+  // function addGuarantee() {
   //   const newOptions = [...props.optionPeriods, { ...emptyOption }];
   //   props.onChange(newOptions);
   // }
