@@ -116,12 +116,20 @@ export interface BaseTask {
   status: TaskStatus;
 }
 
-type GuaranteeType =
-  | "bankGuarantee"
-  | "bankCheck"
-  | "personalCheck"
-  | "deposit"
-  | "other";
+export enum GuaranteeType {
+  bankGuarantee = "bankGuarantee",
+  bankCheck = "bankCheck",
+  personalCheck = "personalCheck",
+  deposit = "deposit",
+  other = "other",
+}
+
+// export type GuaranteeType =
+//   | "bankGuarantee"
+//   | "bankCheck"
+//   | "personalCheck"
+//   | "deposit"
+//   | "other";
 
 export interface BaseGuarantee {
   type: GuaranteeType;
@@ -129,17 +137,17 @@ export interface BaseGuarantee {
 }
 
 export interface BankGuarantee extends BaseGuarantee {
-  type: "bankGuarantee";
+  type: GuaranteeType.bankGuarantee
   expirationDate: string;
 }
 
 export interface OtherGuarantee extends BaseGuarantee {
-  type: "other";
+  type: GuaranteeType.other
   description: string;
 }
 
 export interface personalCheck {
-  type: "personalCheck";
+  type: GuaranteeType.personalCheck;
 }
 
 export type Guarantee =

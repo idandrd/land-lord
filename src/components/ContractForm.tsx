@@ -9,6 +9,7 @@ import { FormItem } from "./FormItem";
 import { OptionForm } from "./OptionForm";
 import { PaymentPeriodForm } from "./PaymentPeriodForm";
 import { CheckBundleForm } from "./CheckBundleForm";
+import { GuaranteeForm } from "./GuaranteeForm";
 
 const Option = Select.Option;
 const TextArea = Input.TextArea;
@@ -33,7 +34,7 @@ const strings = {
   paymentPeriods: "תקופות תשלום",
   assetProperties: "תוספות לנכס",
   guarantees: "ערבויות",
-  comments: "הערות"
+  comments: "הערות",
 };
 
 interface ContractFormProps {
@@ -61,7 +62,7 @@ const initialState: ContractFormState = {
   paymentIndexLink: "madad",
   checkBundles: [],
   paymentPeriods: [],
-  comments: ""
+  comments: "",
 };
 
 export class ContractForm extends React.Component<
@@ -79,7 +80,7 @@ export class ContractForm extends React.Component<
     this.setState({ assetId }, () => {
       this.unitSelectComponent = (
         <UnitSelect
-          asset={this.props.assets.find(asset => asset.id === assetId)}
+          asset={this.props.assets.find((asset) => asset.id === assetId)}
           onChange={(unitIds: string[]) => this.setState({ unitIds })}
         />
       );
@@ -103,7 +104,7 @@ export class ContractForm extends React.Component<
           <CaseItemSelect
             options={tenants}
             value={this.state.tenantId}
-            onChange={tenantId => this.setState({ tenantId })}
+            onChange={(tenantId) => this.setState({ tenantId })}
           />
         </FormItem>
         <FormItem label={strings.asset}>
@@ -128,7 +129,7 @@ export class ContractForm extends React.Component<
           <InputNumber
             min={1}
             value={this.state.leaseLength}
-            onChange={val =>
+            onChange={(val) =>
               this.setState({ leaseLength: parseInt(val.toString()) })
             }
           />
@@ -137,7 +138,7 @@ export class ContractForm extends React.Component<
           <InputNumber
             min={0}
             value={this.state.gracePeriodLength}
-            onChange={val =>
+            onChange={(val) =>
               this.setState({ gracePeriodLength: parseInt(val.toString()) })
             }
           />
@@ -146,7 +147,7 @@ export class ContractForm extends React.Component<
           <InputNumber
             min={1}
             value={this.state.paymentEveryMonths}
-            onChange={val =>
+            onChange={(val) =>
               this.setState({ paymentEveryMonths: parseInt(val.toString()) })
             }
           />
@@ -156,7 +157,7 @@ export class ContractForm extends React.Component<
             min={1}
             max={28}
             value={this.state.monthDayOfPayment}
-            onChange={val =>
+            onChange={(val) =>
               this.setState({ monthDayOfPayment: parseInt(val.toString()) })
             }
           />
@@ -165,7 +166,7 @@ export class ContractForm extends React.Component<
           <Select
             style={{ width: "100%" }}
             defaultValue={this.state.paymentMethod}
-            onChange={val =>
+            onChange={(val) =>
               this.setState({ paymentMethod: val.toString() as any })
             }
           >
@@ -179,7 +180,7 @@ export class ContractForm extends React.Component<
           <Select
             style={{ width: "100%" }}
             defaultValue={this.state.paymentIndexLink}
-            onChange={val =>
+            onChange={(val) =>
               this.setState({ paymentIndexLink: val.toString() as any })
             }
           >
@@ -193,20 +194,23 @@ export class ContractForm extends React.Component<
         <Divider>{strings.optionPeriods}</Divider>
         <OptionForm
           optionPeriods={this.state.optionPeriods}
-          onChange={optionPeriods => this.setState({ optionPeriods })}
+          onChange={(optionPeriods) => this.setState({ optionPeriods })}
         />
 
         <Divider>{strings.checkBundles}</Divider>
         <CheckBundleForm
           checkBundles={this.state.checkBundles}
-          onChange={checkBundles => this.setState({ checkBundles })}
+          onChange={(checkBundles) => this.setState({ checkBundles })}
         />
 
         <Divider>{strings.paymentPeriods}</Divider>
         <PaymentPeriodForm
           paymentPeriods={this.state.paymentPeriods}
-          onChange={paymentPeriods => this.setState({ paymentPeriods })}
+          onChange={(paymentPeriods) => this.setState({ paymentPeriods })}
         />
+
+        <Divider>{strings.guarantees}</Divider>
+        <GuaranteeForm guarantees={[]} onChange={(val) => console.log(val)} />
 
         <FormItem label={strings.comments}>
           <TextArea
@@ -224,7 +228,7 @@ export class ContractForm extends React.Component<
   }
 }
 
-const CaseItemSelect = props => (
+const CaseItemSelect = (props) => (
   <Select {...props} style={{ width: "100%" }}>
     {props.options.map((item, index) => (
       <Option key={index} value={item.id}>

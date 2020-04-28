@@ -1,87 +1,141 @@
 import React from "react";
-import { Button, InputNumber } from "antd";
-
-import { Guarantee } from "../types";
+import { Button, InputNumber, Input, DatePicker, Select } from "antd";
+import { Guarantee, GuaranteeType, BankGuarantee } from "../types";
 import { FormItem } from "./FormItem";
+const Option = Select.Option;
 
 const strings = {
-
+  addGuarantee: "הוסף ערבות",
+  guaranteeType: "סוג ערבות",
+  amount: "סכום",
+  expirationDate: "תקף עד לתאריך",
+  description: "תיאור",
 };
 
-const emptyGuarantee: Guarantee = { type: "bankGuarantee", amount: 0, expirationDate: "2020-05-01" };
+const guaranteeTypes: { name: GuaranteeType; label: string }[] = [
+  { name: GuaranteeType.bankGuarantee, label: "ערבות בנקאית" },
+  { name: GuaranteeType.bankCheck, label: "צ'ק בנקאי" },
+  { name: GuaranteeType.personalCheck, label: "צ'ק אישי" },
+  { name: GuaranteeType.deposit, label: "פיקדון" },
+  { name: GuaranteeType.other, label: "אחר" },
+];
+
+const emptyGuarantee: Guarantee = {
+  type: GuaranteeType.bankGuarantee,
+  amount: 0,
+  expirationDate: "2020-05-01",
+};
 
 export interface GuaranteeFormProps {
   guarantees: Guarantee[];
   onChange: (val: Guarantee[]) => void;
 }
 
-type GuaranteeKey = keyof Guarantee;
-
 export interface SingleGuaranteeProps {
   guarantee: Guarantee;
-  onChange: (fieldName: GuaranteeKey, fieldValue: number | string) => void;
+  onChange: (newGuarantee: Guarantee) => void;
   onRemove: () => void;
 }
 
 export function GuaranteeForm(props: GuaranteeFormProps) {
-  
-  function updateField(index: number) {
-    return (fieldName: OptionKey, fieldValue: number) => {
-      const newOptions = props.optionPeriods.map((option, i) => {
-        if (i == index) {
-          return { ...option, [fieldName]: fieldValue };
-        }
-        return option;
-      });
-      props.onChange(newOptions);
-    };
-  }
+  // function updateField(index: number) {
+  //   return (fieldName: GuaranteeKey, fieldValue: number) => {
+  //     const newOptions = props.optionPeriods.map((option, i) => {
+  //       if (i == index) {
+  //         return { ...option, [fieldName]: fieldValue };
+  //       }
+  //       return option;
+  //     });
+  //     props.onChange(newOptions);
+  //   };
+  // }
 
-  function removeGuarantee(index: number) {
-    return () => {
-      const newOptions = props.optionPeriods.filter((_, i) => i !== index);
-      props.onChange(newOptions);
-    };
-  }
+  // function removeGuarantee(index: number) {
+  //   return () => {
+  //     const newOptions = props.optionPeriods.filter((_, i) => i !== index);
+  //     props.onChange(newOptions);
+  //   };
+  // }
 
-  function addOption() {
-    const newOptions = [...props.optionPeriods, { ...emptyOption }];
-    props.onChange(newOptions);
-  }
+  // function addOption() {
+  //   const newOptions = [...props.optionPeriods, { ...emptyOption }];
+  //   props.onChange(newOptions);
+  // }
 
   return (
     <div>
-      {props.guarantees.map((optionPeriod, i) => (
-        <SingleOption
-          key={i}
-          optionPeriod={optionPeriod}
-          onChange={updateField(i)}
-          onRemove={removeOption(i)}
-        />
-      ))}
-      <Button onClick={addOption}>{strings.addOption}</Button>
+      <SingleGuarantee
+        guarantee={{
+          type: GuaranteeType.bankGuarantee,
+          amount: 40000,
+          expirationDate: "2020-5-1",
+        }}
+        onChange={(val) => console.log(val)}
+        onRemove={() => {}}
+      />
+      <Button>{strings.addGuarantee}</Button>
     </div>
   );
 }
 
-function SingleGuarantee(props: SingleGuaranteeProps) {
-  return (
-    <div style={{ border: "1px dashed", width: "80%", padding: 9, margin: 4 }}>
-      <FormItem label={strings.optionLeaseLength}>
-        <InputNumber
-          min={1}
-          value={props.optionPeriod.leaseLength}
-          onChange={val => props.onChange("leaseLength", Number(val))}
-        />
-      </FormItem>
-      <FormItem label={strings.optionNoticeAhead}>
-        <InputNumber
-          min={1}
-          value={props.optionPeriod.noticeAhead}
-          onChange={val => props.onChange("noticeAhead", Number(val))}
-        />
-      </FormItem>
-      <Button onClick={props.onRemove}>X</Button>
-    </div>
-  );
+class SingleGuarantee extends React.Component<SingleGuaranteeProps> {
+  state = {
+    type: "bankGuarantee",
+    amount: 0,
+    expirationDate: "2020-05-01",
+    description: "",
+  };
+
+  componentDidMount() {
+    this.setState({ ...this.props.guarantee });
+  }
+
+  render() {
+    return (
+      <div>
+        <FormItem label={strings.guaranteeType}>
+          <Select
+            defaultValue={this.state.type}
+            onChange={(type: GuaranteeType) => this.setState({ type })}
+            style={{ width: "100%" }}
+          >
+            {guaranteeTypes.map((option, i) => (
+              <Option key={i} value={option.name}>
+                {option.label}
+              </Option>
+            ))}
+          </Select>
+        </FormItem>
+        {this.state.type != GuaranteeType.personalCheck && (
+          <FormItem label={strings.amount}>
+            <InputNumber
+              value={(this.state as any).amount}
+              onChange={(val) =>
+                this.setState({ amount: parseInt(val.toString()) })
+              }
+            />
+          </FormItem>
+        )}
+        {this.state.type == GuaranteeType.bankGuarantee && (
+          <FormItem label={strings.expirationDate}>
+            <DatePicker
+              onChange={(_, expirationDate) =>
+                this.setState({ expirationDate })
+              }
+            />
+          </FormItem>
+        )}
+        {this.state.type == GuaranteeType.other && (
+          <FormItem label={strings.description}>
+            <Input
+              value={this.state.description}
+              onChange={({ target }) =>
+                this.setState({ description: target.value })
+              }
+            />
+          </FormItem>
+        )}
+      </div>
+    );
+  }
 }
