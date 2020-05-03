@@ -33,7 +33,7 @@ const strings = {
   checkBundles: "צ'קים שהתקבלו",
   paymentPeriods: "תקופות תשלום",
   assetProperties: "תוספות לנכס",
-  guarantees: "ערבויות",
+  guarantees: "בטחונות",
   comments: "הערות",
 };
 

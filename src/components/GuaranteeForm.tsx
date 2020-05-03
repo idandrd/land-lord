@@ -1,5 +1,4 @@
 import React from "react";
-import shortid from "shortid";
 import { Button, InputNumber, Input, DatePicker, Select } from "antd";
 import { Guarantee, GuaranteeType, BankGuarantee } from "../types";
 import { FormItem } from "./FormItem";
@@ -39,18 +38,6 @@ export interface SingleGuaranteeProps {
 }
 
 export function GuaranteeForm(props: GuaranteeFormProps) {
-  // function updateField(index: number) {
-  //   return (fieldName: GuaranteeKey, fieldValue: number) => {
-  //     const newOptions = props.optionPeriods.map((option, i) => {
-  //       if (i == index) {
-  //         return { ...option, [fieldName]: fieldValue };
-  //       }
-  //       return option;
-  //     });
-  //     props.onChange(newOptions);
-  //   };
-  // }
-
   function getOnGuaranteeChange(index: number) {
     return function onGuaranteeChange(newGuarantee: Guarantee) {
       const newGuarantees = props.guarantees.map((guarantee, i) =>
