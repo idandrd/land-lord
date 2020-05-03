@@ -56,7 +56,7 @@ export function GuaranteeForm(props: GuaranteeFormProps) {
       const newGuarantees = props.guarantees.map((guarantee, i) =>
         i == index ? newGuarantee : guarantee
       );
-      console.log("guarantee changed!", newGuarantees)
+      console.log("guarantee changed!", newGuarantees);
       props.onChange(newGuarantees);
     };
   }
@@ -75,7 +75,7 @@ export function GuaranteeForm(props: GuaranteeFormProps) {
     <div>
       {props.guarantees.map((guarantee, i) => (
         <SingleGuarantee
-          key={shortid.generate()}
+          key={`${i}_${guarantee.type}`}
           guarantee={guarantee}
           onChange={getOnGuaranteeChange(i)}
           onRemove={() => removeGuarantee(i)}
@@ -99,15 +99,23 @@ class SingleGuarantee extends React.Component<SingleGuaranteeProps> {
   //   this.setState({ ...this.props.guarantee });
   // }
 
-  componentDidUpdate(_, prevState) {
-    if (this.state !== prevState) {
-      const guarantee = this.getGuarantee();
-      this.props.onChange(guarantee as Guarantee);
-    }
+  // componentDidUpdate(_, prevState) {
+  //   if (this.state !== prevState) {
+  //     const guarantee = this.getGuarantee();
+  //     this.props.onChange(guarantee as Guarantee);
+  //   }
+  // }
+
+  updateGuarantee(fields: object) {
+    const newGuarantee = this.getGuarantee({
+      ...this.props.guarantee,
+      ...fields,
+    });
+    this.props.onChange(newGuarantee);
   }
 
-  getGuarantee() {
-    const { type, amount, expirationDate, description } = this.state;
+  getGuarantee(newGuarantee) {
+    const { type, amount, expirationDate, description } = newGuarantee;
     switch (type) {
       case GuaranteeType.bankGuarantee:
         return { type, amount, expirationDate };
@@ -121,14 +129,23 @@ class SingleGuarantee extends React.Component<SingleGuaranteeProps> {
   }
 
   render() {
+    const guaranteeFields = {
+      type: "bankGuarantee",
+      amount: 0,
+      expirationDate: "2020-05-01",
+      description: "",
+      ...this.props.guarantee,
+    };
+    console.log("*** render ***");
+
     return (
       <div
         style={{ border: "1px dashed", width: "80%", padding: 9, margin: 4 }}
       >
         <FormItem label={strings.guaranteeType}>
           <Select
-            defaultValue={this.state.type}
-            onChange={(type: GuaranteeType) => this.setState({ type })}
+            defaultValue={guaranteeFields.type}
+            onChange={(type: GuaranteeType) => this.updateGuarantee({ type })}
             style={{ width: "100%" }}
           >
             {guaranteeTypes.map((option, i) => (
@@ -138,31 +155,31 @@ class SingleGuarantee extends React.Component<SingleGuaranteeProps> {
             ))}
           </Select>
         </FormItem>
-        {this.state.type !== GuaranteeType.personalCheck && (
+        {guaranteeFields.type !== GuaranteeType.personalCheck && (
           <FormItem label={strings.amount}>
             <InputNumber
-              value={(this.state as any).amount}
+              value={(guaranteeFields as any).amount}
               onChange={(val) =>
-                this.setState({ amount: parseInt(val.toString()) })
+                this.updateGuarantee({ amount: parseInt(val.toString()) })
               }
             />
           </FormItem>
         )}
-        {this.state.type == GuaranteeType.bankGuarantee && (
+        {guaranteeFields.type == GuaranteeType.bankGuarantee && (
           <FormItem label={strings.expirationDate}>
             <DatePicker
               onChange={(_, expirationDate) =>
-                this.setState({ expirationDate })
+                this.updateGuarantee({ expirationDate })
               }
             />
           </FormItem>
         )}
-        {this.state.type == GuaranteeType.other && (
+        {guaranteeFields.type == GuaranteeType.other && (
           <FormItem label={strings.description}>
             <Input
-              value={this.state.description}
+              value={guaranteeFields.description}
               onChange={({ target }) =>
-                this.setState({ description: target.value })
+                this.updateGuarantee({ description: target.value })
               }
             />
           </FormItem>
