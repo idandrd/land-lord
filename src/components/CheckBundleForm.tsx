@@ -1,4 +1,5 @@
 import React from "react";
+import shortid from "shortid";
 import { Button, InputNumber, DatePicker } from "antd";
 
 import { CheckBundle } from "../types";
@@ -9,13 +10,13 @@ const strings = {
   dateOfFirstCheck: "תאריך הצ'ק הראשון",
   checkForHowManyMonths: "כמה חודשים בין צ'ק לצ'ק",
 
-  addCheckBundle: "הוסף צ'קים שהתקבלו"
+  addCheckBundle: "הוסף צ'קים שהתקבלו",
 };
 
 const emptyCheckBundle: CheckBundle = {
   amountOfChecks: 1,
   dateOfFirstCheck: "",
-  checkForHowManyMonths: 1
+  checkForHowManyMonths: 1,
 };
 
 export interface CheckBundleFormProps {
@@ -66,7 +67,7 @@ export function CheckBundleForm(props: CheckBundleFormProps) {
     <div>
       {props.checkBundles.map((checkBundle, i) => (
         <SingleCheckBundle
-          key={i}
+          key={shortid.generate()}
           checkBundle={checkBundle}
           onChange={updateField(i)}
           onRemove={removeCheckBundle(i)}
@@ -84,7 +85,7 @@ function SingleCheckBundle(props: SingleCheckBundleProps) {
         <InputNumber
           min={1}
           value={props.checkBundle.amountOfChecks}
-          onChange={val => props.onChange("amountOfChecks", Number(val))}
+          onChange={(val) => props.onChange("amountOfChecks", Number(val))}
         />
       </FormItem>
       <FormItem label={strings.dateOfFirstCheck}>
@@ -96,7 +97,9 @@ function SingleCheckBundle(props: SingleCheckBundleProps) {
         <InputNumber
           min={1}
           value={props.checkBundle.checkForHowManyMonths}
-          onChange={val => props.onChange("checkForHowManyMonths", Number(val))}
+          onChange={(val) =>
+            props.onChange("checkForHowManyMonths", Number(val))
+          }
         />
       </FormItem>
       <Button onClick={props.onRemove}>X</Button>

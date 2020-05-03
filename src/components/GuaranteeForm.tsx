@@ -1,4 +1,5 @@
 import React from "react";
+import shortid from "shortid";
 import { Button, InputNumber, Input, DatePicker, Select } from "antd";
 import { Guarantee, GuaranteeType, BankGuarantee } from "../types";
 import { FormItem } from "./FormItem";
@@ -50,30 +51,37 @@ export function GuaranteeForm(props: GuaranteeFormProps) {
   //   };
   // }
 
-  // function removeGuarantee(index: number) {
-  //   return () => {
-  //     const newOptions = props.optionPeriods.filter((_, i) => i !== index);
-  //     props.onChange(newOptions);
-  //   };
-  // }
+  function getOnGuaranteeChange(index: number) {
+    return function onGuaranteeChange(newGuarantee: Guarantee) {
+      const newGuarantees = props.guarantees.map((guarantee, i) =>
+        i == index ? newGuarantee : guarantee
+      );
+      console.log("guarantee changed!", newGuarantees)
+      props.onChange(newGuarantees);
+    };
+  }
 
-  // function addGuarantee() {
-  //   const newOptions = [...props.optionPeriods, { ...emptyOption }];
-  //   props.onChange(newOptions);
-  // }
+  function removeGuarantee(index: number) {
+    const newGuarantees = props.guarantees.filter((_, i) => i !== index);
+    props.onChange(newGuarantees);
+  }
+
+  function addGuarantee() {
+    const newGuarantees = [...props.guarantees, { ...emptyGuarantee }];
+    props.onChange(newGuarantees);
+  }
 
   return (
     <div>
-      <SingleGuarantee
-        guarantee={{
-          type: GuaranteeType.bankGuarantee,
-          amount: 40000,
-          expirationDate: "2020-5-1",
-        }}
-        onChange={(val) => console.log(val)}
-        onRemove={() => {}}
-      />
-      <Button>{strings.addGuarantee}</Button>
+      {props.guarantees.map((guarantee, i) => (
+        <SingleGuarantee
+          key={shortid.generate()}
+          guarantee={guarantee}
+          onChange={getOnGuaranteeChange(i)}
+          onRemove={() => removeGuarantee(i)}
+        />
+      ))}
+      <Button onClick={addGuarantee}>{strings.addGuarantee}</Button>
     </div>
   );
 }
@@ -84,11 +92,12 @@ class SingleGuarantee extends React.Component<SingleGuaranteeProps> {
     amount: 0,
     expirationDate: "2020-05-01",
     description: "",
+    ...this.props.guarantee,
   };
 
-  componentDidMount() {
-    this.setState({ ...this.props.guarantee });
-  }
+  // componentDidMount() {
+  //   this.setState({ ...this.props.guarantee });
+  // }
 
   componentDidUpdate(_, prevState) {
     if (this.state !== prevState) {
@@ -113,7 +122,9 @@ class SingleGuarantee extends React.Component<SingleGuaranteeProps> {
 
   render() {
     return (
-      <div>
+      <div
+        style={{ border: "1px dashed", width: "80%", padding: 9, margin: 4 }}
+      >
         <FormItem label={strings.guaranteeType}>
           <Select
             defaultValue={this.state.type}
@@ -156,6 +167,7 @@ class SingleGuarantee extends React.Component<SingleGuaranteeProps> {
             />
           </FormItem>
         )}
+        <Button onClick={this.props.onRemove}>X</Button>
       </div>
     );
   }

@@ -1,4 +1,5 @@
 import React from "react";
+import shortid from "shortid";
 import { Button, InputNumber } from "antd";
 
 import { PaymentPeriod } from "../types";
@@ -62,7 +63,7 @@ export function PaymentPeriodForm(props: PaymentPeriodFormProps) {
     <div>
       {props.paymentPeriods.map((paymentPeriod, i) => (
         <SinglePaymentPeriod
-          key={i}
+          key={shortid.generate()}
           paymentPeriod={paymentPeriod}
           onChange={updateField(i)}
           onRemove={removePaymentPeriod(i)}

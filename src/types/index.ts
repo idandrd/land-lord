@@ -77,6 +77,7 @@ export interface Contract {
   paymentIndexLink: "madad" | "madadUps" | "dolar" | "other";
   checkBundles: CheckBundle[];
   paymentPeriods: PaymentPeriod[];
+  guarantees: Guarantee[];
 
   // assetProperties: "parking" | "storage"
   // guarantees: "bankGuarantee" | "bankCheck"
@@ -124,25 +125,18 @@ export enum GuaranteeType {
   other = "other",
 }
 
-// export type GuaranteeType =
-//   | "bankGuarantee"
-//   | "bankCheck"
-//   | "personalCheck"
-//   | "deposit"
-//   | "other";
-
 export interface BaseGuarantee {
   type: GuaranteeType;
   amount: number;
 }
 
 export interface BankGuarantee extends BaseGuarantee {
-  type: GuaranteeType.bankGuarantee
+  type: GuaranteeType.bankGuarantee;
   expirationDate: string;
 }
 
 export interface OtherGuarantee extends BaseGuarantee {
-  type: GuaranteeType.other
+  type: GuaranteeType.other;
   description: string;
 }
 

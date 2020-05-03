@@ -1,4 +1,5 @@
 import React from "react";
+import shortid from "shortid";
 import { Button, InputNumber } from "antd";
 
 import { Option as OptionPeriod } from "../types";
@@ -7,7 +8,7 @@ import { FormItem } from "./FormItem";
 const strings = {
   optionLeaseLength: "משך האופציה (בחודשים)",
   optionNoticeAhead: "זמן התראה מראש (בחודשים)",
-  addOption: "הוסף תקופת אופציה"
+  addOption: "הוסף תקופת אופציה",
 };
 
 const emptyOption: OptionPeriod = { leaseLength: 12, noticeAhead: 3 };
@@ -54,7 +55,7 @@ export function OptionForm(props: OptionFormProps) {
     <div>
       {props.optionPeriods.map((optionPeriod, i) => (
         <SingleOption
-          key={i}
+          key={shortid.generate()}
           optionPeriod={optionPeriod}
           onChange={updateField(i)}
           onRemove={removeOption(i)}
@@ -72,14 +73,14 @@ function SingleOption(props: SingleOptionProps) {
         <InputNumber
           min={1}
           value={props.optionPeriod.leaseLength}
-          onChange={val => props.onChange("leaseLength", Number(val))}
+          onChange={(val) => props.onChange("leaseLength", Number(val))}
         />
       </FormItem>
       <FormItem label={strings.optionNoticeAhead}>
         <InputNumber
           min={1}
           value={props.optionPeriod.noticeAhead}
-          onChange={val => props.onChange("noticeAhead", Number(val))}
+          onChange={(val) => props.onChange("noticeAhead", Number(val))}
         />
       </FormItem>
       <Button onClick={props.onRemove}>X</Button>

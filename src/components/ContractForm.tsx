@@ -62,6 +62,7 @@ const initialState: ContractFormState = {
   paymentIndexLink: "madad",
   checkBundles: [],
   paymentPeriods: [],
+  guarantees: [],
   comments: "",
 };
 
@@ -210,7 +211,10 @@ export class ContractForm extends React.Component<
         />
 
         <Divider>{strings.guarantees}</Divider>
-        <GuaranteeForm guarantees={[]} onChange={(val) => console.log(val)} />
+        <GuaranteeForm
+          guarantees={this.state.guarantees}
+          onChange={(guarantees) => this.setState({ guarantees })}
+        />
 
         <FormItem label={strings.comments}>
           <TextArea
