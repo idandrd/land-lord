@@ -1,5 +1,4 @@
 import React from "react";
-import shortid from "shortid";
 import { Button, InputNumber } from "antd";
 
 import { Option as OptionPeriod } from "../types";
@@ -55,7 +54,7 @@ export function OptionForm(props: OptionFormProps) {
     <div>
       {props.optionPeriods.map((optionPeriod, i) => (
         <SingleOption
-          key={shortid.generate()}
+          key={i}
           optionPeriod={optionPeriod}
           onChange={updateField(i)}
           onRemove={removeOption(i)}
