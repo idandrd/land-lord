@@ -77,10 +77,10 @@ export interface Contract {
   paymentIndexLink: "madad" | "madadUps" | "dolar" | "other";
   checkBundles: CheckBundle[];
   paymentPeriods: PaymentPeriod[];
-  guarantees: Guarantee[];
+  collaterals: Collateral[];
 
   // assetProperties: "parking" | "storage"
-  // guarantees: "bankGuarantee" | "bankCheck"
+  // collaterals: "bankCollateral" | "bankCheck"
 
   comments: string;
 }
@@ -117,35 +117,35 @@ export interface BaseTask {
   status: TaskStatus;
 }
 
-export enum GuaranteeType {
-  bankGuarantee = "bankGuarantee",
+export enum CollateralType {
+  bankCollateral = "bankCollateral",
   bankCheck = "bankCheck",
   personalCheck = "personalCheck",
   deposit = "deposit",
   other = "other",
 }
 
-export interface BaseGuarantee {
-  type: GuaranteeType;
+export interface BaseCollateral {
+  type: CollateralType;
   amount: number;
 }
 
-export interface BankGuarantee extends BaseGuarantee {
-  type: GuaranteeType.bankGuarantee;
+export interface BankCollateral extends BaseCollateral {
+  type: CollateralType.bankCollateral;
   expirationDate: string;
 }
 
-export interface OtherGuarantee extends BaseGuarantee {
-  type: GuaranteeType.other;
+export interface OtherCollateral extends BaseCollateral {
+  type: CollateralType.other;
   description: string;
 }
 
 export interface personalCheck {
-  type: GuaranteeType.personalCheck;
+  type: CollateralType.personalCheck;
 }
 
-export type Guarantee =
-  | BaseGuarantee
-  | BankGuarantee
-  | OtherGuarantee
+export type Collateral =
+  | BaseCollateral
+  | BankCollateral
+  | OtherCollateral
   | personalCheck;

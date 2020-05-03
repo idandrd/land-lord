@@ -1,150 +1,150 @@
 import React from "react";
 import { Button, InputNumber, Input, DatePicker, Select } from "antd";
-import { Guarantee, GuaranteeType, BankGuarantee } from "../types";
+import { Collateral, CollateralType } from "../types";
 import { FormItem } from "./FormItem";
 const Option = Select.Option;
 
 const strings = {
-  addGuarantee: "הוסף ערבות",
-  guaranteeType: "סוג ערבות",
+  addCollateral: "הוסף בטחונות",
+  collateralType: "סוג בטחונות",
   amount: "סכום",
   expirationDate: "תקף עד לתאריך",
   description: "תיאור",
 };
 
-const guaranteeTypes: { name: GuaranteeType; label: string }[] = [
-  { name: GuaranteeType.bankGuarantee, label: "ערבות בנקאית" },
-  { name: GuaranteeType.bankCheck, label: "צ'ק בנקאי" },
-  { name: GuaranteeType.personalCheck, label: "צ'ק אישי" },
-  { name: GuaranteeType.deposit, label: "פיקדון" },
-  { name: GuaranteeType.other, label: "אחר" },
+const collateralTypes: { name: CollateralType; label: string }[] = [
+  { name: CollateralType.bankCollateral, label: "ערבות בנקאית" },
+  { name: CollateralType.bankCheck, label: "צ'ק בנקאי" },
+  { name: CollateralType.personalCheck, label: "צ'ק אישי" },
+  { name: CollateralType.deposit, label: "פיקדון" },
+  { name: CollateralType.other, label: "אחר" },
 ];
 
-const emptyGuarantee: Guarantee = {
-  type: GuaranteeType.bankGuarantee,
+const emptyCollateral: Collateral = {
+  type: CollateralType.bankCollateral,
   amount: 0,
   expirationDate: "2020-05-01",
 };
 
-export interface GuaranteeFormProps {
-  guarantees: Guarantee[];
-  onChange: (val: Guarantee[]) => void;
+export interface CollateralFormProps {
+  collaterals: Collateral[];
+  onChange: (val: Collateral[]) => void;
 }
 
-export interface SingleGuaranteeProps {
-  guarantee: Guarantee;
-  onChange: (newGuarantee: Guarantee) => void;
+export interface SingleCollateralProps {
+  collateral: Collateral;
+  onChange: (newCollateral: Collateral) => void;
   onRemove: () => void;
 }
 
-export function GuaranteeForm(props: GuaranteeFormProps) {
-  function getOnGuaranteeChange(index: number) {
-    return function onGuaranteeChange(newGuarantee: Guarantee) {
-      const newGuarantees = props.guarantees.map((guarantee, i) =>
-        i == index ? newGuarantee : guarantee
+export function CollateralForm(props: CollateralFormProps) {
+  function getOnCollateralChange(index: number) {
+    return function onCollateralChange(newCollateral: Collateral) {
+      const newCollaterals = props.collaterals.map((collateral, i) =>
+        i == index ? newCollateral : collateral
       );
-      console.log("guarantee changed!", newGuarantees);
-      props.onChange(newGuarantees);
+      console.log("collateral changed!", newCollaterals);
+      props.onChange(newCollaterals);
     };
   }
 
-  function removeGuarantee(index: number) {
-    const newGuarantees = props.guarantees.filter((_, i) => i !== index);
-    props.onChange(newGuarantees);
+  function removeCollateral(index: number) {
+    const newCollaterals = props.collaterals.filter((_, i) => i !== index);
+    props.onChange(newCollaterals);
   }
 
-  function addGuarantee() {
-    const newGuarantees = [...props.guarantees, { ...emptyGuarantee }];
-    props.onChange(newGuarantees);
+  function addCollateral() {
+    const newCollaterals = [...props.collaterals, { ...emptyCollateral }];
+    props.onChange(newCollaterals);
   }
 
   return (
     <div>
-      {props.guarantees.map((guarantee, i) => (
-        <SingleGuarantee
-          key={`${i}_${guarantee.type}`}
-          guarantee={guarantee}
-          onChange={getOnGuaranteeChange(i)}
-          onRemove={() => removeGuarantee(i)}
+      {props.collaterals.map((collateral, i) => (
+        <SingleCollateral
+          key={`${i}_${collateral.type}`}
+          collateral={collateral}
+          onChange={getOnCollateralChange(i)}
+          onRemove={() => removeCollateral(i)}
         />
       ))}
-      <Button onClick={addGuarantee}>{strings.addGuarantee}</Button>
+      <Button onClick={addCollateral}>{strings.addCollateral}</Button>
     </div>
   );
 }
 
-function SingleGuarantee(props: SingleGuaranteeProps) {
-  function updateGuarantee(fields: object) {
-    const newGuarantee = getGuarantee({
-      ...props.guarantee,
+function SingleCollateral(props: SingleCollateralProps) {
+  function updateCollateral(fields: object) {
+    const newCollateral = getCollateral({
+      ...props.collateral,
       ...fields,
     });
-    props.onChange(newGuarantee);
+    props.onChange(newCollateral);
   }
 
-  function getGuarantee(newGuarantee) {
-    const { type, amount, expirationDate, description } = newGuarantee;
+  function getCollateral(newCollateral) {
+    const { type, amount, expirationDate, description } = newCollateral;
     switch (type) {
-      case GuaranteeType.bankGuarantee:
+      case CollateralType.bankCollateral:
         return { type, amount, expirationDate };
-      case GuaranteeType.personalCheck:
+      case CollateralType.personalCheck:
         return { type };
-      case GuaranteeType.other:
+      case CollateralType.other:
         return { type, description };
       default:
         return { type, amount };
     }
   }
 
-  const guaranteeFields = {
-    type: "bankGuarantee",
+  const collateralFields = {
+    type: "bankCollateral",
     amount: 0,
     expirationDate: "2020-05-01",
     description: "",
-    ...props.guarantee,
+    ...props.collateral,
   };
 
   return (
     <div style={{ border: "1px dashed", width: "80%", padding: 9, margin: 4 }}>
-      <FormItem label={strings.guaranteeType}>
+      <FormItem label={strings.collateralType}>
         <Select
-          defaultValue={guaranteeFields.type}
-          onChange={(type: GuaranteeType) => updateGuarantee({ type })}
+          defaultValue={collateralFields.type}
+          onChange={(type: CollateralType) => updateCollateral({ type })}
           style={{ width: "100%" }}
         >
-          {guaranteeTypes.map((option, i) => (
+          {collateralTypes.map((option, i) => (
             <Option key={i} value={option.name}>
               {option.label}
             </Option>
           ))}
         </Select>
       </FormItem>
-      {guaranteeFields.type !== GuaranteeType.personalCheck && (
+      {collateralFields.type !== CollateralType.personalCheck && (
         <FormItem label={strings.amount}>
           <InputNumber
             min={1}
-            value={(guaranteeFields as any).amount}
+            value={(collateralFields as any).amount}
             onChange={(val) =>
-              updateGuarantee({ amount: parseInt(val.toString()) })
+              updateCollateral({ amount: parseInt(val.toString()) })
             }
           />
         </FormItem>
       )}
-      {guaranteeFields.type == GuaranteeType.bankGuarantee && (
+      {collateralFields.type == CollateralType.bankCollateral && (
         <FormItem label={strings.expirationDate}>
           <DatePicker
             onChange={(_, expirationDate) =>
-              updateGuarantee({ expirationDate })
+              updateCollateral({ expirationDate })
             }
           />
         </FormItem>
       )}
-      {guaranteeFields.type == GuaranteeType.other && (
+      {collateralFields.type == CollateralType.other && (
         <FormItem label={strings.description}>
           <Input
-            value={guaranteeFields.description}
+            value={collateralFields.description}
             onChange={({ target }) =>
-              updateGuarantee({ description: target.value })
+              updateCollateral({ description: target.value })
             }
           />
         </FormItem>
