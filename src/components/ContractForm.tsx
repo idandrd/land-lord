@@ -10,6 +10,7 @@ import { OptionForm } from "./OptionForm";
 import { PaymentPeriodForm } from "./PaymentPeriodForm";
 import { CheckBundleForm } from "./CheckBundleForm";
 import { CollateralForm } from "./CollateralForm";
+import { GuaranteeForm } from "./GuaranteeForm";
 
 const Option = Select.Option;
 const TextArea = Input.TextArea;
@@ -34,6 +35,7 @@ const strings = {
   paymentPeriods: "תקופות תשלום",
   assetProperties: "תוספות לנכס",
   collaterals: "בטחונות",
+  guarantees: "ערבים לחוזה",
   comments: "הערות",
 };
 
@@ -63,6 +65,7 @@ const initialState: ContractFormState = {
   checkBundles: [],
   paymentPeriods: [],
   collaterals: [],
+  guarantees: [],
   comments: "",
 };
 
@@ -98,7 +101,7 @@ export class ContractForm extends React.Component<
   };
 
   render() {
-    const { tenants, assets, contract, actions } = this.props;
+    const { tenants, assets } = this.props;
     return (
       <div style={{ direction: "rtl" }}>
         <FormItem label={strings.tenant}>
@@ -214,6 +217,12 @@ export class ContractForm extends React.Component<
         <CollateralForm
           collaterals={this.state.collaterals}
           onChange={(collaterals) => this.setState({ collaterals })}
+        />
+
+        <Divider>{strings.guarantees}</Divider>
+        <GuaranteeForm
+          guarantees={this.state.guarantees}
+          onChange={(guarantees) => this.setState({ guarantees })}
         />
 
         <FormItem label={strings.comments}>

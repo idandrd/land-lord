@@ -78,6 +78,7 @@ export interface Contract {
   checkBundles: CheckBundle[];
   paymentPeriods: PaymentPeriod[];
   collaterals: Collateral[];
+  guarantees: Guarantee[];
 
   // assetProperties: "parking" | "storage"
   // collaterals: "bankCollateral" | "bankCheck"
@@ -149,3 +150,10 @@ export type Collateral =
   | BankCollateral
   | OtherCollateral
   | personalCheck;
+
+export interface Guarantee {
+  name: string;
+  idNum: string;
+  phone: string;
+  comments: string;
+}

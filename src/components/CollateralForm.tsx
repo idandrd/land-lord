@@ -43,7 +43,6 @@ export function CollateralForm(props: CollateralFormProps) {
       const newCollaterals = props.collaterals.map((collateral, i) =>
         i == index ? newCollateral : collateral
       );
-      console.log("collateral changed!", newCollaterals);
       props.onChange(newCollaterals);
     };
   }
