@@ -24,7 +24,7 @@ export const strings = {
   privateTypeValue: "מגורים",
   save: "שמור",
   addContact: "איש קשר חדש",
-  nameLabel: "שם",
+  contactnameLabel: "שם",
   roleLabel: "תפקיד",
   phoneLabel: "טלפון",
   otherPhoneLabel: "טלפון נוסף",
@@ -200,7 +200,7 @@ export class ContactForm extends React.Component {
       <div
         style={{ border: "1px dashed", width: "80%", padding: 9, margin: 4 }}
       >
-        <FormItem label={strings.nameLabel}>
+        <FormItem label={strings.contactnameLabel}>
           <Input value={contact.name} onChange={onChange("name")} />
         </FormItem>
         <FormItem label={strings.roleLabel}>

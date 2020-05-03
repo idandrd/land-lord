@@ -7,7 +7,7 @@ import { FormItem } from "./FormItem";
 const strings = {
   optionLeaseLength: "משך האופציה (בחודשים)",
   optionNoticeAhead: "זמן התראה מראש (בחודשים)",
-  addOption: "הוסף תקופת אופציה"
+  addOption: "הוסף תקופת אופציה",
 };
 
 const emptyOption: OptionPeriod = { leaseLength: 12, noticeAhead: 3 };
@@ -72,14 +72,14 @@ function SingleOption(props: SingleOptionProps) {
         <InputNumber
           min={1}
           value={props.optionPeriod.leaseLength}
-          onChange={val => props.onChange("leaseLength", Number(val))}
+          onChange={(val) => props.onChange("leaseLength", Number(val))}
         />
       </FormItem>
       <FormItem label={strings.optionNoticeAhead}>
         <InputNumber
           min={1}
           value={props.optionPeriod.noticeAhead}
-          onChange={val => props.onChange("noticeAhead", Number(val))}
+          onChange={(val) => props.onChange("noticeAhead", Number(val))}
         />
       </FormItem>
       <Button onClick={props.onRemove}>X</Button>

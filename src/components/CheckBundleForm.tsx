@@ -9,13 +9,13 @@ const strings = {
   dateOfFirstCheck: "תאריך הצ'ק הראשון",
   checkForHowManyMonths: "כמה חודשים בין צ'ק לצ'ק",
 
-  addCheckBundle: "הוסף צ'קים שהתקבלו"
+  addCheckBundle: "הוסף צ'קים שהתקבלו",
 };
 
 const emptyCheckBundle: CheckBundle = {
   amountOfChecks: 1,
   dateOfFirstCheck: "",
-  checkForHowManyMonths: 1
+  checkForHowManyMonths: 1,
 };
 
 export interface CheckBundleFormProps {
@@ -84,7 +84,7 @@ function SingleCheckBundle(props: SingleCheckBundleProps) {
         <InputNumber
           min={1}
           value={props.checkBundle.amountOfChecks}
-          onChange={val => props.onChange("amountOfChecks", Number(val))}
+          onChange={(val) => props.onChange("amountOfChecks", Number(val))}
         />
       </FormItem>
       <FormItem label={strings.dateOfFirstCheck}>
@@ -96,7 +96,9 @@ function SingleCheckBundle(props: SingleCheckBundleProps) {
         <InputNumber
           min={1}
           value={props.checkBundle.checkForHowManyMonths}
-          onChange={val => props.onChange("checkForHowManyMonths", Number(val))}
+          onChange={(val) =>
+            props.onChange("checkForHowManyMonths", Number(val))
+          }
         />
       </FormItem>
       <Button onClick={props.onRemove}>X</Button>
