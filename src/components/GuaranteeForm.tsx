@@ -86,35 +86,16 @@ export function GuaranteeForm(props: GuaranteeFormProps) {
   );
 }
 
-class SingleGuarantee extends React.Component<SingleGuaranteeProps> {
-  state = {
-    type: "bankGuarantee",
-    amount: 0,
-    expirationDate: "2020-05-01",
-    description: "",
-    ...this.props.guarantee,
-  };
-
-  // componentDidMount() {
-  //   this.setState({ ...this.props.guarantee });
-  // }
-
-  // componentDidUpdate(_, prevState) {
-  //   if (this.state !== prevState) {
-  //     const guarantee = this.getGuarantee();
-  //     this.props.onChange(guarantee as Guarantee);
-  //   }
-  // }
-
-  updateGuarantee(fields: object) {
-    const newGuarantee = this.getGuarantee({
-      ...this.props.guarantee,
+function SingleGuarantee(props: SingleGuaranteeProps) {
+  function updateGuarantee(fields: object) {
+    const newGuarantee = getGuarantee({
+      ...props.guarantee,
       ...fields,
     });
-    this.props.onChange(newGuarantee);
+    props.onChange(newGuarantee);
   }
 
-  getGuarantee(newGuarantee) {
+  function getGuarantee(newGuarantee) {
     const { type, amount, expirationDate, description } = newGuarantee;
     switch (type) {
       case GuaranteeType.bankGuarantee:
@@ -128,64 +109,60 @@ class SingleGuarantee extends React.Component<SingleGuaranteeProps> {
     }
   }
 
-  render() {
-    const guaranteeFields = {
-      type: "bankGuarantee",
-      amount: 0,
-      expirationDate: "2020-05-01",
-      description: "",
-      ...this.props.guarantee,
-    };
-    console.log("*** render ***");
+  const guaranteeFields = {
+    type: "bankGuarantee",
+    amount: 0,
+    expirationDate: "2020-05-01",
+    description: "",
+    ...props.guarantee,
+  };
 
-    return (
-      <div
-        style={{ border: "1px dashed", width: "80%", padding: 9, margin: 4 }}
-      >
-        <FormItem label={strings.guaranteeType}>
-          <Select
-            defaultValue={guaranteeFields.type}
-            onChange={(type: GuaranteeType) => this.updateGuarantee({ type })}
-            style={{ width: "100%" }}
-          >
-            {guaranteeTypes.map((option, i) => (
-              <Option key={i} value={option.name}>
-                {option.label}
-              </Option>
-            ))}
-          </Select>
+  return (
+    <div style={{ border: "1px dashed", width: "80%", padding: 9, margin: 4 }}>
+      <FormItem label={strings.guaranteeType}>
+        <Select
+          defaultValue={guaranteeFields.type}
+          onChange={(type: GuaranteeType) => updateGuarantee({ type })}
+          style={{ width: "100%" }}
+        >
+          {guaranteeTypes.map((option, i) => (
+            <Option key={i} value={option.name}>
+              {option.label}
+            </Option>
+          ))}
+        </Select>
+      </FormItem>
+      {guaranteeFields.type !== GuaranteeType.personalCheck && (
+        <FormItem label={strings.amount}>
+          <InputNumber
+            min={1}
+            value={(guaranteeFields as any).amount}
+            onChange={(val) =>
+              updateGuarantee({ amount: parseInt(val.toString()) })
+            }
+          />
         </FormItem>
-        {guaranteeFields.type !== GuaranteeType.personalCheck && (
-          <FormItem label={strings.amount}>
-            <InputNumber
-              value={(guaranteeFields as any).amount}
-              onChange={(val) =>
-                this.updateGuarantee({ amount: parseInt(val.toString()) })
-              }
-            />
-          </FormItem>
-        )}
-        {guaranteeFields.type == GuaranteeType.bankGuarantee && (
-          <FormItem label={strings.expirationDate}>
-            <DatePicker
-              onChange={(_, expirationDate) =>
-                this.updateGuarantee({ expirationDate })
-              }
-            />
-          </FormItem>
-        )}
-        {guaranteeFields.type == GuaranteeType.other && (
-          <FormItem label={strings.description}>
-            <Input
-              value={guaranteeFields.description}
-              onChange={({ target }) =>
-                this.updateGuarantee({ description: target.value })
-              }
-            />
-          </FormItem>
-        )}
-        <Button onClick={this.props.onRemove}>X</Button>
-      </div>
-    );
-  }
+      )}
+      {guaranteeFields.type == GuaranteeType.bankGuarantee && (
+        <FormItem label={strings.expirationDate}>
+          <DatePicker
+            onChange={(_, expirationDate) =>
+              updateGuarantee({ expirationDate })
+            }
+          />
+        </FormItem>
+      )}
+      {guaranteeFields.type == GuaranteeType.other && (
+        <FormItem label={strings.description}>
+          <Input
+            value={guaranteeFields.description}
+            onChange={({ target }) =>
+              updateGuarantee({ description: target.value })
+            }
+          />
+        </FormItem>
+      )}
+      <Button onClick={props.onRemove}>X</Button>
+    </div>
+  );
 }
