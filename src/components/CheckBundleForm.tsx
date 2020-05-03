@@ -1,5 +1,4 @@
 import React from "react";
-import shortid from "shortid";
 import { Button, InputNumber, DatePicker } from "antd";
 
 import { CheckBundle } from "../types";
@@ -67,7 +66,7 @@ export function CheckBundleForm(props: CheckBundleFormProps) {
     <div>
       {props.checkBundles.map((checkBundle, i) => (
         <SingleCheckBundle
-          key={shortid.generate()}
+          key={i}
           checkBundle={checkBundle}
           onChange={updateField(i)}
           onRemove={removeCheckBundle(i)}
