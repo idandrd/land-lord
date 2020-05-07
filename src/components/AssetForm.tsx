@@ -176,13 +176,13 @@ export class AssetForm extends React.Component<any, AssetFormState> {
         <FormItem label={strings.storageSize}>
           <InputNumber
             value={this.state.storageSize as any}
-            onChange={(storageSize: string) => this.setState({ storageSize })}
+            onChange={(storageSize) => this.setState({ storageSize: storageSize.toString() })}
           />
         </FormItem>
         <FormItem label={strings.parkings}>
           <InputNumber
             value={this.state.parkings as any}
-            onChange={(parkings: string) => this.setState({ parkings })}
+            onChange={(parkings) => this.setState({ parkings: parkings.toString() })}
           />
         </FormItem>
         {this.state.parkings && (

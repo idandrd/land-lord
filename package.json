@@ -8,7 +8,7 @@
     "firebase": "^5.5.9",
     "firebaseui": "^3.5.1",
     "immutable": "^3.8.2",
-    "react": "^16.2.0",
+    "react": "16.13.0",
     "react-dom": "^16.2.0",
     "react-firebaseui": "^3.1.2",
     "react-fontawesome": "^1.6.1",
@@ -36,12 +36,12 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "@types/react-redux": "^7.1.5",
     "@types/jest": "^23.3.9",
     "@types/lodash": "^4.14.119",
     "@types/node": "^10.12.18",
     "@types/react": "^16.7.18",
     "@types/react-dom": "^16.0.10",
+    "@types/react-redux": "^7.1.5",
     "@types/react-router-dom": "^5.1.0",
     "@types/shortid": "^0.0.29"
   }

@@ -8,8 +8,9 @@ export const OTHER = "אחר";
 export const unitTypes = {
   living: "מגורים",
   shop: "מסחר",
-  parking: "חניון",
+  office: "משרד",
   industrial: "תעשייה",
+  parking: "חניון",
   hall: "אולם",
   other: OTHER,
 };
@@ -20,6 +21,13 @@ export const unitOwners = {
   amirsBro: "אח של אמיר",
 };
 
+export const indexLinkTypes = {
+  madad: "הצמדה למדד",
+  madadUps: "הצמדה לעליות המדד",
+  dolar: "הצמדה לדולר",
+  other: OTHER,
+};
+
 export const UnitTypeSelect = (props) => (
   <UnitSelectField options={unitTypes} {...props} />
 );
@@ -28,6 +36,10 @@ export const UnitOwnerSelect = (props) => {
   const { owners } = props;
   const options = owners.map((owner) => `${owner.name}, ${owner.idNum}`);
   return <UnitSelectField options={options} {...props} />;
+};
+
+export const IndexLinkSelect = (props) => {
+  return <UnitSelectField options={indexLinkTypes} {...props} />;
 };
 
 class UnitSelectField extends React.Component {
