@@ -8,8 +8,9 @@ export const OTHER = "אחר";
 export const unitTypes = {
   living: "מגורים",
   shop: "מסחר",
-  parking: "חניון",
+  office: "משרד",
   industrial: "תעשייה",
+  parking: "חניון",
   hall: "אולם",
   other: OTHER,
 };
