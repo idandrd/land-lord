@@ -1,5 +1,5 @@
-import React from "react";
-import { Button, InputNumber, Input, DatePicker, Select } from "antd";
+import React, { useState } from "react";
+import { Button, InputNumber, Input, DatePicker, Select, Checkbox } from "antd";
 import { Collateral, CollateralType } from "../types";
 import { FormItem } from "./FormItem";
 const Option = Select.Option;
@@ -10,6 +10,7 @@ const strings = {
   amount: "סכום",
   expirationDate: "תקף עד לתאריך",
   description: "תיאור",
+  openCheck: "צ'ק פתוח",
 };
 
 const collateralTypes: { name: CollateralType; label: string }[] = [
@@ -73,6 +74,8 @@ export function CollateralForm(props: CollateralFormProps) {
 }
 
 function SingleCollateral(props: SingleCollateralProps) {
+  const [openCheck, setOpenCheck] = useState(false);
+
   function updateCollateral(fields: object) {
     console.log("*** NEW INFO ***", fields);
     const newCollateral = getCollateral({
@@ -87,13 +90,17 @@ function SingleCollateral(props: SingleCollateralProps) {
     switch (type) {
       case CollateralType.bankCollateral:
         return { type, amount, expirationDate };
-      case CollateralType.personalCheck:
-        return { type };
       case CollateralType.other:
         return { type, amount, description };
       default:
         return { type, amount };
     }
+  }
+
+  function handleCheckboxClick(event) {
+    const { checked } = event.target;
+    setOpenCheck(checked);
+    updateCollateral({ amount: 0 });
   }
 
   const collateralFields = {
@@ -119,17 +126,23 @@ function SingleCollateral(props: SingleCollateralProps) {
           ))}
         </Select>
       </FormItem>
-      {collateralFields.type !== CollateralType.personalCheck && (
+
+      {collateralFields.type == CollateralType.personalCheck && (
+        <FormItem label={strings.openCheck}>
+          <Checkbox onChange={handleCheckboxClick} />
+        </FormItem>
+      )}
+
+      {(openCheck && collateralFields.type == CollateralType.personalCheck) || (
         <FormItem label={strings.amount}>
           <InputNumber
             min={0}
             value={(collateralFields as any).amount}
-            onChange={(val) =>
-              updateCollateral({ amount: parseInt(val.toString()) })
-            }
+            onChange={(amount) => updateCollateral({ amount })}
           />
         </FormItem>
       )}
+
       {collateralFields.type == CollateralType.bankCollateral && (
         <FormItem label={strings.expirationDate}>
           <DatePicker
