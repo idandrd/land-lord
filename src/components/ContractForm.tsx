@@ -11,6 +11,7 @@ import { PaymentPeriodForm } from "./PaymentPeriodForm";
 import { CheckBundleForm } from "./CheckBundleForm";
 import { CollateralForm } from "./CollateralForm";
 import { GuaranteeForm } from "./GuaranteeForm";
+import { IndexLinkSelect } from "./UnitTypeSelect";
 
 const Option = Select.Option;
 const TextArea = Input.TextArea;
@@ -181,7 +182,10 @@ export class ContractForm extends React.Component<
           </Select>
         </FormItem>
         <FormItem label={strings.paymentIndexLink}>
-          <Select
+          <IndexLinkSelect
+            onChange={(val) => this.setState({ paymentIndexLink: val })}
+          />
+          {/* <Select
             style={{ width: "100%" }}
             defaultValue={this.state.paymentIndexLink}
             onChange={(val) =>
@@ -192,7 +196,7 @@ export class ContractForm extends React.Component<
             <Option value="madadUps">הצמדה לעליות המדד</Option>
             <Option value="dolar">הצמדה לדולר</Option>
             <Option value="other">אחר</Option>
-          </Select>
+          </Select> */}
         </FormItem>
 
         <Divider>{strings.optionPeriods}</Divider>
