@@ -74,6 +74,7 @@ export function CollateralForm(props: CollateralFormProps) {
 
 function SingleCollateral(props: SingleCollateralProps) {
   function updateCollateral(fields: object) {
+    console.log("*** NEW INFO ***", fields);
     const newCollateral = getCollateral({
       ...props.collateral,
       ...fields,
@@ -89,7 +90,7 @@ function SingleCollateral(props: SingleCollateralProps) {
       case CollateralType.personalCheck:
         return { type };
       case CollateralType.other:
-        return { type, description };
+        return { type, amount, description };
       default:
         return { type, amount };
     }
@@ -121,7 +122,7 @@ function SingleCollateral(props: SingleCollateralProps) {
       {collateralFields.type !== CollateralType.personalCheck && (
         <FormItem label={strings.amount}>
           <InputNumber
-            min={1}
+            min={0}
             value={(collateralFields as any).amount}
             onChange={(val) =>
               updateCollateral({ amount: parseInt(val.toString()) })
