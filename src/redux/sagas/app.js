@@ -3,7 +3,7 @@ import { take, put, call, fork } from "redux-saga/effects";
 import { firebaseService } from "../../service/fireBase";
 import { actionTypes, AppActions } from "../actions/app";
 
-const CASE_NAME = "amir123";
+const CASE_NAME = "amir-prod";
 
 export function* appSaga() {
   while (true) {
