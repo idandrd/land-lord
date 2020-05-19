@@ -3,6 +3,7 @@ export const Routes = {
   contracts: "/contracts",
   editContract: "/contracts/edit/:id",
   newContract: "/contracts/new",
+  viewContract: "/contracts/:id",
   tenants: "/tenants",
   editTenant: "/tenants/edit/:id",
   newTenant: "/tenants/new",

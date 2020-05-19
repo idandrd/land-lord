@@ -5,7 +5,7 @@ const initialState = {
   assets: [],
   contracts: [],
   owners: [],
-  tasks: []
+  tasks: [],
 };
 
 export function CaseReducer(state = initialState, action) {
@@ -26,29 +26,31 @@ export function CaseReducer(state = initialState, action) {
   }
 }
 
-const getElementById = elementName => (state, id) =>
-  state[elementName].find(element => element.id === id);
+const getElementById = (elementName) => (state, id) =>
+  state[elementName].find((element) => element.id === id);
 
 export class CaseSelectors {
   static getTenant = getElementById("tenants");
   static getAsset = getElementById("assets");
   static getContract = getElementById("contracts");
-  static getPopulatedContracts = state =>
+  static getPopulatedContract = (state, id) =>
+    populateContract(CaseSelectors.getContract(state, id));
+  static getPopulatedContracts = (state) =>
     state.contracts.map(populateContract(state));
-  static getPopulatedTasks = state => state.tasks.map(populateTask(state));
+  static getPopulatedTasks = (state) => state.tasks.map(populateTask(state));
 }
 
-const populateTask = state => task => ({
+const populateTask = (state) => (task) => ({
   ...task,
   key: task.id,
   contract: populateContract(state)(
     CaseSelectors.getContract(state, task.contractId)
-  )
+  ),
 });
 
-const populateContract = state => contract => ({
+const populateContract = (state) => (contract) => ({
   ...contract,
   key: contract.id,
   asset: CaseSelectors.getAsset(state, contract.assetId),
-  tenant: CaseSelectors.getTenant(state, contract.tenantId)
+  tenant: CaseSelectors.getTenant(state, contract.tenantId),
 });
