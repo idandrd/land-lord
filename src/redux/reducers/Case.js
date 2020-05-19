@@ -34,9 +34,10 @@ export class CaseSelectors {
   static getAsset = getElementById("assets");
   static getContract = getElementById("contracts");
 
-  static getPopulatedContract = (state, id) =>
-    CaseSelectors.getContract(state, id) &&
-    populateContract(state)(CaseSelectors.getContract(state, id));
+  static getPopulatedContract = (state, id) => {
+    const contract = CaseSelectors.getContract(state, id);
+    return contract && populateContract(state)(contract);
+  };
 
   static getPopulatedContracts = (state) =>
     state.contracts.map(populateContract(state));
