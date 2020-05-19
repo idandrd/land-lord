@@ -185,18 +185,6 @@ export class ContractForm extends React.Component<
           <IndexLinkSelect
             onChange={(val) => this.setState({ paymentIndexLink: val })}
           />
-          {/* <Select
-            style={{ width: "100%" }}
-            defaultValue={this.state.paymentIndexLink}
-            onChange={(val) =>
-              this.setState({ paymentIndexLink: val.toString() as any })
-            }
-          >
-            <Option value="madad">הצמדה למדד</Option>
-            <Option value="madadUps">הצמדה לעליות המדד</Option>
-            <Option value="dolar">הצמדה לדולר</Option>
-            <Option value="other">אחר</Option>
-          </Select> */}
         </FormItem>
 
         <Divider>{strings.optionPeriods}</Divider>
@@ -219,13 +207,13 @@ export class ContractForm extends React.Component<
 
         <Divider>{strings.collaterals}</Divider>
         <CollateralForm
-          collaterals={this.state.collaterals}
+          collaterals={this.state.collaterals || []}
           onChange={(collaterals) => this.setState({ collaterals })}
         />
 
         <Divider>{strings.guarantees}</Divider>
         <GuaranteeForm
-          guarantees={this.state.guarantees}
+          guarantees={this.state.guarantees || []}
           onChange={(guarantees) => this.setState({ guarantees })}
         />
 
