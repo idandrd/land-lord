@@ -17,6 +17,7 @@ import { AssetFormContainer } from "./containers/AssetForm";
 
 import { ContractsContainer } from "./containers/Contracts";
 import { ContractFormContainer } from "./containers/ContractForm";
+import { ContractViewContainer } from "./containers/ContractView";
 
 import { OwnersContainer } from "./containers/Owners";
 import { OwnerFormContainer } from "./containers/OwnerForm";
@@ -36,7 +37,7 @@ class App extends Component {
   componentDidMount() {
     const action = AppActions.initFirebase();
     store.dispatch(action);
-    firebaseService.onAuthStateChanged(user =>
+    firebaseService.onAuthStateChanged((user) =>
       this.setState({ loggedIn: user != null, loadingAuth: false })
     );
   }
@@ -66,12 +67,13 @@ const AppMain = () => (
           margin: "24px 16px",
           padding: 24,
           background: "#fff",
-          minHeight: 280
+          minHeight: 280,
         }}
       >
         <Switch>
           <Route exact path="/" render={() => <h1>Welcome to LandLord!</h1>} />
           <Route path={Routes.tasks} component={TasksContainer} />
+          <Route path={Routes.viewContract} component={ContractViewContainer} />
 
           <Route path={Routes.newTenant} component={TenantFormContainer} />
           <Route path={Routes.newAsset} component={AssetFormContainer} />
@@ -86,6 +88,7 @@ const AppMain = () => (
           <Route path={Routes.assets} component={AssetsContainer} />
           <Route path={Routes.contracts} component={ContractsContainer} />
           <Route path={Routes.owners} component={OwnersContainer} />
+
         </Switch>
       </Content>
     </Layout>

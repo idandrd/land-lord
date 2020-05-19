@@ -7,8 +7,9 @@ const strings = {
   viewContract: "צפיה בחוזה"
 };
 
-export class ContractView extends Component {
+export class ContractView extends Component<any, any> {
   render() {
+    console.log(this.props)
     return (
       <div>
         <ContentFrame
@@ -17,6 +18,7 @@ export class ContractView extends Component {
           secondNavText={strings.viewContract}
         >
           hello world!
+          {this.props.contract && this.props.contract.id}
           {/* <ContractForm {...this.props} /> */}
         </ContentFrame>
       </div>

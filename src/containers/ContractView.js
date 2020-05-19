@@ -8,7 +8,7 @@ const Container = (props) => {
 };
 
 const mapStateToProps = (state, ownProps) => ({
-  contracts: CaseSelectors.getPopulatedContract(
+  contract: CaseSelectors.getPopulatedContract(
     state.Case,
     ownProps.match.params.id
   ),

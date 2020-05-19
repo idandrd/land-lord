@@ -33,10 +33,14 @@ export class CaseSelectors {
   static getTenant = getElementById("tenants");
   static getAsset = getElementById("assets");
   static getContract = getElementById("contracts");
+
   static getPopulatedContract = (state, id) =>
-    populateContract(CaseSelectors.getContract(state, id));
+    CaseSelectors.getContract(state, id) &&
+    populateContract(state)(CaseSelectors.getContract(state, id));
+
   static getPopulatedContracts = (state) =>
     state.contracts.map(populateContract(state));
+
   static getPopulatedTasks = (state) => state.tasks.map(populateTask(state));
 }
 
