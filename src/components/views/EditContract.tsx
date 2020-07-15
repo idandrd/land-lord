@@ -17,7 +17,7 @@ export class NewContract extends Component {
           firstNavRoute={Routes.contracts}
           secondNavText={strings.editContract}
         >
-          <ContractForm {...this.props} />
+          <ContractForm {...this.props as any} />
         </ContentFrame>
       </div>
     );

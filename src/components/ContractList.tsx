@@ -6,6 +6,7 @@ import { Routes } from "../common/constants";
 import { PopulatedContract } from "../types";
 
 const strings = {
+  contractId: "מזהה חוזה",
   tenantColumn: "השוכר",
   assetColumn: "הנכס",
   signinDateColumn: "תאריך חתימה",
@@ -14,6 +15,15 @@ const strings = {
 };
 
 const columns = [
+  {
+    title: strings.contractId,
+    dataIndex: "id",
+    render: contractId => (
+      <Link to={Routes.viewContract.replace(":id", contractId)}>
+        {contractId}
+      </Link>
+    )
+  },
   {
     title: strings.tenantColumn,
     dataIndex: "tenant",
