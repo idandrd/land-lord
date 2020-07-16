@@ -14,11 +14,13 @@ export class ViewContract extends React.Component<{
   contract: PopulatedContract;
 }> {
   render() {
-    const { tenant, asset } = this.props.contract;
+    const { tenant, asset, ...contract } = this.props.contract;
     return (
       <div style={{ direction: "rtl" }}>
         <FormItem label={formStrings.tenant}>{tenant.name}</FormItem>
         <FormItem label={formStrings.asset}>{`${asset.address}, ${asset.city}`}</FormItem>
+        <FormItem label={formStrings.signingDate}>{contract.signingDate}</FormItem>
+        <FormItem label={formStrings.startLeaseDate}>{contract.startLeaseDate}</FormItem>
       </div>
     );
   }
