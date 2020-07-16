@@ -16,7 +16,7 @@ import { IndexLinkSelect } from "./UnitTypeSelect";
 const Option = Select.Option;
 const TextArea = Input.TextArea;
 
-const strings = {
+export const strings = {
   signingDate: "נחתם בתאריך",
   startLeaseDate: "תאריך תחילת השכרה",
   tenant: "השוכר",
