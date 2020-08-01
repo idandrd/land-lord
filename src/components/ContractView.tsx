@@ -1,5 +1,6 @@
 import React from "react";
 import { Table, Icon } from "antd";
+import { uniq } from "lodash";
 import { FormItem } from "./FormItem";
 import { strings as formStrings } from "./ContractForm";
 import { Link } from "react-router-dom";
@@ -25,6 +26,9 @@ export class ViewContract extends React.Component<{
         <FormItem label={formStrings.signingDate}>{contract.signingDate}</FormItem>
         <FormItem label={formStrings.startLeaseDate}>{contract.startLeaseDate}</FormItem>
         <FormItem label={formStrings.unit}>{units.map(unit => unit.name).join()}</FormItem>
+        <FormItem label={strings.owner}>{uniq(units.map(unit => unit.owner)).join()}</FormItem>
+        <FormItem label={formStrings.paymentMethod}>{contract.paymentMethod}</FormItem>
+        <FormItem label={formStrings.paymentIndexLink}>{contract.paymentIndexLink}</FormItem>
       </div>
     );
   }
